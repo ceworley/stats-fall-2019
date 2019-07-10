@@ -1,0 +1,70 @@
+---
+title: "Statistics Overview"
+output: ioslides_presentation
+---
+
+## Outline
+
+> - Randomness, uncertainty in measurement
+> - Summarizing many numbers
+> - Probability (predicting results)
+> - Inference (interpreting results)
+> - Study Design
+
+## Randomness
+
+```{r spinner, echo=FALSE, fig.height = 3, fig.width = 3, fig.align = "center"}
+library("animation")
+par(mar = c(0,0,0,0))
+plot.new()
+fig.align="center"
+
+#draw circle
+r = 0.5
+cen = c(0.5,0.5)
+n = 1000
+angles = (1:n)/n*2*pi
+xs = cos(angles)*r+cen[1]
+ys = sin(angles)*r+cen[2]
+polygon(xs,ys)
+
+#segments (discrete)
+
+
+```
+
+> - Common random-number generators: dice, spinners, cards, coins, tops...
+> - There is uncertainty everywhere.
+> - How long will it take to get home?
+
+## animation
+
+```{r sampleani, fig.show='animate', fig.width=4, fig.height=4, echo=FALSE, cache=FALSE, interval=0.05, aniopts="loop"}
+for (i in 1:50) {
+    plot(x=i/10, y=i/10, xlim=c(0,6), ylim=c(0,6), pch=20, col=palette()[2], cex=5)
+}
+```
+
+<!-- ```{r setup, include=FALSE} -->
+<!-- knitr::opts_chunk$set(echo = TRUE) -->
+<!-- ``` -->
+
+<!-- ## R Markdown -->
+
+<!-- This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. -->
+
+<!-- When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this: -->
+
+<!-- ```{r cars} -->
+<!-- summary(cars) -->
+<!-- ``` -->
+
+<!-- ## Including Plots -->
+
+<!-- You can also embed plots, for example: -->
+
+<!-- ```{r pressure, echo=FALSE} -->
+<!-- plot(pressure) -->
+<!-- ``` -->
+
+<!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
