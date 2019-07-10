@@ -1,6 +1,8 @@
 ---
 title: "Statistics Overview"
-output: ioslides_presentation
+output:
+  ioslides_presentation: default
+  slidy_presentation: default
 ---
 
 ## Outline
@@ -14,7 +16,6 @@ output: ioslides_presentation
 ## Randomness
 
 ```{r spinner, echo=FALSE, fig.height = 3, fig.width = 3, fig.align = "center"}
-library("animation")
 par(mar = c(0,0,0,0))
 plot.new()
 fig.align="center"
@@ -39,7 +40,7 @@ polygon(xs,ys)
 
 ## animation
 
-```{r sampleani, fig.show='animate', fig.width=4, fig.height=4, echo=FALSE, cache=FALSE, interval=0.05, aniopts="loop"}
+```{r sampleani, fig.show='animate', fig.width=4, fig.height=4, echo=FALSE, cache=FALSE, interval=0.05}
 for (i in 1:50) {
     plot(x=i/10, y=i/10, xlim=c(0,6), ylim=c(0,6), pch=20, col=palette()[2], cex=5)
 }
