@@ -99,7 +99,7 @@ slide:not(.current) .plotly.html-widget{
 
 <ul class = 'build'>
 <li>Randomness, uncertainty, variability</li>
-<li>Summarizing many numbers</li>
+<li>Summarizing results</li>
 <li>Probability (predicting results)</li>
 <li>Central Limit Theorem</li>
 <li>Inference (interpreting results)</li>
@@ -108,153 +108,66 @@ slide:not(.current) .plotly.html-widget{
 
 </article></slide><slide class=""><hgroup><h2>Randomness</h2></hgroup><article  id="randomness">
 
-<video width="576"  autoplay loop>
+<video width="600" height="300" autoplay>
 
-<source src="hmmm_files/figure-html/spinner.mp4" />
+<source src="videos/ryg_spins/ryg_spins.webm" type="video/webm">
 
 </video>
 
 <ul class = 'build'>
 <li>Common random-number generators: dice, spinners, cards, coins, tops…</li>
-<li>There is uncertainty everywhere.</li>
 <li>How long will it take to get home?</li>
+<li>Some deterministic systems are treated as random.</li>
 </ul>
 
-</article></slide><slide class=""><hgroup><h2>animation</h2></hgroup><article  id="animation">
-
-<video width="384"  autoplay loop>
-
-<source src="hmmm_files/figure-html/sampleani.mp4" />
-
-</video>
-
-<!-- <video> -->
-
-<!--  <source src="hmmm_files/figure-html/sampleani.webm"> -->
-
-<!-- </video> -->
-
-<!-- ```{r setup, include=FALSE} -->
-
-<!-- knitr::opts_chunk$set(echo = TRUE) -->
-
-<!-- ``` -->
-
-<!-- ## R Markdown -->
-
-<!-- This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. -->
-
-<!-- When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this: -->
-
-<!-- ```{r cars} -->
-
-<!-- summary(cars) -->
-
-<!-- ``` -->
-
-<!-- ## Including Plots -->
-
-<!-- You can also embed plots, for example: -->
-
-<!-- ```{r pressure, echo=FALSE} -->
-
-<!-- plot(pressure) -->
-
-<!-- ``` -->
-
-<!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
-
-<!-- ```{r maybe, echo=FALSE} -->
-
-<!-- library('knitr') -->
-
-<!-- hook_ffmpeg_html = function(x, options) { -->
-
-<!--   hook_ffmpeg(x, options, options$ffmpeg.format %n% 'webm') -->
-
-<!-- } -->
-
-<!-- hook_ffmpeg = function(x, options, format = 'webm') { -->
-
-<!--   x = c(knitr::sans_ext(x), knitr::file_ext(x)) -->
-
-<!--   fig.num = options$fig.num -->
-
-<!--   format = sub('^[.]', '', format) -->
-
-<!--   # set up the ffmpeg run -->
-
-<!--   base = sub(paste0(fig.num, '$'), '', x[1]) -->
-
-<!--   fig.fname = paste0(base, '%d', '.', x[2]) -->
-
-<!--   mov.fname = paste0(sub('-$', '', base), '.', format) -->
-
-<!--   extra = switch( -->
-
-<!--     format, -->
-
-<!--     webm = paste('-b:v', options$ffmpeg.bitrate %n% '1M', '-crf 10', '-pix_fmt yuv420p'), -->
-
-<!--     mp4  = '-pix_fmt yuv420p'  # enables Safari support of .mp4 -->
-
-<!--   ) -->
-
-<!--   ffmpeg.cmd = paste( -->
-
-<!--     'ffmpeg', '-y', '-r', 1 / options$interval, '-i', fig.fname, extra, mov.fname -->
-
-<!--   ) -->
-
-<!--   if (Sys.which('ffmpeg') == '') stop2( -->
-
-<!--     'Could not find ffmpeg command. You should either change the animation.fun ', -->
-
-<!--     'hook option or install ffmpeg with libvpx enabled.' -->
-
-<!--   ) -->
-
-<!--   message('executing: ', ffmpeg.cmd) -->
-
-<!--   system(ffmpeg.cmd, ignore.stdout = TRUE) -->
-
-<!--   # use a normal plot hook if the output is GIF -->
-
-<!--   if (format == 'gif') { -->
-
-<!--     options$fig.show = 'hold' -->
-
-<!--     return((if (out_format('markdown')) hook_plot_md else hook_plot_html)(mov.fname, options)) -->
-
-<!--   } -->
-
-<!--   # controls,loop  controls loop -->
-
-<!--   opts = paste(sc_split(options$aniopts), collapse = ' ') -->
-
-<!--   opts = paste( -->
-
-<!--     sprintf('width="%s"', options$out.width), -->
-
-<!--     sprintf('height="%s"', options$out.height), opts -->
-
-<!--   ) -->
-
-<!--   cap = .img.cap(options, alt = TRUE) -->
-
-<!--   if (cap != '') cap = sprintf('<p>%s</p>', cap) -->
-
-<!--   sprintf( -->
-
-<!--     '<video %s><source src="%s" />%s</video>', trimws(opts), -->
-
-<!--     paste0(opts_knit$get('base.url'), mov.fname), cap -->
-
-<!--   ) -->
-
-<!-- } -->
-
-<!-- ``` --></article></slide>
+</article></slide><slide class=""><hgroup><h2>Summarizing</h2></hgroup><article  id="summarizing">
+
+<ul>
+<li>Raw data is overwhelming.</li>
+</ul>
+
+<p><img src="hmmm_files/figure-html/raw-1.png" width="288" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Summarizing 2</h2></hgroup><article  id="summarizing-2">
+
+<ul>
+<li>So, instead we summarize.</li>
+</ul>
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="center">Color</th>
+<th align="center">Frequency</th>
+<th align="center">Relative Frequency</th>
+</tr>
+<tr class="odd">
+<td align="center">Green</td>
+<td align="center">23</td>
+<td align="center">\(\frac{23}{64}\approx0.3594\)</td>
+</tr>
+<tr class="even">
+<td align="center">Yellow</td>
+<td align="center">6</td>
+<td align="center">\(\frac{6}{64}\approx0.0938\)</td>
+</tr>
+<tr class="odd">
+<td align="center">Red</td>
+<td align="center">35</td>
+<td align="center">\(\frac{35}{64}\approx0.5469\)</td>
+</tr>
+</table>
+
+</article></slide><slide class=""><hgroup><h2>Summarizing 3</h2></hgroup><article  id="summarizing-3">
+
+<ul>
+<li>So, instead we summarize. We are visual creatures… <img src="hmmm_files/figure-html/bargraph-1.png" width="720" /></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Probability</h2></hgroup><article  id="probability">
+
+<p>With many spins, each equally sized section will have similar relative frequencies.</p>
+
+<p><img src="hmmm_files/figure-html/many_spins-1.png" width="720" /></p></article></slide>
 
 
   <slide class="backdrop"></slide>

@@ -1,2 +1,7 @@
 base
-animation
+methods
+datasets
+utils
+grDevices
+graphics
+stats

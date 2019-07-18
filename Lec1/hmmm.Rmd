@@ -9,7 +9,7 @@ output:
 ## Outline
 
 > - Randomness, uncertainty, variability
-> - Summarizing many numbers
+> - Summarizing results
 > - Probability (predicting results)
 > - Central Limit Theorem
 > - Inference (interpreting results)
@@ -17,195 +17,69 @@ output:
 
 ## Randomness
 
-```{r spinner, fig.show="animate", echo=FALSE, cache=FALSE, fig.height = 3, fig.width = 6, fig.align = "center", interval=0.1, ffmpeg.format="mp4", aniopts="autoplay,loop"}
+<video width="600" height="300" autoplay>
+  <source src="videos/ryg_spins/ryg_spins.webm" type="video/webm">
+</video>
 
-library("hash")
+> - Common random-number generators: dice, spinners, cards, coins, tops...
+> - How long will it take to get home?
+> - Some deterministic systems are treated as random.
 
-#make canvas  
-newframe = function(xlim=c(0,2),ylim=c(0,1)){
-    par(mar = c(0,0,0,0))
-    plot(1, 
-     1, 
-     type="n", 
-     axes=FALSE, 
-     ann=FALSE, 
-     xlim=xlim, 
-     ylim = ylim)
-    fig.align="center"
-}
+## Summarizing 
 
-#draw circle
+- Raw data is overwhelming.
+
+```{r raw, fig.height=3,fig.width=3,echo=FALSE}
 circ = function(r=.5,cen=0.5,n=1000,color=rgb(0,0,0,1)){
-  r = 0.5
-  cen = c(0.5,0.5)
-  n = 1000
   angles = (1:n)/n*2*pi
   xs = cos(angles)*r+cen[1]
   ys = sin(angles)*r+cen[2]
   polygon(xs,ys,col = color)
 }
-
-#draw wedge
-wedge = function(p1=0,p2=1,say="",co=NA,r=.5,cen=c(0.5,0.5),n=1000){
-  r = 0.5
-  cen = c(0.5,0.5)
-  n = 1000
-  angles =  as.integer(p1*n):as.integer(p2*n)/n*2*pi
-  xs = c(cen[1],cos(angles)*r+cen[1])
-  ys = c(cen[2],sin(angles)*r+cen[2])
-  polygon(xs,ys,col=co)
-  ang = as.integer((p1+p2)*n/2.0)/n*2*pi
-  rt = r*0.75
-  xt = cos(ang)*rt+cen[1]
-  yt = sin(ang)*rt+cen[2]
-  text(xt,yt,say)
+par(mar = c(0,0,0,0))
+plot(1, 1, type="n", axes=FALSE, ann=FALSE, xlim=c(0,1), ylim = c(0,1))
+fig.align="center"
+set.seed(123)
+phits = runif(64)
+pseps = c(0,1/3,25/60)
+cols = c(rgb(0.3,1,0.3),rgb(1,1,0.3),rgb(1,0.3,0.3))
+frequencies = c(0,0,0)
+for(ii in 1:length(phits)){
+  xx = 0.1+0.1*((ii-1)%%8)
+  yy = 0.9-0.1*((ii-1)%/%8)
+  res = sum(pseps <= phits[ii])
+  frequencies[res] = frequencies[res]+1
+  circ(r=0.1/2.2,cen=c(xx,yy),n=100,color=cols[res])
 }
-
-arrow = function(p=0,wid=2,r=0.4,cen=c(0.5,0.5)){
-  x0 = cos(p*2*pi+pi)*r+cen[1]
-  y0 = sin(p*2*pi+pi)*r+cen[2]
-  x1 = cos(p*2*pi)*r+cen[1]
-  y1 = sin(p*2*pi)*r+cen[2]
-  arrows(x0,y0,x1,y1,lwd = wid)
-}
-
-spin = function(n=50,spins=1){
-  for(i in 1:n){
-    newframe()
-    fig.align="center"
-    circ()
-    wedge(0, 20/60.0,"green",rgb(0.3,1,0.3),0.5,c(0.5,0.5),1000)
-    wedge(20/60, 25/60.0,"yellow",rgb(1,1,0.3),0.5,c(0.5,0.5),1000)
-    wedge(25/60,1,"red",rgb(1,0.3,0.3),0.5,c(0.5,0.5),1000)
-    arrow(i/n*spins)
-  }
-}
-
-spinstop = function(p=1,dp=0.5,n=10){
-  for(i in 1:n){
-    delp = (i-n)^2/n^2*dp
-    pt = p-delp
-    newframe()
-    circ()
-    wedge(0, 20/60.0,"green",rgb(0.3,1,0.3),0.5,c(0.5,0.5),1000)
-    wedge(20/60, 25/60.0,"yellow",rgb(1,1,0.3),0.5,c(0.5,0.5),1000)
-    wedge(25/60,1,"red",rgb(1,0.3,0.3),0.5,c(0.5,0.5),1000)
-    arrow(pt)
-  }
-  for(i in 1:10){
-    newframe()
-    circ()
-    wedge(0, 20/60.0,"green",rgb(0.3,1,0.3),0.5,c(0.5,0.5),1000)
-    wedge(20/60, 25/60.0,"yellow",rgb(1,1,0.3),0.5,c(0.5,0.5),1000)
-    wedge(25/60,1,"red",rgb(1,0.3,0.3),0.5,c(0.5,0.5),1000)
-    arrow(p)
-  }
-}
-
-discrete_results = function(ps,pcs=c(0,0.5),categs=c("heads","tails"),cols=c(rgb(0.5,1,0.5),rgb(0,0.1,0.7))){
-  for(i in 1:length(ps)){
-    x = 0.9+0.2*(i%%5)
-    y = 0.1+0.2*(i%/%5)
-    categ = sum(pcs<=ps[i])
-    circ(r=0.08,cen=c(x,y),n = 36,color = cols[categ])
-  }
-}
-
-draw_board(b){
-    par(mar = c(0,0,0,0))
-    plot(1, 1, type="n", axes=FALSE, ann=FALSE, xlim=b$xlim, ylim=b$ylim)
-    fig.align="center"
-    for(i in 1:length(b$pseps)){
-      wedge(b$pseps[i],b$c(pseps,1)[i+1],b$labs[i],b$cols[i],0.5,c(0.5,0.5),1000)
-    }
-    
-}
-
-
-b1 = list(
-  xlim = c(0,2),
-  ylim = c(0,1),
-  cen = c(0.5,0.5),
-  r = 0.5,
-  cen2 = c(1.5,0.5),
-  pseps = c(0,1/3,25/60),
-  phits = runif(10),
-  hits_seen = 0,
-  cols = c(rgb(1,0.3,0.3),rgb(1,1,0.3),rgb(0.3,1,0.3)),
-  labs = c("red","yellow","green"),
-  p = 0,
-  frame = 1,
-  frames_per_spin = 20,
-  frames_per_stop = 10,
-  rots_per_spin = 3
-)
-
-for(i in 1:3){
-  p = ps[i]
-  spin(20,3+p-0.5)
-  spinstop(p,0.5,15)
-  discrete_results(ps = ps[1:i], pcs=c(0,1/3,25/60), 
-                   cols = c(rgb(0.3,1,0.3),
-                            rgb(1,1,0.3),
-                            rgb(1,0.3,0.3))
-  )
-}
-
-
 ```
 
 
-> - Common random-number generators: dice, spinners, cards, coins, tops...
-> - There is uncertainty everywhere.
-> - How long will it take to get home?
+## Summarizing 2
+- So, instead we summarize.
 
-## animation
+| Color | Frequency | Relative Frequency |
+|:-----:|:---------:|:------------------:|
+| Green | 23 |  $\frac{23}{64}\approx`r round(23/64,4)`$|
+| Yellow| 6  | $\frac{6}{64}\approx`r round(6/64,4)`$|
+| Red   | 35 | $\frac{35}{64}\approx`r round(35/64,4)`$|
 
-```{r sampleani, fig.show="animate", fig.width=4, fig.height=4, echo=FALSE, cache=TRUE, interval=0.05, ffmpeg.format="mp4", aniopts="autoplay, loop"}
-for (i in 1:50) {
-    plot(x=i/10, y=i/15, xlim=c(0,6), ylim=c(0,6), pch=20, col=palette()[2], cex=5)
-}
-
-
-
-
-
-
-
-
-
-
-# system("ffmpeg -y -r 20 -i hmmm_files/figure-html/sampleani-%d.png -b:v 1M -crf 10 -pix_fmt yuv420p hmmm_files/figure-html/sampleani.webm")
+## Summarizing 3
+- So, instead we summarize. We are visual creatures...
+```{r bargraph, echo=FALSE}
+barplot(frequencies,names.arg = c("green","yellow","red"), col = c(rgb(0.3,1,0.3),rgb(1,1,0.3),rgb(1,0.3,0.3)),cex.names = 1.5, ylab = "frequency")
 ```
 
-<!-- <video> -->
-<!--  <source src="hmmm_files/figure-html/sampleani.webm"> -->
-<!-- </video> -->
+## Probability
+With many spins, each equally sized section will have similar relative frequencies.
 
-
-<!-- ```{r setup, include=FALSE} -->
-<!-- knitr::opts_chunk$set(echo = TRUE) -->
-<!-- ``` -->
-
-<!-- ## R Markdown -->
-
-<!-- This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>. -->
-
-<!-- When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this: -->
-
-<!-- ```{r cars} -->
-<!-- summary(cars) -->
-<!-- ``` -->
-
-<!-- ## Including Plots -->
-
-<!-- You can also embed plots, for example: -->
-
-<!-- ```{r pressure, echo=FALSE} -->
-<!-- plot(pressure) -->
-<!-- ``` -->
-
-<!-- Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot. -->
+```{r many_spins, echo=FALSE, cache=TRUE}
+spins = sample(1:10,1e4,replace = TRUE)
+freq = c(0,0,0,0,0,0,0,0,0,0)
+for(i in spins){
+  freq[i] = freq[i]+1
+}
+barplot(freq)
+```
 
 
 
@@ -214,60 +88,3 @@ for (i in 1:50) {
 
 
 
-
-
-
-
-
-
-<!-- ```{r maybe, echo=FALSE} -->
-<!-- library('knitr') -->
-<!-- hook_ffmpeg_html = function(x, options) { -->
-<!--   hook_ffmpeg(x, options, options$ffmpeg.format %n% 'webm') -->
-<!-- } -->
-
-<!-- hook_ffmpeg = function(x, options, format = 'webm') { -->
-<!--   x = c(knitr::sans_ext(x), knitr::file_ext(x)) -->
-<!--   fig.num = options$fig.num -->
-<!--   format = sub('^[.]', '', format) -->
-<!--   # set up the ffmpeg run -->
-<!--   base = sub(paste0(fig.num, '$'), '', x[1]) -->
-<!--   fig.fname = paste0(base, '%d', '.', x[2]) -->
-<!--   mov.fname = paste0(sub('-$', '', base), '.', format) -->
-
-<!--   extra = switch( -->
-<!--     format, -->
-<!--     webm = paste('-b:v', options$ffmpeg.bitrate %n% '1M', '-crf 10', '-pix_fmt yuv420p'), -->
-<!--     mp4  = '-pix_fmt yuv420p'  # enables Safari support of .mp4 -->
-<!--   ) -->
-<!--   ffmpeg.cmd = paste( -->
-<!--     'ffmpeg', '-y', '-r', 1 / options$interval, '-i', fig.fname, extra, mov.fname -->
-<!--   ) -->
-
-<!--   if (Sys.which('ffmpeg') == '') stop2( -->
-<!--     'Could not find ffmpeg command. You should either change the animation.fun ', -->
-<!--     'hook option or install ffmpeg with libvpx enabled.' -->
-<!--   ) -->
-<!--   message('executing: ', ffmpeg.cmd) -->
-<!--   system(ffmpeg.cmd, ignore.stdout = TRUE) -->
-
-<!--   # use a normal plot hook if the output is GIF -->
-<!--   if (format == 'gif') { -->
-<!--     options$fig.show = 'hold' -->
-<!--     return((if (out_format('markdown')) hook_plot_md else hook_plot_html)(mov.fname, options)) -->
-<!--   } -->
-
-<!--   # controls,loop  controls loop -->
-<!--   opts = paste(sc_split(options$aniopts), collapse = ' ') -->
-<!--   opts = paste( -->
-<!--     sprintf('width="%s"', options$out.width), -->
-<!--     sprintf('height="%s"', options$out.height), opts -->
-<!--   ) -->
-<!--   cap = .img.cap(options, alt = TRUE) -->
-<!--   if (cap != '') cap = sprintf('<p>%s</p>', cap) -->
-<!--   sprintf( -->
-<!--     '<video %s><source src="%s" />%s</video>', trimws(opts), -->
-<!--     paste0(opts_knit$get('base.url'), mov.fname), cap -->
-<!--   ) -->
-<!-- } -->
-<!-- ``` -->
