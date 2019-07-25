@@ -8,7 +8,7 @@ output:
 
 ## Outline
 
-> - Randomness, uncertainty, variability
+> - Randomness
 > - Summarizing results
 > - Probability (predicting results)
 > - Central Limit Theorem
@@ -17,13 +17,20 @@ output:
 
 ## Randomness
 
-<video width="600" height="300" autoplay>
+<video width="600" height="300" poster="videos/ryg_spins/ryg_spins_im.png" autoplay>
   <source src="videos/ryg_spins/ryg_spins.webm" type="video/webm">
 </video>
 
 > - Common random-number generators: dice, spinners, cards, coins, tops...
 > - How long will it take to get home?
 > - Some deterministic systems are treated as random.
+
+## Randomness 2
+
+We will study three types of generators: categorical, discrete, and continuous.
+
+
+
 
 ## Summarizing 
 
@@ -66,25 +73,18 @@ for(ii in 1:length(phits)){
 ## Summarizing 3
 - So, instead we summarize. We are visual creatures...
 ```{r bargraph, echo=FALSE}
-barplot(frequencies,names.arg = c("green","yellow","red"), col = c(rgb(0.3,1,0.3),rgb(1,1,0.3),rgb(1,0.3,0.3)),cex.names = 1.5, ylab = "frequency")
+barplot(frequencies, names.arg = c("green","yellow","red"), col = c(rgb(0.3,1,0.3),rgb(1,1,0.3),rgb(1,0.3,0.3)),cex.names = 1.5, ylab = "frequency")
 ```
 
 ## Probability
-With many spins, each equally sized section will have similar relative frequencies.
+A wedge's size determines its long-run relative frequency.
 
-```{r many_spins, echo=FALSE, cache=TRUE}
-spins = sample(1:10,1e4,replace = TRUE)
-freq = c(0,0,0,0,0,0,0,0,0,0)
-for(i in spins){
-  freq[i] = freq[i]+1
-}
-barplot(freq)
-```
+<video width="800" height="400" autoplay controls>
+  <source src="videos/running_rel_freq/running.webm" type="video/webm">
+</video>
 
-
-
-
-
+## Probability 2
+Long-run average winnings can be calculated as a weighted average.
 
 
 

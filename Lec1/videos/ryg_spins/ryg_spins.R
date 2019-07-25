@@ -25,7 +25,7 @@ wedge = function(p1=0,p2=1,say="",co=NA,r=.5,cen=c(0.5,0.5),n=1000){
   rt = r*0.75
   xt = cos(ang)*rt+cen[1]
   yt = sin(ang)*rt+cen[2]
-  text(xt,yt,say)
+  text(xt,yt,say,cex=2)
 }
 #draw arrow
 arrow = function(p=0,wid=2,r=0.4,cen=c(0.5,0.5)){
@@ -102,3 +102,12 @@ for(i in 1:totframes){
 
 system("ffmpeg -y -framerate 20 -i pngs/ryg_spins%03d.png -c:v libvpx-vp9 -pix_fmt yuva420p ryg_spins.webm")
 system("rm pngs/ryg_spins*")
+
+i = totframes
+png("ryg_spins_im.png",width=800,height=400)
+newframe()
+s1$p = getp(s1,i)
+draw_spinner(s1)
+draw_results(s1,i)
+text(1.98,0.02,i,cex=0.2)
+dev.off()
