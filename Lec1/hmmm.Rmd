@@ -22,14 +22,41 @@ output:
 </video>
 
 > - Common random-number generators: dice, spinners, cards, coins, tops...
-> - How long will it take to get home?
+> - Discussion: How long will it take to get home?
 > - Some deterministic systems are treated as random.
 
 ## Randomness 2
 
-We will study three types of generators: categorical, discrete, and continuous.
+There are different types of data we can generate.
 
+>- Categorical (orderless categories)
+>     - e.g. Heart, Diamond, Spade, Club
+> - Ordinal (ordered categories)
+>     - e.g. Terrible, Bad, Okay, Good, Excellent
+> - Discrete (usually a few numerical possibilities)
+>     - e.g. The possible winnings of a scratch-off lottery
+>     - a standard 6-sided die
+> - Continuous (numerical with infinite number of possibilities)
+>     - e.g. The exact direction a spinner stops
+>     - The exact amount of time a cormorant stays underwater
 
+## Categorical data generation
+
+<video width="800" height="400" autoplay loop>
+  <source src="videos/types/categorical.webm" type="video/webm">
+</video>
+
+## Discrete data generation
+
+<video width="800" height="400" autoplay loop>
+  <source src="videos/types/discrete.webm" type="video/webm">
+</video>
+
+## Continuous data generation
+
+<video width="800" height="400" autoplay loop>
+  <source src="videos/types/uniform.webm" type="video/webm">
+</video>
 
 
 ## Summarizing 
@@ -60,8 +87,7 @@ for(ii in 1:length(phits)){
 }
 ```
 
-
-## Summarizing 2
+## Summarizing 2, Frequency Table
 - So, instead we summarize.
 
 | Color | Frequency | Relative Frequency |
@@ -70,7 +96,7 @@ for(ii in 1:length(phits)){
 | Yellow| 6  | $\frac{6}{64}\approx`r round(6/64,4)`$|
 | Red   | 35 | $\frac{35}{64}\approx`r round(35/64,4)`$|
 
-## Summarizing 3
+## Summarizing 3, Bar Chart
 - So, instead we summarize. We are visual creatures...
 ```{r bargraph, echo=FALSE}
 barplot(frequencies, names.arg = c("green","yellow","red"), col = c(rgb(0.3,1,0.3),rgb(1,1,0.3),rgb(1,0.3,0.3)),cex.names = 1.5, ylab = "frequency")
@@ -84,7 +110,13 @@ A wedge's size determines its long-run relative frequency.
 </video>
 
 ## Probability 2
-Long-run average winnings can be calculated as a weighted average.
+Long-run average winnings can be predicted.
+$$(0.5\times 10) + (0.3\times 25) + (0.2\times 100) = 32.5$$
 
+<video width="750" height="375" autoplay controls>
+  <source src="videos/running_avg_winnings/raw.webm" type="video/webm">
+</video>
 
+## Central Limit Theorem
 
+We can 
