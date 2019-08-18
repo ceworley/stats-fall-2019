@@ -90,7 +90,7 @@ draw_running_ave = function(results){
 }
 
 
-fn = "running"
+fn = "running_2"
 system("mkdir pngs")
 set.seed(123)
 phits = runif(100)

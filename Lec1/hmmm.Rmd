@@ -111,7 +111,7 @@ A wedge's size determines its long-run relative frequency.
 
 ## Probability 2
 Long-run average winnings can be predicted.
-$$(0.5\times 10) + (0.3\times 25) + (0.2\times 100) = 32.5$$
+$$(0.5\times 5) + (0.3\times 15) + (0.2\times 60) = 19$$
 
 <video width="750" height="375" autoplay controls>
   <source src="videos/running_avg_winnings/raw.webm" type="video/webm">
@@ -119,4 +119,33 @@ $$(0.5\times 10) + (0.3\times 25) + (0.2\times 100) = 32.5$$
 
 ## Central Limit Theorem
 
-We can 
+If you repeat the previous procedure 1000 times...
+
+```{r clt, echo=FALSE, cache=TRUE}
+set.seed(123)
+plot(0,0,xlim = c(0,100),ylim = c(0,60),type = "n", main="1000 overlapped running averages", ylab="running average", xlab="spin")
+for(i in 1:1000){
+  hits = sample(c(5,15,60), 100, replace=TRUE, prob=c(0.5,0.3,0.2))
+  avgs = cumsum(hits) / (1:length(hits))
+  points(avgs, col=rgb(0,0,0,0.01))
+}
+```
+
+
+## Central Limit Theorem 2
+
+If you repeat the previous procedure 1000 times...
+
+```{r clt2, echo=FALSE,cache=TRUE}
+set.seed(123)
+plot(0,0,xlim = c(0,100),ylim = c(0,60),type = "n", main="1000 overlapped running averages", ylab="running average", xlab="spin")
+for(i in 1:1000){
+  hits = sample(c(5,15,60), 100, replace=TRUE, prob=c(0.5,0.3,0.2))
+  avgs = cumsum(hits) / (1:length(hits))
+  points(avgs, col=rgb(0,0,0,0.01))
+}
+lines(c(99.5,99.5,100.5,100.5,99.5),c(10,30,30,10,10),col=rgb(1,0,0))
+```
+
+
+

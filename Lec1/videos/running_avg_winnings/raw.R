@@ -102,9 +102,9 @@ draw_pmarks = function(){
   draw_marks(0,0.2,0.3,lwd=4)
 }
 
-draw_discrete = function(pcs=c(0.5,0.75),texts=c("$10","$25","$100"),cols=c(rgb(1,0.5,1),rgb(0.5,1,1),rgb(1,1,0.5))){
+draw_discrete = function(pcs=c(0.5,0.75),texts=c("$5","$15","$60"),cols=c(rgb(1,0.5,1),rgb(0.5,1,1),rgb(1,1,0.5))){
   for(i in 1:(length(pcs)+1)){
-    wedge(c(0,pcs)[i],c(pcs,1)[i],say=texts[i],co=cols[i])5
+    wedge(c(0,pcs)[i],c(pcs,1)[i],say=texts[i],co=cols[i])
   }
 }
 
@@ -116,10 +116,10 @@ draw_running_ave = function(vals){
     avg = tot/i
     avgs = c(avgs,avg)
   }
-  plot(1:length(vals),avgs,xlim=c(0,100),ylim=c(0,100),xlab="number of spins",ylab="average winnings")
-  text(50,95,sprintf("Total winnings: %d",tot),cex=1.5)
-  text(50,85,sprintf("Number of spins: %d",length(vals)),cex=1.5)
-  text(50,75,sprintf("%d/%d=%.3f",tot,length(vals),avg),cex=1.5)
+  plot(1:length(vals),avgs,xlim=c(0,100),ylim=c(0,60),xlab="number of spins",ylab="average winnings")
+  text(50,55,sprintf("Total winnings: %d",tot),cex=1.5)
+  text(50,45,sprintf("Number of spins: %d",length(vals)),cex=1.5)
+  text(50,35,sprintf("%d/%d=%.3f",tot,length(vals),avg),cex=1.5)
 }
 
 
@@ -128,8 +128,8 @@ fn = "raw"
 set.seed(8917)
 p1 = runif(100)
 pcs = c(0.5,0.8)
-txts = c("$10","$25","$100")
-amts = c(10,25,100)
+txts = c("$5","$15","$60")
+amts = c(5,15,60)
 cols = c(rgb(1,0.3,0.3),rgb(0.3,1,0.3),rgb(0.3,0.3,1))
 tot = 0
 vals = numeric()
