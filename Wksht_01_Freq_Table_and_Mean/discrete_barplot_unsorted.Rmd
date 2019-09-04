@@ -1,0 +1,47 @@
+
+```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
+## DATA GENERATION
+shape1 = 2**runif(1,-1,1)
+shape2 = 2**runif(1,-1,1)
+dims = sample(4:6,2)
+rows = min(dims)
+cols = max(dims)
+n = rows*cols
+offset = runif(1,0,60)
+data = round(rbeta(n,shape1,shape2)*sample(5:8,1) + offset)
+
+## The frequency table
+value = min(data):max(data)
+frequency = tabulate(data)[value]
+df_freq = data.frame(value, frequency)
+```
+
+Question
+========
+
+Please make a bar chart of frequencies from the following (unsorted) discrete data.
+
+`r knitr::kable(matrix(data, nrow = rows))`
+
+
+Solution
+========
+
+Make a frequency table.
+
+`r knitr::kable(df_freq)`
+
+Make the bar chart.
+
+\
+```{r barchart, echo = FALSE, results = "hide", fig.height = 4, fig.width = 5, fig.path = "", fig.cap = ""}
+barplot(frequency,names.arg = value)
+```
+\
+
+
+Meta-information
+============
+extype: string
+exsolution: make the barchart
+exname: histogram

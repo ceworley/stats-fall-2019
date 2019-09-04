@@ -1,0 +1,46 @@
+```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
+## DATA GENERATION
+shape1 = 2**runif(1,-1,1)
+shape2 = 2**runif(1,-1,1)
+dims = sample(4:6,2)
+rows = min(dims)
+cols = max(dims)
+n = rows*cols
+offset = runif(1,0,60)
+data = round(rbeta(n,shape1,shape2)*7 + offset)
+
+## The frequency table
+value = min(data):max(data)
+frequency = tabulate(data)[value]
+df_freq = data.frame(value, frequency)
+```
+
+Question
+========
+
+Please make a dot plot from the following (unsorted) data.
+
+`r knitr::kable(matrix(data, nrow = rows))`
+
+
+Solution
+========
+
+Make a frequency table.
+
+`r knitr::kable(df_freq)`
+
+Make the dot plot.
+
+\
+```{r hist, echo = FALSE, results = "hide", fig.height = 4, fig.width = 5, fig.path = "", fig.cap = ""}
+stripchart(data, method="stack",  pch=1, ylim = c(0,10), offset=0.5)
+```
+\
+
+
+Meta-information
+============
+extype: string
+exsolution: make the dotplot
+exname: histogram
