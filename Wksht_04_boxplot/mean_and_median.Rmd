@@ -39,36 +39,16 @@ Answerlist
 Solution
 ========
 
-Let $x$ represent a datum of interest. Let $i$ represent that datum's index. Let $\ell$ represent that datum's percentile. Let $n$ represent the sample size (number of measurements). In general,
-$$\ell = \frac{i}{n} $$
-
 
 Answerlist
 --------
-* We are given $x = `r x[is[1]]`$. This means $i=`r is[1]`$. We know $n=`r n`$. Determine the percentile $\ell$.
-$$\begin{aligned}
-\ell &= \frac{`r is[1]`}{`r n`} \\ \\
-\ell &= `r ps[1]`
-\end{aligned}$$
-So, the answer is `r ps[1]`, or `r ps[1]*100`%.
-* We are given $\ell = `r ps[2]`$. We can use algebra to solve for $i$.
-$$\ell = \frac{i}{n}$$
-Multiply both sides by $n$.
-$$n \cdot (\ell) = n \cdot \left(\frac{i}{n} \right)$$
-Simplify both sides.
-$$ n \ell = i $$
-To make me happy, switch the sides.
-$$i = n \ell $$
-Now, we can evaluate $i$.
-$$i = (`r n`)(`r ps[2]`) $$
-$$i = `r is[2]`$$
-Determine the $x$ associated with $i = `r is[2]`$.
-$$x = `r x[is[2]]`$$
+* The mean is $\frac{`r sum(x)`}{`r n`} = `r signif(mean(x),5)`$
+* If $n$ is odd, then median is $x_{\frac{n+1}{2}}$, the value of $x$ when $i=\frac{n+1}{2}$. Otherwise median is mean of $x_{\lfloor \frac{n+1}{2} \rfloor}$ and $x_{\lceil \frac{n+1}{2} \rceil}$. So, median = $`r signif(median(x),5)`$.
 
 
 Meta-information
 ============
 extype: string
 exsolution: yup
-exname: reading hist
+exname: mean and median
 extol: 0.01

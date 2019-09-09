@@ -10,7 +10,7 @@ type = types[rrr]
 shape1 = shapes1[rrr]
 shape2 = shapes2[rrr]
 
-ns = c(sample(4:8,1),sample(4:8,1))
+ns = c(sample(4:9,1),sample(4:9,1))
 n = ns[1]*ns[2]
 ncol = min(ns)
 nrow = max(ns)
@@ -31,11 +31,15 @@ A continuous random variable $X$ was measured `r n` times. The sorted data are s
 
 `r knitr::kable(t(matrix(x,ncol=ncol)))`
 
+The total of the measurements is `r sum(x)`.
+
 
 Answerlist
 --------
 * Determine the percentile rank of the value `r x[is[1]]`. In other words, determine what percent of data are less than or equal to `r x[is[1]]`.
 * Determine the datum corresponding to a percentile rank of `r ps[2]`. In other words, determine $x$ such that `r ps[2]*100`% of the data are less than or equal to $x$. 
+* Determine the mean of the measurements.
+* Determine the median of the measurements.
 
 Solution
 ========
@@ -65,7 +69,8 @@ $$i = (`r n`)(`r ps[2]`) $$
 $$i = `r is[2]`$$
 Determine the $x$ associated with $i = `r is[2]`$.
 $$x = `r x[is[2]]`$$
-
+* The mean is $\frac{`r sum(x)`}{`r n`} = `r signif(mean(x),5)`$
+* If $n$ is odd, then median is $x_{\frac{n+1}{2}}$, the value of $x$ when $i=\frac{n+1}{2}$. Otherwise median is mean of $x_{\lfloor \frac{n+1}{2} \rfloor}$ and $x_{\lceil \frac{n+1}{2} \rceil}$. So, median = $`r signif(median(x),5)`$.
 
 Meta-information
 ============
