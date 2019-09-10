@@ -1,0 +1,90 @@
+```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
+## DATA GENERATION
+
+while(TRUE){
+
+  types = c("bimodal","symmetric mound","skew left","skew right","uniform")
+  shapes1 = c(0.5, 20,   3,   1, 1)
+  shapes2 = c(0.5, 20,   1,   3, 1)
+  
+  rrr = sample(1:5,1)
+  type = types[rrr]
+  shape1 = shapes1[rrr]
+  shape2 = shapes2[rrr]
+  
+  while(TRUE){
+    ns = c(sample(3:10,1),sample(3:10,1))
+    n = ns[1]*ns[2]
+    if(n%%4 == 0){
+      break
+    }
+  }
+  
+  ncol = min(ns)
+  nrow = max(ns)
+  offset = sample(1:9*10,1)
+  rng = sample(c(3,5,10,20,40,100),1)
+  data = rbeta(n,shape1,shape2)*rng + offset
+  index = 1:n
+  x = sort(round(data,3))
+  
+  is = sample(1:n,2)
+  ps = signif(is/n,3)
+  if(length(boxplot.stats(x)$out)){
+    break
+  }
+}
+```
+
+Question
+========
+
+A continuous random variable $X$ was measured `r n` times. The sorted measurements are shown below.
+
+`r knitr::kable(t(matrix(x,ncol=ncol)))`
+
+Create a boxplot representing these measurements.
+
+
+Solution
+========
+
+We first determine the median of all measurements. We note that $n = `r n`$, so $n$ is even. We use the appropriate method.
+$$\begin{aligned} 
+\text{median} &= \frac{x_{[\frac{n}{2}]}+x_{[\frac{n}{2}+1]}}{2} \\ \\
+&= \frac{x_{`r n/2`}+x_{`r n/2+1`}}{2} \\ \\
+&= \frac{`r x[n/2]`+`r x[n/2+1]`}{2} \\ \\
+&= `r median(x)`
+\end{aligned}$$
+We now split the data into the lower group (all measurements with $i \le `r n/2`$) and the upper group (all measurements with $i \ge `r n/2+1`$). We determine the medians of each group, and these medians represent the first quartile Q1 and the third quartile Q3.
+$$\text{Q1} ~=~ \frac{x_{`r n/4`}+x_{`r n/4+1`}}{2} 
+~=~ \frac{`r x[n/4]`+`r x[n/4+1]`}{2}
+~=~ `r (x[n/4]+x[n/4+1])/2`$$
+
+$$\text{Q3} ~=~ \frac{x_{`r 3*n/4`}+x_{`r 3*n/4+1`}}{2}
+~=~ \frac{`r x[3*n/4]`+`r x[3*n/4+1]`}{2}
+~=~ `r (x[3*n/4]+x[3*n/4+1])/2`$$
+
+```{r somework, echo=FALSE}
+Q1 = (x[n/4]+x[n/4+1])/2
+Q3 = (x[3*n/4]+x[3*n/4+1])/2
+IQR = Q3-Q1
+LR = Q1-1.5*IQR
+HR = Q3+1.5*IQR
+bot = min(x[x>=LR])
+top = max(x[x<=HR])
+```
+We determine the interquartile range.
+$$\text{IQR} ~=~ \text{Q3} - \text{Q1} ~=~ `r Q3` - `r Q1` ~=~ `r IQR`  $$
+We determine the lowest and highest possible reach of the whiskers.
+$$\text{lowest reach} ~=~  \text{Q1}-1.5 \times \text{IQR} ~=~ `r Q1`-1.5\times`r IQR` ~=~ `r LR`$$
+$$\text{highest reach} ~=~  \text{Q3}+1.5 \times \text{IQR} ~=~ `r Q3`+1.5\times`r IQR` ~=~ `r HR`$$
+Any measurements outside the interval $(`r LR`, `r HR`)$ will be considered outliers and marked as individual dots. In this case, our outliers: $$\text{outliers} = \{`r boxplot.stats(x)$out`\}$$
+The whiskers then extend to the smallest and largest non-outlier measurements, which are the measurements within the interval $(`r LR`, `r HR`)$. So, the whiskers extend from `r bot` to `r top`.
+
+\
+```{r boxie, echo=FALSE}
+boxplot(x,horizontal = TRUE,fig.width=6,fig.height = 4)
+axis(side=3,at = c(bot,Q1,median(x),Q3,top,boxplot.stats(x)$out), cex.axis=0.5,labels=c(bot,Q1,median(x),Q3,top,boxplot.stats(x)$out))
+```
+\

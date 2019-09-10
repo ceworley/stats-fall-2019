@@ -10,7 +10,7 @@ type = types[rrr]
 shape1 = shapes1[rrr]
 shape2 = shapes2[rrr]
 
-ns = c(sample(4:9,1),sample(4:9,1))
+ns = c(sample(3:10,1),sample(3:10,1))
 n = ns[1]*ns[2]
 ncol = min(ns)
 nrow = max(ns)
@@ -22,6 +22,15 @@ x = sort(round(data,3))
 
 is = sample(1:n,2)
 ps = signif(is/n,3)
+
+isodd = (n%%2 == 1)
+if(isodd){
+  word = "odd"
+  eq1 = paste("$$\\text{median} = x_{(",n,"+1)/2,} = x_{",(n+1)/2,"}$$",sep="")
+} else {
+  word = "even"
+  eq1 = paste("$$\\text{median} = \\frac{x_{",n/2,"}+x_{",n/2+1,"}}{2} = \\frac{",x[n/2],"+",x[n/2+1],"}{2}$$",sep="")
+}
 ```
 
 Question
@@ -55,7 +64,7 @@ $$\begin{aligned}
 \ell &= \frac{`r is[1]`}{`r n`} \\ \\
 \ell &= `r ps[1]`
 \end{aligned}$$
-So, the answer is `r ps[1]`, or `r ps[1]*100`%.
+So, the percentile rank is $\fbox{`r ps[1]`}$, or `r ps[1]*100`th percentile.
 * We are given $\ell = `r ps[2]`$. We can use algebra to solve for $i$.
 $$\ell = \frac{i}{n}$$
 Multiply both sides by $n$.
@@ -68,13 +77,10 @@ Now, we can evaluate $i$.
 $$i = (`r n`)(`r ps[2]`) $$
 $$i = `r is[2]`$$
 Determine the $x$ associated with $i = `r is[2]`$.
-$$x = `r x[is[2]]`$$
-* The mean is $\frac{`r sum(x)`}{`r n`} = `r signif(mean(x),5)`$
-* If $n$ is odd, then median is $x_{\frac{n+1}{2}}$, the value of $x$ when $i=\frac{n+1}{2}$. Otherwise median is mean of $x_{\lfloor \frac{n+1}{2} \rfloor}$ and $x_{\lceil \frac{n+1}{2} \rceil}$. So, median = $`r signif(median(x),5)`$.
+$$x = \fbox{`r x[is[2]]`}$$
+* The mean: $\bar{x} = \frac{`r sum(x)`}{`r n`} = \fbox{`r signif(mean(x),5)`}$
+* If $n$ is odd, then median is $x_{i=\frac{n+1}{2}}$, the value of $x$ when $i=\frac{n+1}{2}$. Otherwise, if $n$ is even, the median is mean of $x_{ i=\frac{n}{2} }$ and $x_{i= \frac{n}{2}+1 }$. In this case, $n=`r n`$ and so $n$ is `r word`.
+`r eq1`
+So, median = $\fbox{`r median(x)`}$.
 
-Meta-information
-============
-extype: string
-exsolution: yup
-exname: reading hist
-extol: 0.01
+

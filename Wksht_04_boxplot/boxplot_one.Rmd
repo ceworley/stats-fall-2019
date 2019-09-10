@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 ```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
 ## DATA GENERATION
 
@@ -9,28 +14,31 @@ rrr = sample(1:5,1)
 type = types[rrr]
 shape1 = shapes1[rrr]
 shape2 = shapes2[rrr]
-
 ns = c(sample(3:10,1),sample(3:10,1))
 n = ns[1]*ns[2]
 ncol = min(ns)
 nrow = max(ns)
-offset = sample(1:9*10,1)+0.001
+offset = sample(1:7*10,1)
 rng = sample(c(3,5,10,20,40,100),1)
-data = rbeta(n,shape1,shape2)*rng*0.99 + offset
+data = rbeta(n,shape1,shape2)*rng + offset
 index = 1:n
-x = sort(round(data,3))
+x = sort(round(data,2))
 
 is = sample(1:n,2)
 ps = signif(is/n,3)
 
-isodd = (n%%2 == 1)
-if(isodd){
-  word = "odd"
-  eq1 = paste("$$\\text{median} = x_{(",n,"+1)/2,} = x_{",(n+1)/2,"}$$",sep="")
-} else {
-  word = "even"
-  eq1 = paste("$$\\text{median} = \\frac{x_{",n/2,"}+x_{",n/2+1,"}}{2} = \\frac{",x[n/2],"+",x[n/2+1],"}{2}$$",sep="")
-}
+iq1 = ceiling(0.25*n)
+iq2 = ceiling(0.5*n)
+iq3 = ceiling(0.75*n)
+
+q1 = x[iq1]
+q2 = x[iq2]
+q3 = x[iq3]
+
+iqr = q3-q1
+
+wmin = q1-1.5*iqr
+wmax = q3+1.5*iqr
 ```
 
 Question
@@ -46,6 +54,9 @@ Create a boxplot representing these measurements.
 Solution
 ========
 
-We first determine the median of all measurements. We note that $n = `r n`$, so $n$ is `r word`. We use the appropriate method.
-`r eq1`
+`r 0.25*n`
+`r q1`
 
+`r q2`
+
+`r q3`
