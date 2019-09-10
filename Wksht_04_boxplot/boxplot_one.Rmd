@@ -1,44 +1,50 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 ```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
 ## DATA GENERATION
 
-types = c("bimodal","symmetric mound","skew left","skew right","uniform")
-shapes1 = c(0.5, 20,   3,   1, 1)
-shapes2 = c(0.5, 20,   1,   3, 1)
-
-rrr = sample(1:5,1)
-type = types[rrr]
-shape1 = shapes1[rrr]
-shape2 = shapes2[rrr]
-ns = c(sample(3:10,1),sample(3:10,1))
-n = ns[1]*ns[2]
-ncol = min(ns)
-nrow = max(ns)
-offset = sample(1:7*10,1)
-rng = sample(c(3,5,10,20,40,100),1)
-data = rbeta(n,shape1,shape2)*rng + offset
-index = 1:n
-x = sort(round(data,2))
-
-is = sample(1:n,2)
-ps = signif(is/n,3)
-
-iq1 = ceiling(0.25*n)
-iq2 = ceiling(0.5*n)
-iq3 = ceiling(0.75*n)
-
-q1 = x[iq1]
-q2 = x[iq2]
-q3 = x[iq3]
-
-iqr = q3-q1
-
-wmin = q1-1.5*iqr
-wmax = q3+1.5*iqr
+while(TRUE){
+  types = c("bimodal","symmetric mound","skew left","skew right","uniform")
+  shapes1 = c(0.5, 20,   3,   1, 1)
+  shapes2 = c(0.5, 20,   1,   3, 1)
+  
+  rrr = sample(1:5,1)
+  type = types[rrr]
+  shape1 = shapes1[rrr]
+  shape2 = shapes2[rrr]
+  ns = c(sample(3:9,1),sample(3:9,1))
+  n = ns[1]*ns[2]
+  ncol = min(ns)
+  nrow = max(ns)
+  offset = sample(1:7*10,1)
+  rng = sample(c(3,5,10,20,40,100),1)
+  data = rbeta(n,shape1,shape2)*rng + offset
+  index = 1:n
+  x = sort(round(data,2))
+  
+  is = sample(1:n,2)
+  ps = signif(is/n,3)
+  
+  iq1 = ceiling(0.25*n)
+  iq2 = ceiling(0.5*n)
+  iq3 = ceiling(0.75*n)
+  
+  q1 = x[iq1]
+  q2 = x[iq2]
+  q3 = x[iq3]
+  
+  iqr = q3-q1
+  
+  wmin = q1-1.5*iqr
+  wmax = q3+1.5*iqr
+  
+  outs = x[x<wmin | x>wmax]
+  ins = x[x>=wmin & x<=wmax]
+  
+  w = c(ins[1],ins[length(ins)])
+  
+  if(length(boxplot.stats(x)$out)){
+    break
+  }
+}
 ```
 
 Question
@@ -54,9 +60,57 @@ Create a boxplot representing these measurements.
 Solution
 ========
 
-`r 0.25*n`
-`r q1`
+The sample size, $n$, is `r n`. We determine the indeces and values of Q1, Q2, and Q3.
 
-`r q2`
+| Quartile | Formula for $i$ | $i$ | $x$ |
+|:---:|:---:|:---:|:---:|
+| Q1  | $\lceil 0.25 \times `r n` \rceil$ | `r iq1` | `r q1` |
+| Q2  | $\lceil 0.5 \times `r n` \rceil$ | `r iq2` | `r q2` |
+| Q3  | $\lceil 0.75 \times `r n` \rceil$ | `r iq3` | `r q3` |
 
-`r q3`
+We determine the IQR.
+$$\begin{aligned}
+\text{IQR} &= \text{Q3}-\text{Q1} \\
+&= `r q3` - `r q1` \\
+&= `r iqr`
+\end{aligned}$$
+
+We determine the outlier boundaries.
+$$\begin{aligned}
+\text{lower boundary} &= \text{Q1}- 1.5\times \text{IQR} \\
+&= `r q1`- 1.5\times `r iqr` \\
+&= `r wmin` 
+\end{aligned}$$
+$$\begin{aligned}
+\text{upper boundary} &= \text{Q3}+ 1.5\times \text{IQR} \\
+&= `r q3`+ 1.5\times `r iqr` \\
+&= `r wmax` 
+\end{aligned}$$
+
+We determine the outliers.
+$$\text{outliers} = \{`r outs` \} $$
+We identify the ends of the whiskers: `r w[1]` and `r w[2]`. We plot the boxplot.
+
+\
+```{r exb, echo=FALSE, fig.height=4}
+plot(0,0,"n",xlim = c(max(offset,floor(min(x)/10)*10),min(offset+rng,ceiling(max(x)/10)*10)), ylim=c(0,2),yaxt="n",ylab="", xlab="")
+polygon(c(q1,q1,q3,q3),c(1.2,0.8,0.8,1.2))
+lines(c(q2,q2),c(1.2,0.8),lwd=3)
+lines(c(q1,w[1]),c(1,1))
+lines(c(q3,w[2]),c(1,1))
+lines(c(w[1],w[1]),c(0.9,1.1))
+lines(c(w[2],w[2]),c(0.9,1.1))
+if(length(outs)){
+  points(outs,rep(1,length(outs)))
+}
+
+```
+\
+
+
+
+Meta-information
+============
+extype: string
+exsolution: make the boxplot
+exname: boxplot

@@ -1,0 +1,101 @@
+---
+title: "How to make a boxplot"
+author: "BHCC Mat-181"
+output: pdf_document
+---
+
+## Quick overview of a boxplot
+
+A boxplot's main feature is a box that indicates the values at the 25th, 50th, and 75th percentiles. The value at the 25th percentile is called Q1, the value at the 50th percentile is M or Q2, and the value at the 75th percentile is Q3.
+
+The inter-quartile range (IQR) is the difference between Q3 and Q1. This IQR is a robust **measure of spread**.
+
+Using IQR, we define outliers as values smaller than $(\text{Q1}-1.5\times \text{IQR})$ and values larger than $(\text{Q3}+1.5\times \text{IQR})$. We indicate outliers with dots.
+
+With the remaining (nonoutlier) values, we use whiskers to indicate the smallest and largest nonoutliers.
+
+\
+```{r simplebox, echo=FALSE}
+set.seed(123)
+x = c(rbeta(30,4,0.8)*10+30,32,43.5)
+bp = boxplot(x,horizontal=T)
+Qs = bp$stats
+lines(c(Qs[2],Qs[2],Qs[4],Qs[4]),c(1.3,1.4,1.4,1.3),col=rgb(0.7,0,0))
+text(mean(c(Qs[2],Qs[4])), 1.45, "IQR", col=rgb(0.7,0,0))
+text(Qs[2], 0.7, "Q1", col=rgb(0.7,0,0))
+lines(c(Qs[2],Qs[2]),c(0.74,0.78), col=rgb(0.7,0,0))
+text(Qs[4], 0.7, "Q3", col=rgb(0.7,0,0))
+lines(c(Qs[4],Qs[4]),c(0.74,0.78), col=rgb(0.7,0,0))
+text(Qs[3], 0.7, "Q2", col=rgb(0.7,0,0))
+lines(c(Qs[3],Qs[3]),c(0.74,0.78), col=rgb(0.7,0,0))
+text(33, 0.7, "outliers", col=rgb(0.7,0,0))
+arrows(33,0.74,32.1,0.95,length=0.1,col=rgb(0.7,0,0))
+arrows(33,0.74,33.5,0.95,length=0.1,col=rgb(0.7,0,0))
+text(42.5, 0.7, "outlier", col=rgb(0.7,0,0))
+arrows(42.5,0.74,43.4,0.95,length=0.1,col=rgb(0.7,0,0))
+text(42, 1.45, "largest nonoutlier", col=rgb(0.7,0,0))
+arrows(41,1.4,Qs[5]+0.1,1.15,length=0.1,col=rgb(0.7,0,0))
+text(35, 1.45, "smallest nonoutlier", col=rgb(0.7,0,0))
+arrows(35,1.4,Qs[1],1.15,length=0.1,col=rgb(0.7,0,0))
+```
+\
+
+However, different definitions of percentile lead to different boxplots (but all methods converge as sample size gets large).
+
+## Our method: nearest-rank method
+
+Let $\ell$ be percentile. Let $i$ be an index. And let $n$ be the sample size. In the nearest-rank method, we determine the index by **rounding up** the product of $n$ and $\ell$.
+$$i = \left\lceil n\ell \right\rceil $$
+
+\newpage
+For example, consider the following data.
+```{r example, echo=FALSE}
+set.seed(1234)
+x = sort(round(c(rbeta(10,0.8,4)*20+140,168.17),2))
+```
+
+`r knitr::kable(matrix(x,nrow=1))`
+
+The sample size, $n$, is 11. We determine the indeces and values of Q1, Q2, and Q3.
+
+| Quartile | Formula for $i$ | $i$ | $x$ |
+|:---:|:---:|:---:|:---:|
+| Q1  | $\lceil 0.25 \times 11 \rceil$ | 3 | `r x[3]` |
+| Q2  | $\lceil 0.5 \times 11 \rceil$ | 6 | `r x[6]` |
+| Q3  | $\lceil 0.75 \times 11 \rceil$ | 9 | `r x[9]` |
+
+
+We determine the IQR.
+$$\begin{aligned}
+\text{IQR} &= \text{Q3}-\text{Q1} \\
+&= `r x[9]` - `r x[3]` \\
+&= `r x[9]-x[3]`
+\end{aligned}$$
+
+We determine the outlier boundaries.
+$$\begin{aligned}
+\text{lower boundary} &= \text{Q1}- 1.5\times \text{IQR} \\
+&= `r x[3]`- 1.5\times `r x[9]-x[3]` \\
+&= `r x[3]- 1.5*(x[9]-x[3])` 
+\end{aligned}$$
+$$\begin{aligned}
+\text{upper boundary} &= \text{Q3}+ 1.5\times \text{IQR} \\
+&= `r x[9]`+ 1.5\times `r x[9]-x[3]` \\
+&= `r x[9]+ 1.5*(x[9]-x[3])` 
+\end{aligned}$$
+We see there is one value outside the boundaries.
+$$\text{outliers} = \{`r x[11]` \} $$
+We can identify the ends of the whiskers: `r x[1]` and `r x[10]`. We plot the boxplot.
+
+\
+```{r exb, echo=FALSE}
+bbpp = boxplot(c(rep(c(x[1],x[3],x[6],x[9],x[10]),20),x[11]), horizontal=T, ylim=c(140,170))
+text(x[1],1.35,x[1],srt=90,col=rgb(0.7,0,0))
+text(x[3],1.35,x[3],srt=90,col=rgb(0.7,0,0))
+text(x[6],1.35,x[6],srt=90,col=rgb(0.7,0,0))
+text(x[9],1.35,x[9],srt=90,col=rgb(0.7,0,0))
+text(x[10],1.35,x[10],srt=90,col=rgb(0.7,0,0))
+text(x[11],1.35,x[11],srt=90,col=rgb(0.7,0,0))
+```
+\
+
