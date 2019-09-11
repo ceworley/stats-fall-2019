@@ -194,123 +194,84 @@ $(document).ready(function () {
 
 <div id="question" class="section level1">
 <h1>Question</h1>
-<p>A continuous random variable <span class="math inline">\(X\)</span> was measured 45 times. The sorted measurements are shown below.</p>
+<p>From a very large population, a small sample of measurements was taken.</p>
 <table>
 <tbody>
 <tr class="odd">
-<td align="right">70.70</td>
-<td align="right">72.64</td>
-<td align="right">72.65</td>
-<td align="right">72.90</td>
-<td align="right">73.09</td>
-<td align="right">73.75</td>
-<td align="right">73.83</td>
-<td align="right">73.91</td>
-<td align="right">75.69</td>
-</tr>
-<tr class="even">
-<td align="right">75.70</td>
-<td align="right">75.93</td>
-<td align="right">76.04</td>
-<td align="right">76.56</td>
-<td align="right">76.94</td>
-<td align="right">76.97</td>
-<td align="right">76.98</td>
-<td align="right">77.53</td>
-<td align="right">77.58</td>
-</tr>
-<tr class="odd">
-<td align="right">77.60</td>
-<td align="right">77.75</td>
-<td align="right">77.79</td>
-<td align="right">77.86</td>
-<td align="right">78.04</td>
-<td align="right">78.05</td>
-<td align="right">78.20</td>
-<td align="right">78.28</td>
-<td align="right">78.32</td>
-</tr>
-<tr class="even">
-<td align="right">78.40</td>
-<td align="right">78.42</td>
-<td align="right">78.53</td>
-<td align="right">78.67</td>
-<td align="right">78.79</td>
-<td align="right">78.80</td>
-<td align="right">79.03</td>
-<td align="right">79.05</td>
-<td align="right">79.19</td>
-</tr>
-<tr class="odd">
-<td align="right">79.22</td>
-<td align="right">79.28</td>
-<td align="right">79.46</td>
-<td align="right">79.58</td>
-<td align="right">79.58</td>
-<td align="right">79.83</td>
-<td align="right">79.84</td>
-<td align="right">79.96</td>
-<td align="right">79.98</td>
+<td align="right">37</td>
+<td align="right">38</td>
+<td align="right">53</td>
+<td align="right">39</td>
+<td align="right">50</td>
 </tr>
 </tbody>
 </table>
-<p>Create a boxplot representing these measurements.</p>
+<p>Please calculate the average absolute deviation using the following formula:</p>
+<p><span class="math display">\[\text{AAD} = \frac{\sum\left|x-\bar{x}\right|}{n}\]</span></p>
 </div>
 <div id="solution" class="section level1">
 <h1>Solution</h1>
-<p>The sample size, <span class="math inline">\(n\)</span>, is 45. We determine the indeces and values of Q1, Q2, and Q3.</p>
+<p>We fill out the table column by column.</p>
 <table>
 <thead>
 <tr class="header">
-<th align="center">Quartile</th>
-<th align="center">Formula for <span class="math inline">\(i\)</span></th>
-<th align="center"><span class="math inline">\(i\)</span></th>
 <th align="center"><span class="math inline">\(x\)</span></th>
+<th align="center"><span class="math inline">\(x-\bar{x}\)</span></th>
+<th align="center">$</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">Q1</td>
-<td align="center"><span class="math inline">\(\lceil 0.25 \times 45 \rceil\)</span></td>
-<td align="center">12</td>
-<td align="center">76.04</td>
+<td align="center">37</td>
+<td align="center">-6.4</td>
+<td align="center">6.4</td>
 </tr>
 <tr class="even">
-<td align="center">Q2</td>
-<td align="center"><span class="math inline">\(\lceil 0.5 \times 45 \rceil\)</span></td>
-<td align="center">23</td>
-<td align="center">78.04</td>
+<td align="center">38</td>
+<td align="center">-5.4</td>
+<td align="center">5.4</td>
 </tr>
 <tr class="odd">
-<td align="center">Q3</td>
-<td align="center"><span class="math inline">\(\lceil 0.75 \times 45 \rceil\)</span></td>
-<td align="center">34</td>
-<td align="center">79.03</td>
+<td align="center">53</td>
+<td align="center">9.6</td>
+<td align="center">9.6</td>
+</tr>
+<tr class="even">
+<td align="center">39</td>
+<td align="center">-4.4</td>
+<td align="center">4.4</td>
+</tr>
+<tr class="odd">
+<td align="center">50</td>
+<td align="center">6.6</td>
+<td align="center">6.6</td>
+</tr>
+<tr class="even">
+<td align="center">========</td>
+<td align="center">========</td>
+<td align="center">========</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(\sum x = 217\)</span></td>
+<td align="center"></td>
+<td align="center">$</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(\bar{x} = 43.4\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 </tbody>
 </table>
-<p>We determine the IQR. <span class="math display">\[\begin{aligned}
-\text{IQR} &amp;= \text{Q3}-\text{Q1} \\
-&amp;= 79.03 - 76.04 \\
-&amp;= 2.99
+<p>We are ready for the formula. <span class="math display">\[\begin{aligned}
+s &amp;= \frac{\sum\left|x-\bar{x}\right|}{n} \\\\
+&amp;= \frac{32.4}{5} \\\\
+&amp;= \fbox{6.48}
 \end{aligned}\]</span></p>
-<p>We determine the outlier boundaries. <span class="math display">\[\begin{aligned}
-\text{lower boundary} &amp;= \text{Q1}- 1.5\times \text{IQR} \\
-&amp;= 76.04- 1.5\times 2.99 \\
-&amp;= 71.555 
-\end{aligned}\]</span> <span class="math display">\[\begin{aligned}
-\text{upper boundary} &amp;= \text{Q3}+ 1.5\times \text{IQR} \\
-&amp;= 79.03+ 1.5\times 2.99 \\
-&amp;= 83.515 
-\end{aligned}\]</span></p>
-<p>We determine the outliers. <span class="math display">\[\text{outliers} = \{70.7 \} \]</span> We identify the ends of the whiskers: 72.64 and 79.98. We plot the boxplot.</p>
-<p><br />
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABUAAAAMACAMAAADSUD1fAAAC1lBMVEUAAAABAQECAgIDAwMEBAQFBQUGBgYHBwcICAgJCQkKCgoLCwsMDAwNDQ0ODg4PDw8QEBARERESEhITExMUFBQVFRUWFhYXFxcYGBgZGRkaGhobGxscHBwdHR0eHh4fHx8gICAhISEiIiIjIyMkJCQlJSUmJiYnJycoKCgpKSkqKiorKyssLCwtLS0uLi4vLy8wMDAxMTEyMjIzMzM0NDQ1NTU2NjY3Nzc4ODg5OTk6Ojo7Ozs9PT0/Pz9AQEBBQUFCQkJDQ0NERERFRUVGRkZHR0dISEhJSUlKSkpLS0tMTExOTk5PT09QUFBRUVFSUlJTU1NUVFRVVVVWVlZXV1dYWFhaWlpbW1tcXFxdXV1eXl5fX19gYGBhYWFiYmJjY2NkZGRlZWVmZmZnZ2doaGhpaWlqampra2tsbGxtbW1ubm5vb29xcXFycnJzc3N0dHR1dXV2dnZ3d3d4eHh5eXl6enp7e3t8fHx9fX1+fn5/f3+CgoKDg4OEhISFhYWHh4eIiIiJiYmKioqLi4uMjIyNjY2Ojo6Pj4+RkZGSkpKTk5OUlJSVlZWWlpaXl5eYmJiZmZmampqbm5ucnJydnZ2goKChoaGioqKjo6OkpKSlpaWnp6eoqKipqamqqqqrq6usrKytra2urq6vr6+wsLCxsbGysrKzs7O0tLS1tbW2tra3t7e4uLi5ubm6urq7u7u9vb2+vr6/v7/AwMDBwcHCwsLDw8PExMTFxcXGxsbHx8fIyMjJycnKysrLy8vMzMzNzc3Ozs7Pz8/Q0NDR0dHS0tLT09PU1NTV1dXX19fY2NjZ2dna2trb29vc3Nzd3d3e3t7f39/g4ODh4eHi4uLj4+Pk5OTl5eXm5ubn5+fo6Ojp6enq6urr6+vs7Ozt7e3u7u7v7+/w8PDx8fHy8vLz8/P09PT19fX29vb39/f4+Pj5+fn6+vr7+/v8/Pz9/f3+/v7///80HJAGAAAACXBIWXMAAB2HAAAdhwGP5fFlAAAXQ0lEQVR4nO3d+Z8kd13H8c9uNrCEhRwCiQQQCLccQiSIHHJo1KDIGRABMYAGwSyGiBI8QNSgggRFjBhEQTDcQrjkCgIBlQQVDEIIormQhCSz/4GzM9O7PTvDg633dPW3qnk+f5nqeszjUZ9vquq1090zndoDQKRaDwAwVgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgNCgA/rFXzsdYFZe/I0ZN2rQAf3VApid18+4UYMO6PPqpJcAzMZ965wZN2rgAf2D1iMAC+PJAgqQEVCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQUICSgACEBBQgJKEBIQAFCAgoQElCAkIAChAQU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xYnHHLrrrj//vrG9mrvZ5E3u/9EGFKA1AQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoQEFCAkoAAhAQUICShASEABQgIKEBJQgJCAAoT+HwhzeZbfikfvAAAAAElFTkSuQmCC" width="672" /><br />
-</p>
 </div>
 <div id="meta-information" class="section level1">
 <h1>Meta-information</h1>
-<p>extype: string exsolution: make the boxplot exname: boxplot</p>
+<p>extype: num exsolution: 7.5033326 exname: calc sd</p>
 </div>
 
 
