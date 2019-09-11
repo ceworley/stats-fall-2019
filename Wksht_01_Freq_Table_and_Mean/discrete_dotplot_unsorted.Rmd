@@ -18,7 +18,7 @@ df_freq = data.frame(value, frequency)
 Question
 ========
 
-Please make a dot plot from the following (unsorted) data.
+Please make a frequency table and a dot plot from the following (unsorted) data.
 
 `r knitr::kable(matrix(data, nrow = rows))`
 

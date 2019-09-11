@@ -11,15 +11,15 @@ dd = round(rbeta(n,shape1,shape2)*sample(5:8,1) + offset+0.5,4)
 data = round(dd)
 
 ## The frequency table
-value = min(data):max(data)
-frequency = tabulate(data)[value]
-df_freq = data.frame(value, frequency)
+bin = min(data):max(data)
+frequency = tabulate(data)[bin]
+df_freq = data.frame(bin, frequency)
 ```
 
 Question
 ========
 
-Please make a frequency histogram from the following (unsorted) continuous data by rounding to the nearest integer.
+Please make a frequency table and a frequency histogram from the following (unsorted) continuous data by rounding to the nearest integer.
 
 `r knitr::kable(matrix(dd, nrow = rows))`
 
@@ -35,7 +35,7 @@ Make the histogram.
 
 \
 ```{r barchart, echo = FALSE, results = "hide", fig.height = 4, fig.width = 5, fig.path = "", fig.cap = ""}
-hist(dd,breaks=c(value-0.5,max(value)+0.5),main="Histogram",xlab="Value")
+hist(dd,breaks=c(bin-0.5,max(bin)+0.5),main="Histogram",xlab="Value")
 ```
 \
 

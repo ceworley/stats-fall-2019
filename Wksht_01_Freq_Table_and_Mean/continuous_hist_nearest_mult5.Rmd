@@ -11,15 +11,15 @@ dd = round(rbeta(n,shape1,shape2)*sample(5:8,1) + offset+0.5,4)*5
 data = round(dd/5)*5
 
 ## The frequency table
-value = min(data/5):max(data/5) * 5
-frequency = tabulate(data)[value]
-df_freq = data.frame(value, frequency)
+bin = min(data/5):max(data/5) * 5
+frequency = tabulate(data)[bin]
+df_freq = data.frame(bin, frequency)
 ```
 
 Question
 ========
 
-Please make a frequency histogram from the following (sorted) continuous data by rounding to the nearest multiple of 5.
+Please make a frequency table and a frequency histogram from the following (sorted) continuous data by rounding to the nearest multiple of 5.
 
 `r knitr::kable(t(matrix(sort(dd), nrow = rows)))`
 
@@ -35,7 +35,7 @@ Make the histogram.
 
 \
 ```{r barchart, echo = FALSE, results = "hide", fig.height = 4, fig.width = 5, fig.path = "", fig.cap = ""}
-hist(dd,breaks=c(value-2.5,max(value)+2.5),main="Histogram",xlab="Value")
+hist(dd,breaks=c(bin-2.5,max(bin)+2.5),main="Histogram",xlab="Value")
 ```
 \
 

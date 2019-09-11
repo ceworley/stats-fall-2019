@@ -83,4 +83,10 @@ $$x = \fbox{`r x[is[2]]`}$$
 `r eq1`
 So, median = $\fbox{`r median(x)`}$.
 
+Meta-information
+============
+extype: string
+exsolution: yup
+exname: reading hist
+extol: 0.01
 

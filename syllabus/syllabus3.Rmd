@@ -1,0 +1,189 @@
+---
+title: "BHCC MAT-181 Statistics Syllabus"
+date: "Fall 2019"
+output: pdf_document
+---
+
+## Course
+* MAT-181-12
+* Tuesday and Thursday at 2:30 PM
+* https://bhcc.digication.com/stat3
+* I hope to get the moodle site active soon.
+
+## Professor
+
+* Chad Worley
+* ceworley@bhcc.mass.edu
+
+
+## Textbook
+* OpenIntro Statistics 4th Edition
+* http://www.openintro.org/os
+* Easiest to download pdf at class website: https://bhcc.digication.com/stat3
+
+## Calculator
+* You need a scientific calculator.
+* Recommended: Texas Instruments TI-30XS Multiview or Texas Instruments TI-36X Pro
+* If you have a smart phone, you can use Geogebra Scientific Calculator.
+* If you do not have a smart phone and cannot afford a calculator, please send me an email and I will lend you a calculator.
+
+## Exams and Final
+Your lowest exam score is dropped. If you miss an exam, that score will be dropped.
+
+* Exam 1 - Thursday September 26
+* Exam 2 - Thursday October 17
+* Exam 3 - Thursday November 7
+* Exam 4 - Tuesday November 26
+* Final - **Tuesday December 17** and **Thursday December 19**
+
+
+## Learning outcomes
+
+1. Summarize	data	numerically	and	graphically	including	bar	charts,	dot	plots,	histograms	and	box	plots.
+2. Compare	and	analyze	distributions	both	graphically	and	numerically.
+3. Apply	the	concepts	of	mean,	median	and	variability	of	quantitative	data.
+4. Analyze	bivariate	data	and	understand	concepts	of	correlation	and	simple linear	regression.
+5. Evaluate	linear	equations,	understand	concepts	of	slope,	intercepts,	and	inequalities.
+6. Apply	basic	probability	rules	and	be	able	to	construct/analyze	two-way	tables.
+7. Distinguish	between	discrete	and	continuous	variables	and	their	probability	distributions.
+8. Apply	the	concept	of	the	normal	distribution	and	applicable	techniques	at	a	basic	level.
+9. Recognize	the	importance	of	variation	and	uncertainty	in	the	world	and	understand	how	statistics	
+can	improve	decisions	when	faced	with	uncertainty.
+10. Acquire	knowledge	of	and	proficiency	with	a	broad	range	of	statistical	concepts,	tools	and	relevant	
+computer	software	useful	for	statistical	applications.
+11. Acquire	critical	thinking	skills	that	enable	application	of	statistics	in	new	and	unfamiliar	settings.
+12. Become	responsible	and	competent	statistical	professional	at	various	levels	of	employment	and	successfully	pursue	any	further	goals	in	graduate	and	post-graduate	educational	levels.		
+
+## Teaching procedures
+
+* We will have lectures, worksheets, homeworks and exams.
+* You	will	engage	in	a	variety	of	learning	methodologies	in	working	toward	these	objectives.		You	will	be	engaged	 in	 problem	 solving,	 collaborative	 learning,	 writing	 reflections,	 working	 individually	 and	 in	groups	 during	 classroom	 meetings	 and	 outside	 of	 class.
+
+
+## Course Description
+* Mat-098 is designed as a substitute for Foundations of Algebra (MAT097) for non-STEM students who will be taking Statistics I (MAT181) for their program requirements. Topics include being able to summarize and analyze data distributions both numerically and graphically. Evaluating linear equations while understanding the concepts of slope, intercepts, inequalities, correlation and regression will be discussed. The concept of probability and probability distributions will be introduced for both discrete and continuous variables. This course does not satisfy degree requirements. Prerequisite: Grade of C or better in Foundations of Mathematics (MAT093) or placement. 
+* Mat-181 covers statistical concepts and methods. Topics include data organization, averages and variation; elementary probability; binomial, normal, and t-distributions; estimation and hypothesis testing; and linear correlation and regression. The course meets the General Education requirement for Quantitative Problem Solving. Prerequisite: Grade of C or better in Foundations of Algebra (MAT097) or Pre-Statistics (MAT098) or placement.
+
+## Grade breakdown
+* (10%) Homework
+* (10%) Quizzes
+* (20%) In-class work, participation
+* (30%) Exams
+* (10%) Projects
+* (20%) Final
+
+
+| Overall score | Mat-098 grade |
+|:---:|:---:|
+|90-100| A |
+|80-90| A- |
+|75-80| B+ |
+|70-75| B |
+|65-70| B- |
+|60-65| C+ |
+|50-60| C |
+|0-50| F |
+
+| Overall score | Mat-181 grade |
+|:---:|:---:|
+|94-100| A |
+|90-94| A- |
+|87-90| B+ |
+|83-87| B |
+|80-83| B- |
+|77-80| C+ |
+|70-77| C |
+|0-70| F |
+
+
+## Attendance
+Students	are	expected	to	attend	ALL	scheduled	classes	and	to	arrive	ON	TIME.		Statistics	have	shown	that	grades	improve	with	better	attendance.		The	College’s	policy	is	that	a	student	is	expected	to	come	to	all	class	sessions	prepared	to	participate	in	an	appropriate	manner.		Absence	from	class	is considered	a	serious	matter	and	never	excuses	a	student	from	class	work.		A	student	must	complete	all	assignments,	exams,	and	other	requirements	to	receive	credit.	It	is	the	student’s	responsibility	to	notify	the	instructor	on	or	before	the	date	of	the	absence.		
+
+
+## Assistance	and Time on Task
+Students	will	have	the	assistance	of	the	instructor	during	class,	during	office	hours,	or	by	appointment. Students	are	encouraged	to	use	the	Math	Space	(E234-D	or	E)	outside	of	class	to	receive	help. Your classmates	are	also	valuable	resources.		You	should	spend	a	minimum	of	10-12	hours	per	week	(an	
+average	 of	 1+	 hours	 per	 weekday)	 on	 course	 assignments	 in	 order	 to	 be	 successful. Your	instructor	will	closely	monitor	your	progress	and	will	speak	with	you	if	you	fall	behind	schedule.
+
+## Code of conduct
+All	students	are	expected	to	adhere	to	the	honor	code	regarding	course	assignments	and	exams.		This	includes	completing	assignments	without	unauthorized	aid	when	instructed.		Any	student	suspected	of	cheating	on	an	assignment	or	an	exam	will	not	pass	that	assignment	or	exam.
+
+**Student Responsibilities**
+
+* To	be	knowledgeable	of	and	to	comply	with	laws,	all	civic	and	College	regulations	and	the	directives,	policies	and	procedures	of	the	federal	government,	Commonwealth,	the	Massachusetts	Board	of	Higher	Education,	Bunker	Hill	Community	College	and	the	Student	Government	Association.	
+* To	behave	in	a	manner	that	is	respectful	of	all	individuals	including	faculty	members,	College	staff,	administrators	and	students.	
+* To	behave	in	a	manner	that	is	respectful	of	the	property	of	individuals,	groups	and	the	College.	
+* To	maintain	a	high	standard	of	honesty.	
+* To	behave	in	a	manner	that	does	not	interfere	with	the	educational	goals	of	the	College	and	with	the	individual	rights	of	the	members	of	the	College	community.	
+* To	 behave	 in	 a	 manner	 that	 does	 not	 disrupt	 or	 interfere	 with	 the	 learning	 environment	 of	 others	 inside	 and	 outside	 of	 the	classroom	including	at	College	events.	
+
+## IN	PROGRESS	(IP)	GRADE
+If	 a	 student	 does	 not	 finish	 all	 coursework	 within	 the	 15-week	 semester,	 he/she	 may	 receive	 an	 “In	Progress”	grade	only	if	the	following	conditions	are	met:
+
+1. The	student	has	no	more	than	two	(2)	unexcused	absences.
+2. The	student	is	making	steady	progress	with	the	course	material	AND	has	passed	three	exams
+3. During	the	last	week	of	class,	you	must	sign	an	IP	contract	form	stating	the	conditions	for	completion	of	the	remaining	course	requirements.
+
+
+## INDIVIDUALS	WITH	A	DISABILITY
+Bunker	Hill	Community	College	is	committed	to	providing	equal	access	to	the	educational	experience	for	all	students	in	compliance	with	Section	504	of	the	Rehabilitation	Act	of	1973	and	the	Americans	with	Disabilities	Act	of	1990.
+
+* **College	Accommodations	and	Support	Services**:
+The	Office	of	Disability	Support	Services	is	a	student-focused	department	dedicated	to	assisting	members	of	the	BHCC	community	with	documented	physical	and/or	learning	disabilities.	Students	may	be	eligible	for	services	that	include	tutoring,	testing	and	other	classroom	accommodations.	To	get	more	information	or	request	an	accommodation,	contact	the	Disability	Support	Services	Office	at	617-228-2327	(Room	E222).	Students	are	encouraged	to	request	accommodations	as	early	as	possible	and	ideally	before	the	start	of	the	semester.	For	information	about	programs	and	services	please	visit:	http://www.bhcc.mass.edu/disabilitysupportservices/.		
+
+## Instructional Objectives
+**Unit	1**
+
+* Identify	types	of	data
+* Identify	the	measurement	level	of	a	variable
+* Identify	basic	sampling	techniques
+* Organize	data	using	frequency	distributions
+* Represent	frequency	distributions	graphically
+* Represent	data	using	bar	graphs
+* Summarize	data	using	mean,	median,	and	mode
+* Describe	data	using	range,	variance,	and	standard	deviation
+* Identify	the	position	of	a	data	point	by	using	percentiles	and	standard	scores
+* Produce	stem	and	leaf	displays	and	box	and	whisker	plots
+	
+**Unit	2**
+
+* Determine	the	number	of	possible	outcomes	using	a	tree	diagram
+* Find	the	total	number	of	possible	outcomes	using	the	multiplication	rule
+* Calculate	the	number	of	permutations	of	n	things	taken	r	at	a	time
+* Calculate	the	number	of	combinations	of	n	things	taken	r	at	a	time
+* Determine	sample	spaces
+* Find	the	probability	of	an	event	using	relative	frequencies
+* Find	the	probability	of	a	compound	event
+* Find	the	conditional	probability	of	an	event
+* Construct	a	probability	distribution	for	a	discrete	random	variable
+* Find	the	expected	value	and	standard	deviation	for	a	discrete	random	variable
+* Calculate	binomial	probabilities
+* Find	the	mean	and	standard	deviation	for	a	binomial	distribution
+	
+**Unit	3**
+
+* Identify	the	properties	of	a	normal	distribution
+* Find	the	area	under	the	standard	normal	distribution	for	various	intervals
+* Transform	a	normally	distributed	random	variable	into	a	standard	normal	variable
+* Find	specific	data	values	for	given	areas	under	a	normal	distribution
+* State	the	Central	Limit	Theorem
+* Use	the	Central	Limit	Theorem	to	solve	problems	involving	the	distribution	of	the	sample	mean	for	large	samples
+* Use	the	normal	distribution	to	approximate	probabilities	for	a	binomial
+	
+**Unit	4**
+
+* Distinguish	between	point	estimates	and	interval	estimates
+* Find	the	confidence	interval	for	$\mu$	with	$\sigma$	known
+* Find	the	confidence	interval	for	$\mu$	with	$\sigma$	unknown
+* Structure	a	classical	test	of	hypothesis
+* Test	means	for	one-sample	(using	large	and	small	samples)
+* Test	for	a	proportion
+* Test	the	difference	between	means	for	dependent	samples
+	
+**Unit	5**
+
+* Find	the	equation	of	the	least	squares	regression	line
+* Compute	the	standard	error	of	the	estimate
+* Find	the	confidence	interval	for	the	dependent	variable
+* Compute	the	linear	correlation	coefficient
+* Test	for	a	significant	linear	correlation
+* Compute	the	coefficient	of	determination

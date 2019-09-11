@@ -4,9 +4,28 @@
 \usepackage{color,verbatim,Sweave,url,xargs,amsmath,hyperref,booktabs,longtable}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{fancyhdr}
+\usepackage{multicol}
 \pagestyle{fancy}
 \fancyhf{}
 
+%% new commands
+\makeatletter
+\newcommand{\ID}[1]{\def\@ID{#1}}
+\newcommand{\Date}[1]{\def\@Date{#1}}
+\newcommand{\Titl}[1]{\def\@Titl{#1}}
+\ID{00001}
+\Date{YYYY-MM-DD}
+\Titl{Title}
+
+%% \exinput{header}
+
+\newcommand{\myID}{\@ID}
+\newcommand{\myDate}{\@Date}
+\newcommand{\myTitl}{\@Titl}
+\makeatother
+
+\lhead{\textsc{BHCC Mat-181}}
+\rhead{\textsc{\myTitl}}
 
 \usepackage{caption}
 \captionsetup[figure]{labelformat=empty}
@@ -15,10 +34,10 @@
 \floatplacement{figure}{H}
 
 
-%% new environments
-\newenvironment{question}{\item \textbf{Problem}\newline}{\newpage}
-\newenvironment{solution}{\comment}{\endcomment}
-\newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
+%%% new environments
+%\newenvironment{question}{\item \textbf{Problem}\newline}{\newpage}
+%\newenvironment{solution}{\textbf{Solution}\newline}{\newpage}
+%\newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
 
 
 %% compatibility with pandoc
@@ -70,22 +89,10 @@
   \mbox{\framebox[0.9\textwidth][l]{\rule[-1mm]{0mm}{5mm} \hspace*{-1.6mm} \extext{#1}} \hspace*{2mm}}%
 }
 
-%% new commands
-\makeatletter
-\newcommand{\ID}[1]{\def\@ID{#1}}
-\newcommand{\Date}[1]{\def\@Date{#1}}
-\ID{00001}
-\Date{YYYY-MM-DD}
-
-%% \exinput{header}
-
-\newcommand{\myID}{\@ID}
-\newcommand{\myDate}{\@Date}
-\makeatother
-
-%% headings
-\lhead{\textsc{BHCC Mat-181}}
-\rhead{\textsc{Homework due Sept 9th, ID = \myID}}
+%% new environments
+\newenvironment{question}{\item \textbf{Problem:}\newline}{\newpage}
+\newenvironment{solution}{\textbf{Solution:}}{\newpage}
+\newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
 
 
 \begin{document}
@@ -95,7 +102,6 @@
 %% \exinput{exercises}
 
 \end{enumerate}
-
 
 
 \end{document}

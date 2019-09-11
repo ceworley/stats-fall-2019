@@ -19,7 +19,7 @@ df_freq = data.frame(value, frequency)
 Question
 ========
 
-Please make a bar chart of frequencies from the following (unsorted) discrete data.
+Please make a frequency table and a bar chart from the following (unsorted) discrete data.
 
 `r knitr::kable(matrix(data, nrow = rows))`
 
