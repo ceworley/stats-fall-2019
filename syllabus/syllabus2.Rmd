@@ -5,10 +5,9 @@ output: pdf_document
 ---
 
 ## Course
-* MAT-181-12
-* Tuesday and Thursday at 2:30 PM
+* MAT-181-06Z
+* Monday and Wednesday at 1:00 PM
 * https://bhcc.digication.com/stat3
-* I hope to get the moodle site active soon.
 
 ## Professor
 
@@ -30,11 +29,11 @@ output: pdf_document
 ## Exams and Final
 Your lowest exam score is dropped. If you miss an exam, that score will be dropped.
 
-* Exam 1 - Thursday September 26
-* Exam 2 - Thursday October 17
-* Exam 3 - Thursday November 7
-* Exam 4 - Tuesday November 26
-* Final - **Tuesday December 17** and **Thursday December 19**
+* Exam 1 - Wednesday September 25
+* Exam 2 - Wednesday October 16
+* Exam 3 - Wednesday November 6
+* Exam 4 - Wednesday November 27
+* Final - **Monday December 16** and **Wednesday December 18**
 
 
 ## Learning outcomes
