@@ -1,0 +1,68 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+while(T){
+  b1 = 10**runif(6,-0.5,0.75)
+  b2 = 10**runif(6,-0.5,0.75)
+  scale = 10**(sample(-1:3,1))
+  bottom = runif(6)*scale
+  r = bottom*runif(6,0.3,2)
+  
+  x = numeric()
+  for(i in 1:6){
+    x = c(x, sort(rbeta(25,b1[i],b2[i])*scale+bottom[i]))
+  }
+  
+  ms = c("weight","length","time","speed")
+  us = c("kg","m","s","m/s")
+  
+  rvs = c("P","Q","R","S","T","U")
+  grps = c(rep("P",25),rep("Q",25),rep("R",25),rep("S",25),rep("T",25),rep("U",25))
+  ans = c(grps[x==max(x)],grps[x==min(x)],grps[x==max(x[0:5*25+13])],grps[x==min(x[0:5*25+13])])
+  if(sum(duplicated(ans))==0){
+    break
+  }
+}
+```
+
+Question
+========
+Six random variables were each measured 25 times. The resulting boxplots are shown.
+
+\
+```{r boxies, echo=F, fig.width=8, fig.height=5}
+boxplot(x~grps, horizontal=T)
+```
+\
+
+Answerlist
+-------
+* Which variable produced the largest measurment?
+* Which variable produced the smallest measurment?
+* Which distribution has the largest median?
+* Which distribution has the smallest median?
+* Which distribution has the largest 25th percentile?
+* Which distribution has the smallest 25th percentile?
+* Which distribution has the largest 75th percentile?
+* Which distribution has the smallest 75th percentile?
+
+Solution
+========
+
+Answerlist
+-------
+* `r grps[x==max(x)]`
+* `r grps[x==min(x)]`
+* `r grps[x==max(x[0:5*25+13])]`
+* `r grps[x==min(x[0:5*25+13])]`
+* `r grps[x==max(x[0:5*25+7])]`
+* `r grps[x==min(x[0:5*25+7])]`
+* `r grps[x==max(x[0:5*25+19])]`
+* `r grps[x==min(x[0:5*25+19])]`
+
+
+Meta-information
+============
+extype: string
+exsolution: yup
+exname: reading
+extol: 0.01

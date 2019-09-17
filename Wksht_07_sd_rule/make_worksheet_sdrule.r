@@ -1,22 +1,22 @@
 library("exams")
 
 
-q1 = "aad.Rmd"
-q2 = "stdev.Rmd"
+q1 = "sd_rule.Rmd"
+q2 = "boxplots_compare.Rmd"
 
-probs = c(q1,q1,q2,q2,q1,q2)
+probs = c(q1,q2)
 
 
-set.seed(1234)
+set.seed(123)
 exams2pdf(probs, 
-  n = 1,
-  name = "AAD_and_SD",
+  n = 5,
+  name = "sd_rule_and_boxplot_compare",
   dir = "wksht",
   template = "templates/worksheet_sols.tex",     
   header = list(
-    Date = "2019-SEP-11",
-    ID = function(i) formatC(i, width = 3, flag = "0"),
-    Titl = "AAD and SD"
+    Date = "2019-SEP-17",
+    ID = formatC(1, width = 3, flag = "0"),
+    Titl = "SD Rule and comparing boxplots"
   )
   )
 

@@ -1,8 +1,3 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 ```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
 mu = signif(10**runif(1,-1,3),2)
 sd = signif(mu/3*runif(1,0.1,1),1)
@@ -21,8 +16,8 @@ Question
 
 The figure below summarizes the *standard deviation rule* for normal distributions. In the figure, $\bar{x}$ is the mean and $s$ is the standard deviation. The percentages show the fraction of measurements that fall within various intervals.
 
-
-```{r makenorm, echo=FALSE, fig.align='center', fig.height=4, fig.width=6}
+\
+```{r makenorm, echo=FALSE, fig.height=4, fig.width=6}
 library(latex2exp)
 xs = (-330):330/100
 ys = dnorm(xs)
@@ -46,7 +41,7 @@ text(2.5,0.23,"2.5%")
 arrows(-2,0.2,-3.3,0.2)
 text(-2.5,0.23,"2.5%")
 ```
-
+\
 
 A specific distribution is approximately normal with mean $\bar{x}=`r mu`$ and standard deviation  $s=`r sd`$.
 
@@ -64,7 +59,8 @@ Solution
 
 It is probably best to start by redrawing (relabeling) the normal distribution with the specific values.
 
-```{r makenorm2, echo=FALSE, fig.align='center', fig.height=4, fig.width=6}
+\
+```{r BmakenormB, echo=FALSE, fig.height=4, fig.width=6}
 xlabs = mu+(-3:3)*sd
 xs = (-330):330/100
 ys = dnorm(xs)
@@ -88,6 +84,7 @@ text(2.5,0.23,"2.5%")
 arrows(-2,0.2,-3.3,0.2)
 text(-2.5,0.23,"2.5%")
 ```
+\
 
 Answerlist
 --------
@@ -106,4 +103,4 @@ Meta-information
 ============
 extype: num
 exsolution: 10
-exname: calc aad
+exname: calc s
