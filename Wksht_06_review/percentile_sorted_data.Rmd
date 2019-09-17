@@ -1,0 +1,112 @@
+```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
+## DATA GENERATION
+
+types = c("bimodal","symmetric mound","skew left","skew right","uniform")
+shapes1 = c(0.5, 20,   3,   1, 1)
+shapes2 = c(0.5, 20,   1,   3, 1)
+
+rrr = sample(1:5,1)
+type = types[rrr]
+shape1 = shapes1[rrr]
+shape2 = shapes2[rrr]
+
+ns = c(sample(3:10,1),sample(3:10,1))
+n = sample(8:88,1)
+offset = sample(1:9*10,1)+0.001
+rng = sample(c(3,5,10,20,40,100),1)
+data = rbeta(n,shape1,shape2)*rng*0.99 + offset
+index = 1:n
+x = sort(signif(data,4))
+
+is = sample(1:n,2)
+ps = signif(is/n,3)
+
+isodd = (n%%2 == 1)
+if(isodd){
+  word = "odd"
+  eq1 = paste("$$\\text{median} = x_{(",n,"+1)/2,} = x_{",(n+1)/2,"}$$",sep="")
+} else {
+  word = "even"
+  eq1 = paste("$$\\text{median} = \\frac{x_{",n/2,"}+x_{",n/2+1,"}}{2} = \\frac{",x[n/2],"+",x[n/2+1],"}{2}$$",sep="")
+}
+
+
+s = ''
+cnt = 0
+for(i in 1:floor(length(x)/10)){
+  s = paste(s,"|",sep="")
+  for(j in 1:10){
+    s = paste(s,x[(i-1)*10+j],"|",sep="")
+    cnt = cnt+1
+  }
+  s = paste(s,"\n")
+}
+if(cnt < length(x)){
+  s = paste(s,"|",sep="")
+  for(j in (cnt+1):n){
+    s = paste(s,x[j],"|",sep="")
+  }
+  s = paste(s,"\n")
+}
+
+```
+
+Question
+========
+
+A continuous random variable $X$ was measured `r n` times. The sorted measurements are shown below.
+
+|   |   |   |   |   |   |   |   |   |   |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+`r s`
+
+The total of the measurements is `r sum(x)`.
+
+
+Answerlist
+--------
+* Determine the percentile rank of the measurement `r x[is[1]]`. In other words, determine what percent of data are less than or equal to `r x[is[1]]`.
+* Determine the measurement corresponding to a percentile rank of `r ps[2]`. In other words, determine $x$ such that `r ps[2]*100`% of the data are less than or equal to $x$. 
+* Determine the mean of the measurements.
+* Determine the median of the measurements.
+
+Solution
+========
+
+Let $x$ represent a measurement of interest. Let $i$ represent that measurement's index. Let $\ell$ represent that measurement's percentile. Let $n$ represent the sample size (number of measurements). In general,
+$$\ell = \frac{i}{n} $$
+
+
+Answerlist
+--------
+* We are given $x = `r x[is[1]]`$. This means $i=`r is[1]`$. We know $n=`r n`$. Determine the percentile $\ell$.
+$$\begin{aligned}
+\ell &= \frac{`r is[1]`}{`r n`} \\ \\
+\ell &= `r ps[1]`
+\end{aligned}$$
+So, the percentile rank is $\fbox{`r ps[1]`}$, or `r ps[1]*100`th percentile.
+* We are given $\ell = `r ps[2]`$. We can use algebra to solve for $i$.
+$$\ell = \frac{i}{n}$$
+Multiply both sides by $n$.
+$$n \cdot (\ell) = n \cdot \left(\frac{i}{n} \right)$$
+Simplify both sides.
+$$ n \ell = i $$
+To make me happy, switch the sides.
+$$i = n \ell $$
+Now, we can evaluate $i$.
+$$i = (`r n`)(`r ps[2]`) $$
+$$i = `r is[2]`$$
+Determine the $x$ associated with $i = `r is[2]`$.
+$$x = \fbox{`r x[is[2]]`}$$
+* The mean: $\bar{x} = \frac{`r sum(x)`}{`r n`} = \fbox{`r signif(mean(x),5)`}$
+* If $n$ is odd, then median is $x_{i=\frac{n+1}{2}}$, the value of $x$ when $i=\frac{n+1}{2}$. Otherwise, if $n$ is even, the median is mean of $x_{ i=\frac{n}{2} }$ and $x_{i= \frac{n}{2}+1 }$. In this case, $n=`r n`$ and so $n$ is `r word`.
+`r eq1`
+So, median = $\fbox{`r median(x)`}$.
+
+Meta-information
+============
+extype: string
+exsolution: yup
+exname: reading hist
+extol: 0.01
+

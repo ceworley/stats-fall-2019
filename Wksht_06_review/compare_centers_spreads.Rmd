@@ -25,6 +25,15 @@ xx1 = xs[(ord[1]*1000+1):(ord[1]*1000+1000)]
 xx2 = xs[(ord[2]*1000+1):(ord[2]*1000+1000)]
 xx3 = xs[(ord[3]*1000+1):(ord[3]*1000+1000)]
 
+
+```
+
+Question
+========
+Three random variables (F, G, and H) were measured 1000 times each. The resulting histograms show the three distributions.
+
+\
+```{r showit, echo=FALSE}
 par(mar=c(3,0,2,0))
 layout(matrix(c(1,2,3), 3, 1, byrow = TRUE))
 hist(xx1,breaks=(0:80),ann=F,yaxt="n",xaxt="n")
@@ -37,11 +46,7 @@ hist(xx3,breaks=(0:80),ann=F,yaxt="n",xaxt="n")
 mtext("Random Variable H",side=3)
 axis(1,at=0:16*5)
 ```
-
-Question
-========
-Three random variables (F, G, and H) were measured 1000 times each. The resulting histograms show the three distributions.
-
+\
 
 Answerlist
 --------

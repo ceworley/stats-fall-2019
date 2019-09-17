@@ -1,0 +1,67 @@
+```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
+## DATA GENERATION
+while(T){
+  n = sample(4:7,1)
+  mu = sample(40:200,1)
+  sigma = sample(3:12,1)
+  x = round(rnorm(n,mu,sigma))
+  xbar = mean(x)
+  d = x-xbar
+  ad = signif(abs(d),4)
+  sad = sum(ad)
+  aad = sad/n
+  if(as.integer(10*xbar)==10*xbar & aad != 0){
+    break
+  }
+}
+```
+
+Question
+========
+
+From a very large population, a small sample of measurements was taken.
+
+`r knitr::kable(matrix(x,ncol=n))`
+
+Please calculate the average absolute deviation using the following formula:
+
+$$\text{AAD} = \frac{\sum |x-\bar{x}|}{n}$$
+
+
+
+Solution
+========
+
+```{r readyTable, echo=F}
+tab1 = ''
+for(i in 1:n){
+  tab1 = paste(tab1,"|",x[i],"|",d[i],"|",ad[i],"|",sep="")
+  if(i<n){
+    tab1 = paste(tab1,"\n",sep="")
+  }
+}
+```
+
+We fill out the table column by column.
+
+| $x$ | $x-\bar{x}$ | $\lvert x-\bar{x} \rvert$ |
+|:---:|:---:|:---:|
+`r tab1`
+|========|========|========|
+|$\sum x = `r sum(x)`$| | $\sum \lvert x-\bar{x} \rvert = `r sad`$|
+|$\bar{x} = `r xbar`$| | |
+
+We are ready for the formula.
+$$\begin{aligned}
+s &= \frac{\sum |x-\bar{x}|}{n} \\\\
+&= \frac{`r sad`}{`r n`} \\\\
+&= \fbox{`r aad`}
+\end{aligned}$$
+
+
+
+Meta-information
+============
+extype: num
+exsolution: `r aad`
+exname: calc aad
