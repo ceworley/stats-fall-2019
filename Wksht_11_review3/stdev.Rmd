@@ -1,0 +1,70 @@
+```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
+## DATA GENERATION
+while(T){
+  n = sample(4:7,1)
+  mu = sample(40:200,1)
+  sigma = sample(3:12,1)
+  x = round(rnorm(n,mu,sigma))
+  s = sd(x)
+  if(as.integer(s)==s & s!=0){
+    break    
+  }
+}
+xbar = mean(x)
+deviations = x-xbar
+squared_deviations = deviations^2
+sum_squared_deviations = sum(squared_deviations)
+variance = sum_squared_deviations/(n-1)
+ss = sqrt(variance)
+```
+
+Question
+========
+
+From a very large population, a small sample of measurements was taken.
+
+`r knitr::kable(matrix(x,ncol=n))`
+
+Please calculate the (Bessel corrected) sample standard deviation using the following formula:
+
+$$s = \sqrt{\frac{\sum(x-\bar{x})^2}{n-1}}$$
+
+
+
+Solution
+========
+
+```{r readyTable, echo=F}
+tab1 = ''
+for(i in 1:n){
+  tab1 = paste(tab1,"|",x[i],"|",deviations[i],"|",squared_deviations[i],"|",sep="")
+  if(i<n){
+    tab1 = paste(tab1,"\n",sep="")
+  }
+}
+```
+
+We fill out the table column by column.
+
+| $x$ | $x-\bar{x}$ | $(x-\bar{x})^2$ |
+|:---:|:---:|:---:|
+`r tab1`
+|========|========|========|
+|$\sum x = `r sum(x)`$| | $\sum (x-\bar{x})^2 = `r sum_squared_deviations`$|
+|$\bar{x} = `r xbar`$| | |
+
+We are ready for the formula.
+$$\begin{aligned}
+s &= \sqrt{\frac{\sum(x-\bar{x})^2}{n-1}} \\\\
+&= \sqrt{\frac{`r sum_squared_deviations`}{`r n`-1}} \\\\
+&= \sqrt{`r sum_squared_deviations/(n-1)`} \\\\
+&= \fbox{`r sd(x)`}
+\end{aligned}$$
+
+
+
+Meta-information
+============
+extype: num
+exsolution: `r sd(x)`
+exname: calc sd

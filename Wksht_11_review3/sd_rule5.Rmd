@@ -1,0 +1,106 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
+mu = signif(10**runif(1,-1,3),2)
+sd = signif(mu/3*runif(1,0.1,1),1)
+
+choices = sample(-2:2,4)
+xc = mu+sd*choices
+pc = round(200*pnorm(choices))/200
+
+c2 = sample(1:2,1)
+x2s = c(mu-sd*c2,mu+sd*c2)
+p2 = round(200*pnorm(c2))/200-round(200*pnorm(-c2))/200
+```
+
+Question
+========
+
+The figure below summarizes the *standard deviation rule* for normal distributions. In the figure, $\bar{x}$ is the mean and $s$ is the standard deviation. The percentages show the fraction of measurements that fall within various intervals.
+
+\
+```{r draw, echo=FALSE, fig.height=4, fig.width=6, fig.path=paste("draw",sample(1000:9999,1),sep="")}
+xs = (-330):330/100
+ys = dnorm(xs)
+plot(xs,ys,type="l",ann=F,axes = F,lwd=3,ylim=c(0,0.6),xlim=c(-3.4,3.4))
+axis(1,at=c(-3,-2,-1,0,1,2,3),labels=c(TeX("$\\bar{x}-3s$"),TeX("$\\bar{x}-2s$"),TeX("$\\bar{x}-s$"),TeX("$\\bar{x}$"),TeX("$\\bar{x}+s$"),TeX("$\\bar{x}+2s$"),TeX("$\\bar{x}+3s$")))
+lines(c(0,0),c(0,dnorm(0)))
+lines(c(1,1),c(0,dnorm(1)))
+lines(c(2,2),c(0,dnorm(2)))
+lines(c(-1,-1),c(0,dnorm(-1)))
+lines(c(-2,-2),c(0,dnorm(-2)))
+text(0.5,dnorm(0.5)/3,"34%")
+text(-0.5,dnorm(-0.5)/3,"34%")
+text(1.5,dnorm(1.5)/3,"13.5%")
+text(-1.5,dnorm(-1.5)/3,"13.5%")
+lines(c(-1,-1,1,1),c(0.42,0.45,0.45,0.42))
+text(0,0.48,"68%")
+lines(c(-2,-2,2,2),c(0.51,0.54,0.54,0.51))
+text(0,0.57,"95%")
+arrows(2,0.2,3.3,0.2)
+text(2.5,0.23,"2.5%")
+arrows(-2,0.2,-3.3,0.2)
+text(-2.5,0.23,"2.5%")
+```
+\
+
+A specific distribution is approximately normal with mean $\bar{x}=`r mu`$ and standard deviation  $s=`r sd`$.
+
+Answerlist
+--------
+* What percent of the measurements are greater than `r xc[1]`?
+* What percent of the measurements are less than `r xc[2]`?
+* What measurement is greater than `r pc[3]*100`% of the measurements?
+* What measurement is less than `r (1-pc[4])*100`% of the measurements?
+* What percent of the measurements are between `r x2s[1]` and `r x2s[2]`?
+
+
+Solution
+========
+
+It is probably best to start by redrawing (relabeling) the normal distribution with the specific values.
+
+\
+```{r make, echo=FALSE, fig.height=4, fig.width=6, fig.show=TRUE, fig.path=paste("make",sample(1000:9999,1),sep="")}
+xlabs = mu+(-3:3)*sd
+xs = (-330):330/100
+ys = dnorm(xs)
+plot(xs,ys,type="l",ann=F,axes = F,lwd=3,ylim=c(0,0.6),xlim=c(-3.4,3.4))
+axis(1,at=c(-3,-2,-1,0,1,2,3),labels=xlabs)
+lines(c(0,0),c(0,dnorm(0)))
+lines(c(1,1),c(0,dnorm(1)))
+lines(c(2,2),c(0,dnorm(2)))
+lines(c(-1,-1),c(0,dnorm(-1)))
+lines(c(-2,-2),c(0,dnorm(-2)))
+text(0.5,dnorm(0.5)/3,"34%")
+text(-0.5,dnorm(-0.5)/3,"34%")
+text(1.5,dnorm(1.5)/3,"13.5%")
+text(-1.5,dnorm(-1.5)/3,"13.5%")
+lines(c(-1,-1,1,1),c(0.42,0.45,0.45,0.42))
+text(0,0.48,"68%")
+lines(c(-2,-2,2,2),c(0.51,0.54,0.54,0.51))
+text(0,0.57,"95%")
+arrows(2,0.2,3.3,0.2)
+text(2.5,0.23,"2.5%")
+arrows(-2,0.2,-3.3,0.2)
+text(-2.5,0.23,"2.5%")
+```
+\
+
+Answerlist
+--------
+* Because we are asked for the percent of measurements *greater* than `r xc[1]`, we add the areas to the right of `r xc[1]`.
+$$\fbox{`r (1-pc[1])*100`\%}$$
+* Because we are asked for the percent of measurements *less* than `r xc[2]`, we add the areas to the left of `r xc[2]`.
+$$\fbox{`r pc[2]*100`\%}$$
+* We determine which leftward area has a total of `r pc[3]*100`%. This occurs at $\fbox{`r xc[3]`}$.
+* We determine which rightward area has a total of `r (1-pc[4])*100`%. This occurs at $\fbox{`r xc[4]`}$.
+* We add the areas from `r x2s[1]` to `r x2s[2]`.
+$$\fbox{`r p2*100`\%}$$
+
+
+
+Meta-information
+============
+extype: num
+exsolution: 10
+exname: calc s

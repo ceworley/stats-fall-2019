@@ -1,0 +1,86 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+
+shapes = c("tight","uniform","bimodal")
+
+b = c(4,1,0.4)
+r = sort(sample(c(10,20,30,40),3,replace=T))
+m = sample(c(20,30,40,50,60),3)
+den = c(6,4,2)
+
+x1 = rbeta(1000,b[1],b[1])*r[1]+m[1]-r[1]/2
+x2 = rbeta(1000,b[2],b[2])*r[2]+m[2]-r[2]/2
+x3 = rbeta(1000,b[3],b[3])*r[3]+m[3]-r[3]/2
+
+xs = c(x1,x2,x3)
+
+ord = sample(0:2)
+let = c("F","G","H")
+
+xx1 = xs[(ord[1]*1000+1):(ord[1]*1000+1000)]
+xx2 = xs[(ord[2]*1000+1):(ord[2]*1000+1000)]
+xx3 = xs[(ord[3]*1000+1):(ord[3]*1000+1000)]
+```
+
+Question
+========
+We can estimate the mean of **symmetric** distributions.
+$$\bar{x} \approx \frac{\max(x)+\min(x)}{2} $$
+
+We can **roughly** estimate the standard deviation of certain distributions.
+
+| Shape | SD estimate |
+|:-----:|:-----------:|
+| bell  | $\text{range}/6$ |
+| uniform | $\text{range}/4$ |
+| bimodal | $\text{range}/2$ |
+
+
+Three random variables (F, G, and H) were measured 1000 times each. The resulting histograms show the three distributions.
+
+\
+```{r, showitnow, echo=FALSE, fig.height = 5, fig.width=7, fig.path=paste("hists",sample(1:9999,1),sep="")}
+par(mar=c(3,0,2,0))
+layout(matrix(c(1,2,3), 3, 1, byrow = TRUE))
+hist(xx1,breaks=(0:80),ann=F,yaxt="n",xaxt="n")
+mtext("Random Variable F",side=3)
+axis(1,at=0:16*5)
+hist(xx2,breaks=(0:80),ann=F,yaxt="n",xaxt="n")
+mtext("Random Variable G",side=3)
+axis(1,at=0:16*5)
+hist(xx3,breaks=(0:80),ann=F,yaxt="n",xaxt="n")
+mtext("Random Variable H",side=3)
+axis(1,at=0:16*5)
+```
+\
+
+Answerlist
+--------
+* Estimate the mean of F.
+* Estimate the mean of G.
+* Estimate the mean of H.
+* Estimate the standard deviation of F.
+* Estimate the standard deviation of G.
+* Estimate the standard deviation of H.
+
+
+Solution
+========
+
+Answerlist
+--------
+* `r m[ord[1]+1]`
+* `r m[ord[2]+1]`
+* `r m[ord[3]+1]`
+* `r r[ord[1]+1]/den[ord[1]+1]`
+* `r r[ord[2]+1]/den[ord[2]+1]`
+* `r r[ord[3]+1]/den[ord[3]+1]`
+
+
+
+Meta-information
+============
+extype: string
+exsolution: yup
+exname: estimate mean and sd
+extol: 0.01

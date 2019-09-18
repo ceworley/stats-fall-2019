@@ -1,0 +1,54 @@
+```{r data generation, echo = FALSE, results = "hide"}
+types = c("skew left","skew right","bell","uniform","bimodal")
+b1 = c(2, 0.5, 2, 1, 0.5)
+b2 = c(0.5, 2, 2, 1, 0.5)
+ord = sample(1:5)
+
+names = c("F","G","H","I","J")
+names = c("A","B","C","D","E")
+
+ans1 = c("lower than","higher than","equal to","equal to","equal to")
+cau = c("","","not","not","not")
+```
+
+Question
+========
+
+For **each** of the histograms:
+
+* Determine if the mean is higher than, lower than, or equal to the median.
+* Would you caution against using the mean?
+
+```{r hists, echo=F}
+par(mfrow=c(2,3))
+for(i in 1:5){
+  hist(rbeta(10000,b1[ord[i]],b2[ord[i]]),axes=F,xlab="measurement",ylab="density",main=names[i])
+}
+```
+
+Answerlist
+--------
+* Answer both questions about distribution A.
+* Answer both questions about distribution B.
+* Answer both questions about distribution C.
+* Answer both questions about distribution D.
+* Answer both questions about distribution E.
+
+
+Solution
+========
+
+Answerlist
+--------
+* The mean is `r ans1[ord[1]]` the median. Also, I would `r cau[ord[1]]` caution against using the mean.
+* The mean is `r ans1[ord[2]]` the median. Also, I would `r cau[ord[2]]` caution against using the mean.
+* The mean is `r ans1[ord[3]]` the median. Also, I would `r cau[ord[3]]` caution against using the mean.
+* The mean is `r ans1[ord[4]]` the median. Also, I would `r cau[ord[4]]` caution against using the mean.
+* The mean is `r ans1[ord[5]]` the median. Also, I would `r cau[ord[5]]` caution against using the mean.
+
+
+Meta-information
+============
+extype: num
+exsolution: 10
+exname: calc s

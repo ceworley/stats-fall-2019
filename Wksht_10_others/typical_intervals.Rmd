@@ -1,0 +1,53 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r data generation, echo = FALSE, results = "hide"}
+mu = signif(10**runif(2,1,3),3)
+sig = signif(mu/3*runif(2,0.3,1),2)
+```
+
+Question
+========
+
+Two random variables ($A$ and $B$) are both approximately normal (bell-shaped). Their means and standard deviations are shown in the table.
+
+| variable | mean | standard deviation |
+|:---:|:---:|:---:|
+| $A$ | `r mu[1]` | `r sig[1]` |
+| $B$ | `r mu[2]` | `r sig[2]` |
+
+Let the *interval of typical measurements* be defined as within 1 SD from the mean.
+$$\text{interval of typical measurements} = (\text{mean}-\text{SD},\,\text{mean}+\text{SD}) $$
+For each variable, provide an interval of typical measurements. Notice that an interval requires two numbers: the bottom and the top.
+
+
+Answerlist
+--------
+* Determine the interval of typical measurements for $A$.
+* Determine the interval of typical measurements for $B$.
+
+
+Solution
+========
+
+Answerlist
+--------
+* $$\begin{aligned}
+\text{interval of typical measurements for }A &= (\text{mean}-\text{SD},\, \text{mean}+\text{SD}) \\
+&= (`r mu[1]`-`r sig[1]`,\, `r mu[1]`+`r sig[1]`) \\
+&= \fbox{(`r mu[1] - sig[1]`, `r mu[1] + sig[1]`)}
+\end{aligned}$$
+
+* $$\begin{aligned}
+\text{interval of typical measurements for }B &= (\text{mean}-\text{SD},\, \text{mean}+\text{SD}) \\
+&= (`r mu[2]`-`r sig[2]`,\, `r mu[2]`+`r sig[2]`) \\
+&= \fbox{(`r mu[2] - sig[2]`, `r mu[2] + sig[2]`)}
+\end{aligned}$$
+
+Meta-information
+============
+extype: num
+exsolution: 10
+exname: calc s
