@@ -1,0 +1,24 @@
+Question
+========
+A question.
+```{r drawit2}
+x = (-330):330/100
+y = dnorm(x)
+plot(x,y)
+```
+
+Solution
+========
+Let's redraw...
+```{r drawagain2}
+x2 = (-330):330/100+100
+y2 = dnorm(x2,mean=100,sd=1)
+plot(x2,y2)
+```
+
+
+Meta-information
+============
+extype: num
+exsolution: 10
+exname: calc

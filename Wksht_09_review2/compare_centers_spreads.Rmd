@@ -1,0 +1,75 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+
+shapes = c("tight","uniform","bimodal")
+
+while(T){
+  b = sort(sample(c(6,1,0.6),3,replace=T),decreasing=T)
+  r = sort(sample(c(20,30,40),3,replace=T))
+  m = sample(c(20,30,40,50,60),3)
+  if(sd(b)!=0 & sd(r)!=0 & (b[1]!=b[2]|r[1]!=r[2]) & (b[2]!=b[3]|r[2]!=r[3])){
+    break
+  }
+}
+
+x1 = rbeta(1000,b[1],b[1])*r[1]+m[1]-r[1]/2
+x2 = rbeta(1000,b[2],b[2])*r[2]+m[2]-r[2]/2
+x3 = rbeta(1000,b[3],b[3])*r[3]+m[3]-r[3]/2
+
+xs = c(x1,x2,x3)
+
+ord = sample(0:2)
+let = c("F","G","H")
+
+xx1 = xs[(ord[1]*1000+1):(ord[1]*1000+1000)]
+xx2 = xs[(ord[2]*1000+1):(ord[2]*1000+1000)]
+xx3 = xs[(ord[3]*1000+1):(ord[3]*1000+1000)]
+
+
+```
+
+Question
+========
+Three random variables (F, G, and H) were measured 1000 times each. The resulting histograms show the three distributions.
+
+\
+```{r showit, echo=FALSE}
+par(mar=c(3,0,2,0))
+layout(matrix(c(1,2,3), 3, 1, byrow = TRUE))
+hist(xx1,breaks=(0:80),ann=F,yaxt="n",xaxt="n")
+mtext("Random Variable F",side=3)
+axis(1,at=0:16*5)
+hist(xx2,breaks=(0:80),ann=F,yaxt="n",xaxt="n")
+mtext("Random Variable G",side=3)
+axis(1,at=0:16*5)
+hist(xx3,breaks=(0:80),ann=F,yaxt="n",xaxt="n")
+mtext("Random Variable H",side=3)
+axis(1,at=0:16*5)
+```
+\
+
+Answerlist
+--------
+* Which distribution has the highest mean? (F, G, or H)
+* Which distribution has the lowest mean? (F, G, or H)
+* Which distribution has the largest standard deviation? (F, G, or H)
+* Which distribution has the smallest standard deviation? (F, G, or H)
+
+
+Solution
+========
+
+Answerlist
+--------
+* `r let[match(match(max(m), m)-1, ord)]`
+* `r let[match(match(min(m), m)-1, ord)]`
+* `r let[match(2,ord)]`
+* `r let[match(0,ord)]`
+
+
+Meta-information
+============
+extype: string
+exsolution: yup
+exname: reading hist
+extol: 0.01

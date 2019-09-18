@@ -1,4 +1,5 @@
-```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
 mu = signif(10**runif(1,-1,3),2)
 sd = signif(mu/3*runif(1,0.1,1),1)
 
@@ -17,8 +18,7 @@ Question
 The figure below summarizes the *standard deviation rule* for normal distributions. In the figure, $\bar{x}$ is the mean and $s$ is the standard deviation. The percentages show the fraction of measurements that fall within various intervals.
 
 \
-```{r makenorm, echo=FALSE, fig.height=4, fig.width=6}
-library(latex2exp)
+```{r draw, echo=FALSE, fig.height=4, fig.width=6, fig.path=paste("draw",sample(1000:9999,1),sep="")}
 xs = (-330):330/100
 ys = dnorm(xs)
 plot(xs,ys,type="l",ann=F,axes = F,lwd=3,ylim=c(0,0.6),xlim=c(-3.4,3.4))
@@ -60,7 +60,7 @@ Solution
 It is probably best to start by redrawing (relabeling) the normal distribution with the specific values.
 
 \
-```{r BmakenormB, echo=FALSE, fig.height=4, fig.width=6}
+```{r make, echo=FALSE, fig.height=4, fig.width=6, fig.show=TRUE, fig.path=paste("make",sample(1000:9999,1),sep="")}
 xlabs = mu+(-3:3)*sd
 xs = (-330):330/100
 ys = dnorm(xs)
