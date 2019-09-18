@@ -17,7 +17,7 @@ We can **roughly** estimate the standard deviation of certain distributions.
 Three random variables (F, G, and H) were measured 1000 times each. The resulting histograms show the three distributions.
 
 \
-![plot of chunk showitnow](hists1586showitnow-1.pdf)
+![plot of chunk showitnow](hists5223showitnow-1.pdf)
 \
 
 Answerlist
@@ -35,12 +35,12 @@ Solution
 
 Answerlist
 --------
-* 20
 * 40
 * 60
+* 30
+* 5
+* 10
 * 1.6666667
-* 15
-* 7.5
 
 
 

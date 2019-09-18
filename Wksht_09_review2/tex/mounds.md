@@ -21,10 +21,10 @@ Solution
 
 Answerlist
 --------
-* H
-* G
 * G
 * F
+* H
+* G
 
 
 Meta-information

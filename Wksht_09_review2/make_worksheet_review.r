@@ -1,12 +1,12 @@
 library("exams")
 
-qs = c("aad.Rmd","boxplots_compare.Rmd","compare_centers_spreads.Rmd","discrete_dotplot_unsorted.Rmd","estimate_mean_SD.Rmd","freq_reading2.Rmd","hist_reading2.Rmd","percentile_sorted_data.Rmd","stdev.Rmd")
+qs = c("aad.Rmd","boxplots_compare.Rmd","compare_centers_spreads.Rmd","discrete_dotplot_unsorted.Rmd","estimate_mean_SD.Rmd","freq_reading2.Rmd","hist_reading2.Rmd","mounds.Rmd","percentile_sorted_data.Rmd","stdev.Rmd")
 
-set.seed(123567)
+set.seed(1235678)
 probs = c(sample(qs))
-exams2pdf(probs, tdir = "tex", 
+exams2pdf(probs,
   n = 1,
-  name = "review_no_sol",
+  name = "review_no_sol_2B",
   dir = "wksht",
   template = "templates/homework.tex", 
   header = list(
@@ -15,18 +15,17 @@ exams2pdf(probs, tdir = "tex",
   )
   )
 
-set.seed(1243)
+set.seed(12438)
 probs = c(sample(qs))
 exams2pdf(probs, 
           n = 1,
-          tdir = "tex",
-          name = "review",
+          name = "review2B",
           dir = "wksht",
           template = "templates/worksheet_sols_end.tex",     
           header = list(
             Date = "2019-SEP-19",
             ID = "001",
-            Titl = "Review"
+            Titl = "Review2B"
           )
 )
 

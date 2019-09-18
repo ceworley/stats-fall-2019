@@ -75,6 +75,8 @@ Answerlist
 * `r grps[x==min(x[0:5*25+13])]`
 * `r grps[x==max(x[0:5*25+7])]`
 * `r grps[x==min(x[0:5*25+7])]`
+* `r grps[x==max(x[0:5*25+19])]`
+* `r grps[x==min(x[0:5*25+19])]`
 * `r rvs[iqrs == max(iqrs)]`
 * `r rvs[iqrs == min(iqrs)]`
 

@@ -1,0 +1,73 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+
+b = c(40,12,5)
+r = rep(sample(c(40,50,60),1),3)
+m = sample(c(30,40,50),3)
+
+x1 = c(runif(5000,m[1]-r[1]/2,m[1]+r[1]/2),rbeta(5000,b[1],b[1])*r[1]+m[1]-r[1]/2) 
+x2 = c(runif(5000,m[2]-r[2]/2,m[2]+r[2]/2),rbeta(5000,b[2],b[2])*r[2]+m[2]-r[2]/2)
+x3 = c(runif(5000,m[3]-r[3]/2,m[3]+r[3]/2),rbeta(5000,b[3],b[3])*r[3]+m[3]-r[3]/2)
+
+xs = c(x1,x2,x3)
+
+ord = sample(0:2)
+let = c("F","G","H")
+
+xx1 = xs[(ord[1]*10000+1):(ord[1]*10000+10000)]
+xx2 = xs[(ord[2]*10000+1):(ord[2]*10000+10000)]
+xx3 = xs[(ord[3]*10000+1):(ord[3]*10000+10000)]
+
+```
+
+Question
+========
+Three random variables (F, G, and H) were measured 1000 times each. The resulting histograms show the three distributions.
+
+\
+```{r showit, echo=FALSE}
+A = hist(xx1,breaks=(0:80),plot=F)
+B = hist(xx2,breaks=(0:80),plot=F)
+C = hist(xx3,breaks=(0:80),plot=F)
+mmm = max(c(A$counts,B$counts,C$counts))
+
+
+par(mar=c(3,0,2,0))
+layout(matrix(c(1,2,3), 3, 1, byrow = TRUE))
+hist(xx1,breaks=(0:80),ann=F,yaxt="n",xaxt="n",ylim=c(0,mmm))
+mtext("Random Variable F",side=3)
+axis(1,at=0:16*5)
+hist(xx2,breaks=(0:80),ann=F,yaxt="n",xaxt="n",ylim=c(0,mmm))
+mtext("Random Variable G",side=3)
+axis(1,at=0:16*5)
+hist(xx3,breaks=(0:80),ann=F,yaxt="n",xaxt="n",ylim=c(0,mmm))
+mtext("Random Variable H",side=3)
+axis(1,at=0:16*5)
+```
+\
+
+Answerlist
+--------
+* Which distribution has the highest mean? (F, G, or H)
+* Which distribution has the lowest mean? (F, G, or H)
+* Which distribution has the largest standard deviation? (F, G, or H)
+* Which distribution has the smallest standard deviation? (F, G, or H)
+
+
+Solution
+========
+
+Answerlist
+--------
+* `r let[match(match(max(m), m)-1, ord)]`
+* `r let[match(match(min(m), m)-1, ord)]`
+* `r let[match(2,ord)]`
+* `r let[match(0,ord)]`
+
+
+Meta-information
+============
+extype: string
+exsolution: yup
+exname: reading hist
+extol: 0.01

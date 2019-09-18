@@ -5,7 +5,7 @@ Question
 Six random variables were each measured 25 times. The resulting boxplots are shown.
 
 \
-![plot of chunk boxiesA](boxies7449boxiesA-1.pdf)
+![plot of chunk boxiesA](boxies3183boxiesA-1.pdf)
 \
 
 Answerlist
@@ -26,14 +26,14 @@ Solution
 
 Answerlist
 -------
+* P
+* S
+* U
+* T
 * U
 * S
-* R
 * Q
-* R
-* S
-* S
-* P
+* U
 
 
 Meta-information

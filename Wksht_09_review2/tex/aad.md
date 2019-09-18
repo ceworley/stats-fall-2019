@@ -9,7 +9,7 @@ From a very large population, a small sample of measurements was taken.
 
 |   |   |   |   |   |   |
 |--:|--:|--:|--:|--:|--:|
-| 60| 57| 65| 62| 61| 55|
+| 54| 57| 34| 72| 47| 60|
 
 
 
@@ -28,21 +28,21 @@ We fill out the table column by column.
 
 | $x$ | $x-\bar{x}$ | $\lvert x-\bar{x} \rvert$ |
 |:---:|:---:|:---:|
-|60|0|0|
-|57|-3|3|
-|65|5|5|
-|62|2|2|
-|61|1|1|
-|55|-5|5|
+|54|0|0|
+|57|3|3|
+|34|-20|20|
+|72|18|18|
+|47|-7|7|
+|60|6|6|
 |========|========|========|
-|$\sum x = 360$| | $\sum \lvert x-\bar{x} \rvert = 16$|
-|$\bar{x} = 60$| | |
+|$\sum x = 324$| | $\sum \lvert x-\bar{x} \rvert = 54$|
+|$\bar{x} = 54$| | |
 
 We are ready for the formula.
 $$\begin{aligned}
 s &= \frac{\sum |x-\bar{x}|}{n} \\\\
-&= \frac{16}{6} \\\\
-&= \fbox{2.6666667}
+&= \frac{54}{6} \\\\
+&= \fbox{9}
 \end{aligned}$$
 
 
@@ -50,5 +50,5 @@ s &= \frac{\sum |x-\bar{x}|}{n} \\\\
 Meta-information
 ============
 extype: num
-exsolution: 2.6666667
+exsolution: 9
 exname: calc aad
