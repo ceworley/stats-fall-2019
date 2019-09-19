@@ -1,0 +1,121 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r data generation, echo = FALSE, results = "hide", fig.show="hide"}
+## DATA GENERATION
+shape1 = 2**runif(1,-1,1)
+shape2 = 2**runif(1,-1,1)
+dims = sample(4:6,2)
+rows = min(dims)
+cols = max(dims)
+n = runif(1,12,40)
+offset = runif(1,3,12)
+scale = 10**runif(1,1,2)
+dd = sort(signif(rbeta(n,shape1,shape2)*scale + offset*scale,5))
+
+x = dd
+
+myh = hist(dd,plot=F)
+
+s = ''
+cnt = 0
+for(i in 1:floor(length(x)/10)){
+  s = paste(s,"|",sep="")
+  for(j in 1:10){
+    s = paste(s,x[(i-1)*10+j],"|",sep="")
+    cnt = cnt+1
+  }
+  s = paste(s,"\n")
+}
+if(cnt < length(x)){
+  s = paste(s,"|",sep="")
+  for(j in (cnt+1):n){
+    s = paste(s,x[j],"|",sep="")
+  }
+  s = paste(s,"\n")
+}
+
+s2 = ''
+s3 = ''
+for(i in 1:length(myh$counts)){
+  s2 = paste(s2,"|",myh$breaks[i]," - ",myh$breaks[i+1],"|   |   |\n",sep="")
+  s3 = paste(s3,"|",myh$breaks[i]," - ",myh$breaks[i+1],"|",myh$counts[i],"|",signif(myh$counts[i]/n,3),"|\n",sep="")
+}
+
+```
+
+Question
+========
+
+Please make a *relative-frequency table* and a *relative-frequency histogram* from the following (sorted) continuous data by using the supplied classes.
+
+|   |   |   |   |   |   |   |   |   |   |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+`r s`
+
+\large
+
+|class|frequency|relative frequency|
+|:---:|:---:|:---:|
+`r s2`
+
+\normalsize
+
+\
+```{r makegrid,fig.height=7, fig.width=7, echo=F,fig.path=paste("mg",sample(1:9999,1),sep="")}
+par(mar=c(0,0,0,0))
+plot(c(0,100),c(0,100),type="n",ann=F,axes = F)
+abline(v=(seq(0,100,10)), col=rgb(0.2,0.2,0.2), lty="dotted")
+abline(h=(seq(0,100,10)), col=rgb(0.2,0.2,0.2), lty="dotted")
+```
+
+
+Solution
+========
+
+Make the relative-frequency table.
+
+
+|class|frequency|relative frequency|
+|:---:|:---:|:---:|
+`r s3`
+
+
+Make the relative-frequency histogram.
+
+<!-- \ -->
+<!-- ```{r barchart, echo = FALSE, results = "hide", fig.height = 5, fig.width = 5, fig.path = "", fig.cap = ""} -->
+<!-- barplot(myh$counts/n,col="white",space=0)->bp   # n=length(yourvariable) -->
+<!-- axis(1,at=c(bp),labels=myh$mids) -->
+<!-- title(ylab="Relative Frequency",xlab="Measurement value") -->
+<!-- ``` -->
+<!-- \ -->
+
+\
+```{r makesolgrid,fig.height=7, fig.width=7, echo=F,fig.path=paste("msg",sample(1:9999,1),sep="")}
+par(mar=c(5,5,0,0))
+plot(c(0,100),c(0,100),type="n",axes = F,ann=F)
+abline(v=(seq(0,100,10)), col=rgb(0.2,0.2,0.2), lty="dotted")
+abline(h=(seq(0,100,10)), col=rgb(0.2,0.2,0.2), lty="dotted")
+
+mmm = ceiling(max(myh$counts/n)*10)/10
+text(seq(10,length(myh$breaks)*10,10),rep(-1.9,length(myh$breaks)),myh$breaks)
+text(rep(1,10),seq(0,100,10),signif(seq(0,mmm,length.out = 11),3))
+lines(c(10,100),c(0,0))
+for(i in 1:length(myh$counts)){
+  lines(c(10*i,10*i),c(0,myh$counts[i]/n*100/mmm))
+  lines(c(10*i+10,10*i+10),c(0,myh$counts[i]/n*100/mmm))
+  lines(c(10*i,10*i+10),c(myh$counts[i]/n*100/mmm,myh$counts[i]/n*100/mmm))
+}
+mtext("Measurement Value",1)
+mtext("Relative Frequency",2)
+```
+
+
+Meta-information
+============
+extype: string
+exsolution: make the histogram
+exname: histogram
