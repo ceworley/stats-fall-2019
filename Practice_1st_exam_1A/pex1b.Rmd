@@ -1,0 +1,492 @@
+---
+title: "Practice Exam 1B"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Question 1
+
+Classify each of the following variables as **quantitative** or **categorical**.
+
+a. the musical chords in a song  (quantitative/categorical) 
+\vfill
+b. calories in a banana (quatitative/categorical)
+\vfill
+c. the wattage of a lightbulb (quatitative/categorical)
+\vfill
+d. the elevation of a mountain (quantitative/categorical)
+\vfill
+e. whether someone makes a freethrow (quantitative/categorical)
+\vfill
+f. the number of freethrows made in a game (quantitative/categorical)
+\vfill
+
+## Question 2
+
+A survey of 500 randomly selected registered nurses in New England asked whether they prefer using butterfly needles to draw blood.
+
+a. Identify the **individuals** in the study.
+\vfill
+b. Identify the **variable** being collected.
+\vfill
+c. Is the variable **quantitative** or **categorical**?
+\vfill
+d. What is the **sample size**?
+\vfill
+e. What is the implied **population** of this study?
+\vfill
+
+\newpage
+
+## Question 3
+
+Two samples were taken from two different populations (W and X). Each individual's mass was measured to the nearest gram. 
+
+```{r masses}
+set.seed(22455)
+ns = c(47,56)
+A = c(round(rbeta(11,1,1)*9+9.5),rep(10:18,4))
+B = round(rbeta(ns[2],5,5)*10+2)
+masses = c(A,B)
+groups = c(rep("B",ns[1]),rep("A",ns[2]))
+stripchart(masses ~ groups,method="stack",xlim=c(0,20),pch=1,xlab="mass (g)",group.names=c("X","W"))
+```
+
+The sample sizes are `r ns[1]` and `r ns[2]` for W and X respectively. Please compare the shape, center, and spread by completing the table below. Also, provide a statement that summarizes the table.
+
+\Large
+
+\begin{center}
+\begin{tabular}{|c|c|c|}\hline
+Characteristic & Distribution W & Distribution  X \\ \hline \hline
+shape & $\phantom{\cfrac{W}{W}}$ & \\ \hline
+center (median) & $\phantom{\cfrac{W}{W}}$ & \\ \hline
+overall spread (as interval) & $\phantom{\cfrac{W}{W}}$ & \\ \hline
+typical spread (as interval) & $\phantom{\cfrac{W}{W}}$ & \\ \hline
+\end{tabular}
+\end{center}
+
+\vfill
+
+**Statement**:
+\vfill
+\vfill
+
+\normalsize
+
+\newpage
+
+```{r data_generation_4, echo = FALSE, results = "hide", fig.show="hide"}
+set.seed(1177)
+## DATA GENERATION
+types = c("bimodal","symmetric mound","skew left","skew right","uniform")
+shapes1 = c(0.3, 20,   3,   1, 1)
+shapes2 = c(0.3, 20,   1,   3, 1)
+
+rrr = sample(1:5,1)
+type = types[rrr]
+shape1 = shapes1[rrr]
+shape2 = shapes2[rrr]
+
+n = sample(c(20,40,50,60,80,100),1)*5
+offset = runif(1,0,60)
+rng = sample(c(3,5,10,20,40,100),1)
+data = rbeta(n,shape1,shape2)*rng + offset
+
+## The frequency table
+value = min(data):max(data)
+frequency = tabulate(data)[value]
+df_freq = data.frame(value, frequency)
+myhist = hist(data,breaks=10)
+
+nb = length(myhist$breaks)
+nc = nb-1
+
+lt1 = sample(c(T,F),1)
+lt2 = sample(c(T,F),1)
+s1 = sample(3:(nb-3),1)
+b1 = myhist$breaks[s1]
+if(lt1){
+  t1 = "less"
+  p1 = sum(myhist$counts[1:(s1-1)])/n
+  s2 = sample(2:(s1-1),1)
+  b2 = myhist$breaks[s2]
+  if(lt2){
+    t2 = "less"
+    p2 = sum(myhist$counts[1:(s2-1)])/n
+    p3 = sum(myhist$counts[1:(s2-1)])/sum(myhist$counts[1:(s1-1)])
+  } else {
+    t2 = "greater"
+    p2 = sum(myhist$counts[s2:nc])/n
+    p3 = sum(myhist$counts[s2:(s1-1)])/sum(myhist$counts[1:(s1-1)])
+  }
+} else {
+  t1 = "greater"
+  p1 = sum(myhist$counts[s1:nc])/n
+  s2 = sample((s1+1):(nb-1),1)
+  b2 = myhist$breaks[s2]
+  if(lt2){
+    t2 = "less"
+    p2 = sum(myhist$counts[1:(s2-1)])/n
+    p3 = sum(myhist$counts[s1:(s2-1)])/(n*p1)
+  } else {
+    t2 = "greater"
+    p2 = sum(myhist$counts[s2:nc])/n
+    p3 = sum(myhist$counts[s2:nc])/(n*p1)
+  }
+}
+
+while(T){
+  s4 = sample(2:(nb-2),1)
+  if(s4 != s1 && s4 != s2){
+    break
+  }
+}
+
+b4 = myhist$breaks[s4]
+p4 = sum(myhist$counts[1:(s4-1)])/n
+
+ss = sort(sample(3:(nb-3),2))
+bs = myhist$breaks[ss]
+cen = mean(bs)
+dis = (bs[2]-bs[1])/2
+pp = sum(myhist$counts[ss[1]:(ss[2]-1)])/n
+
+```
+
+## Question 4
+
+A continuous random variable was measured `r n` times. The resulting histogram is shown below.
+
+\
+```{r showhist, echo = FALSE, results = "hide", fig.show="show"}
+hist(data,breaks=10,labels=TRUE,xlab="measurement value",xlim=c(min(myhist$breaks),max(myhist$breaks)),main=NULL,ylim=c(0,max(myhist$counts)*1.1),xaxt="n")
+axis(1, at=myhist$breaks, labels=myhist$breaks)
+```
+\
+
+
+a. Describe the overall shape of the distribution.
+\vfill
+b. Estimate the range of the distribution.
+\vfill
+c. What percent of the measurements are `r t1` than `r b1`?
+\vfill
+d. What percent of the measurements are `r t2` than `r b2`?
+\vfill
+e. What percent of the measurements are between `r min(b1,b2)` and `r max(b1,b2)`?
+\vfill
+f. What percent of the measurements are within `r dis` from `r cen`? In other words, what percent of measurements satisfy $|x-`r cen`| \le `r dis`$?
+\vfill
+g. What percent of measurements `r t1` than `r b1` are `r t2` than `r b2`?
+\vfill
+h. Estimate the value of the `r signif(p4*100,4)`th percentile. In other words, determine a value such that `r signif(p4*100,4)`% of the measurements are less than or equal to it.
+\vfill
+
+\newpage
+
+## Question 5
+
+```{r data_generation_normm, echo = FALSE, results = "hide"}
+library(latex2exp)
+set.seed(897)
+mu = signif(10**runif(1,-1,3),2)
+sd = signif(mu/3*runif(1,0.1,1),1)
+
+choices = sample(-2:2,4)
+xc = mu+sd*choices
+pc = round(200*pnorm(choices))/200
+
+c2 = sample(1:2,1)
+x2s = c(mu-sd*c2,mu+sd*c2)
+p2 = round(200*pnorm(c2))/200-round(200*pnorm(-c2))/200
+```
+
+The figure below summarizes the *standard deviation rule* for normal distributions. In the figure, $\bar{x}$ is the mean and $s$ is the standard deviation. The percentages show the fraction of measurements that fall within various intervals.
+
+\
+```{r draw, echo=FALSE, fig.height=4, fig.width=6, fig.path=paste("draw",sample(1000:9999,1),sep=""), fig.align="center"}
+xs = (-330):330/100
+ys = dnorm(xs)
+plot(xs,ys,type="l",ann=F,axes = F,lwd=3,ylim=c(0,0.6),xlim=c(-3.4,3.4))
+axis(1,at=c(-3,-2,-1,0,1,2,3),labels=c(TeX("$\\bar{x}-3s$"),TeX("$\\bar{x}-2s$"),TeX("$\\bar{x}-s$"),TeX("$\\bar{x}$"),TeX("$\\bar{x}+s$"),TeX("$\\bar{x}+2s$"),TeX("$\\bar{x}+3s$")))
+lines(c(0,0),c(0,dnorm(0)))
+lines(c(1,1),c(0,dnorm(1)))
+lines(c(2,2),c(0,dnorm(2)))
+lines(c(-1,-1),c(0,dnorm(-1)))
+lines(c(-2,-2),c(0,dnorm(-2)))
+text(0.5,dnorm(0.5)/3,"34%")
+text(-0.5,dnorm(-0.5)/3,"34%")
+text(1.5,dnorm(1.5)/3,"13.5%")
+text(-1.5,dnorm(-1.5)/3,"13.5%")
+lines(c(-1,-1,1,1),c(0.42,0.45,0.45,0.42))
+text(0,0.48,"68%")
+lines(c(-2,-2,2,2),c(0.51,0.54,0.54,0.51))
+text(0,0.57,"95%")
+arrows(2,0.2,3.3,0.2)
+text(2.5,0.23,"2.5%")
+arrows(-2,0.2,-3.3,0.2)
+text(-2.5,0.23,"2.5%")
+```
+\
+
+\vfill
+
+A specific distribution is approximately normal with mean $\bar{x}=`r mu`$ and standard deviation  $s=`r sd`$.
+
+a. What percent of the measurements are greater than `r xc[1]`?
+
+\vfill
+
+b. What percent of the measurements are less than `r xc[2]`?
+
+\vfill
+
+c. What measurement is greater than `r pc[3]*100`% of the measurements?
+
+\vfill
+
+d. What measurement is less than `r (1-pc[4])*100`% of the measurements?
+
+\vfill
+
+e. What percent of the measurements are between `r x2s[1]` and `r x2s[2]`?
+
+\vfill
+
+\newpage
+
+```{r data_generation_6, echo = FALSE, results = "hide", fig.show="hide"}
+## DATA GENERATION
+set.seed(123667)
+while(T){
+  n = 7
+  mu = sample(40:200,1)
+  sigma = sample(5:12,1)
+  x = round(rnorm(n,mu,sigma))
+  s = sd(x)
+  if(as.integer(s*10)==s*10 & s!=0){
+    break    
+  }
+}
+xbar = mean(x)
+deviations = x-xbar
+squared_deviations = deviations^2
+sum_squared_deviations = sum(squared_deviations)
+variance = sum_squared_deviations/(n-1)
+ss = sqrt(variance)
+```
+
+## Question 6
+
+From a very large population, a small sample of measurements was taken.
+
+`r knitr::kable(matrix(x,ncol=n))`
+
+Please calculate the (Bessel corrected) sample standard deviation using the following formula:
+
+$$s = \sqrt{\frac{\sum(x-\bar{x})^2}{n-1}}$$
+You must fill out the table and show your work (but you can double check with a calculator).
+
+\LARGE
+
+\begin{tabular}{|c|c|c|} \hline
+$x$ & $x-\bar{x}$ & $(x-\bar{x})^2$ \\ \hline
+$\phantom{\frac{xxxxxxxxx}{xxxxxxxxx}}$ & $\phantom{\frac{xxxxxxxxx}{xxxxxxxxx}}$ & $\phantom{\frac{xxxxxxxxx}{xxxxxxxxx}}$ \\ \hline
+$\phantom{\frac{x}{x}}$& & \\ \hline
+$\phantom{\frac{x}{x}}$& & \\ \hline
+$\phantom{\frac{x}{x}}$& & \\ \hline
+$\phantom{\frac{x}{x}}$& & \\ \hline
+$\phantom{\frac{x}{x}}$& & \\ \hline
+$\phantom{\frac{x}{x}}$& & \\ \hline
+\end{tabular}
+
+\normalsize
+
+\newpage
+
+## Question 7
+
+Four different variables were each measured 400 times. The resulting histograms are shown below.
+
+```{r fourhists_7}
+set.seed(1253)
+D = rbeta(400,0.3,0.3)*10
+A = c(rbeta(300,8,8)*10,runif(100,0,10))
+B = c(rbeta(300,30,30)*10,runif(100,0,10))
+C = rbeta(400,1,1)*11-0.5
+par(mfrow=c(2,2))
+hist(A,xlim=c(-0.5,10.5),breaks=0:11-0.5,xlab=NULL)
+hist(B,xlim=c(-0.5,10.5),breaks=0:11-0.5,xlab=NULL)
+hist(C,xlim=c(-0.5,10.5),breaks=0:11-0.5,xlab=NULL)
+hist(D,xlim=c(-0.5,10.5),breaks=0:11-0.5,xlab=NULL)
+```
+
+a. Which variable's distribution has the largest standard deviation? Explain.
+
+\vfill
+
+b. Which variable's distribution has the smallest standard deviation? Explain.
+
+\vfill
+
+\newpage
+
+## Question 8
+
+```{r data_generation_8, echo = FALSE, results = "hide"}
+## DATA GENERATION
+set.seed(3589121)
+while(T){
+  b1 = 10**runif(6,-0.5,0.75)
+  b2 = 10**runif(6,-0.5,0.75)
+  mag = sample(-1:3,1)
+  scale = 10**mag
+  bottom = runif(6)*scale
+  r = bottom*runif(6,0.3,2)
+  
+  x = numeric()
+  for(i in 1:6){
+    x = c(x, sort(rbeta(25,b1[i],b2[i])*scale+bottom[i]))
+  }
+  
+  ms = c("weight","length","time","speed")
+  us = c("kg","m","s","m/s")
+  
+  rvs = c("P","Q","R","S","T","U")
+  grps = c(rep("P",25),rep("Q",25),rep("R",25),rep("S",25),rep("T",25),rep("U",25))
+  ans = c(grps[x==max(x)],grps[x==min(x)],grps[x==max(x[0:5*25+13])],grps[x==min(x[0:5*25+13])])
+  if(sum(duplicated(ans))==0){
+    break
+  }
+}
+P = x[1:25]
+Q = x[26:50]
+R = x[51:75]
+S = x[76:100]
+TT = x[101:125]
+U = x[126:150]
+
+Piqr = P[19]-P[7]
+Qiqr = Q[19]-Q[7]
+Riqr = R[19]-R[7]
+Siqr = S[19]-S[7]
+Tiqr = TT[19]-TT[7]
+Uiqr = U[19]-U[7]
+
+iqrs = c(Piqr,Qiqr,Riqr,Siqr,Tiqr,Uiqr)
+
+```
+
+Six random variables were each measured 25 times. The resulting boxplots are shown.
+
+\
+```{r boxiesA, echo=F, fig.width=8, fig.height=5, fig.path=paste("boxies",sample(1000:9999,1),sep="")}
+boxplot(x~grps, horizontal=T)
+```
+
+
+a. Which **two** variables had the largest measurements?
+\vfill
+b. Which variable had the smallest measurement?
+\vfill
+c. Which **two** variables had medians more than 120?
+\vfill
+d. Which **two** variables had 25th percentiles less than 0.5?
+\vfill
+e. Which variable had the highest percentage of its measurements below 90?
+\vfill
+f. Which variable had the smallest IQR?
+\vfill
+g. Which variable had the largest IQR?
+\vfill
+
+\newpage
+
+```{r data generation, echo = FALSE, results = "hide"}
+mu = c(6.5, 3.4)
+sig = c(5.1, 4.3)
+```
+
+## Question 9
+
+Two random variables ($A$ and $B$) are both approximately normal (bell-shaped). Their means and standard deviations are shown in the table.
+
+| variable | mean | standard deviation |
+|:---:|:---:|:---:|
+| $A$ | `r mu[1]` | `r sig[1]` |
+| $B$ | `r mu[2]` | `r sig[2]` |
+
+**For each variable, provide an interval of typical measurements.**
+
+
+\newpage
+
+## Question 10
+
+```{r data_generation_10, echo = FALSE, results = "hide", fig.show="hide"}
+## DATA GENERATION
+set.seed(61243)
+shape1 = 2**runif(1,-1,1)
+shape2 = 2**runif(1,-1,1)
+
+n = sample(12:40,1)
+offset = runif(1,3,12)
+scale = 10**runif(1,1,2)
+dd = sort(signif(rbeta(n,shape1,shape2)*scale + offset*scale,5))
+
+x = dd
+
+myh = hist(dd,plot=F)
+
+s = ''
+cnt = 0
+for(i in 1:floor(length(x)/10)){
+  s = paste(s,"|",sep="")
+  for(j in 1:10){
+    s = paste(s,x[(i-1)*10+j],"|",sep="")
+    cnt = cnt+1
+  }
+  s = paste(s,"\n")
+}
+if(cnt < length(x)){
+  s = paste(s,"|",sep="")
+  for(j in (cnt+1):n){
+    s = paste(s,x[j],"|",sep="")
+  }
+  s = paste(s,"\n")
+}
+
+s2 = ''
+s3 = ''
+for(i in 1:length(myh$counts)){
+  s2 = paste(s2,"|",myh$breaks[i]," - ",myh$breaks[i+1],"|   |   |\n",sep="")
+  s3 = paste(s3,"|",myh$breaks[i]," - ",myh$breaks[i+1],"|",myh$counts[i],"|",signif(myh$counts[i]/n,3),"|\n",sep="")
+}
+
+```
+
+Please make a *relative-frequency table* and a *relative-frequency histogram* from the following (sorted) continuous data by using the supplied classes.
+
+|   |   |   |   |   |   |   |   |   |   |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+`r s`
+
+\Large
+
+|class|frequency|relative frequency|
+|:---:|:---:|:---:|
+`r s2`
+
+\normalsize
+
+\
+```{r makegrid,fig.height=4, fig.width=4, echo=F,fig.path=paste("mg",sample(1:9999,1),sep="")}
+par(mar=c(0,0,0,0))
+plot(c(0,100),c(0,100),type="n",ann=F,axes = F)
+abline(v=(seq(0,100,10)), col=rgb(0.2,0.2,0.2), lty="dotted")
+abline(h=(seq(0,100,10)), col=rgb(0.2,0.2,0.2), lty="dotted")
+```
