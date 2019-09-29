@@ -1,0 +1,76 @@
+```{r data generation, echo = FALSE, results = "hide"}
+names = read.csv("names2.txt", header = FALSE, sep = ",")
+
+item = c("hat","coat","shirt","pair of pants","scarf","pair of shoes","necklace","bracelet")
+items = c("hats","coats","shirts","pairs of pants","scarves","pairs of shoes","necklaces","bracelets")
+
+
+while(T){
+  ns = sample(2:5,3,replace=T)
+  if(prod(ns) < 21){
+    break
+  }
+}
+
+na = sample(names,1)
+i = sample(1:length(item),3)
+it = item[i]
+its = items[i]
+
+```
+
+Question
+========
+
+`r na` is getting dressed, and still needs to pick a `r it[1]`, a `r it[2]`, and a `r it[3]`. `r na` has `r ns[1]` `r its[1]`, `r ns[2]` `r its[2]`, and `r ns[3]` `r its[3]`. How many different outfit combinations are possible? Please make a **tree diagram**.
+
+
+
+Solution
+========
+
+Make a tree.
+
+```{r tree, echo=F}
+par(mar=c(0,0,0,0))
+plot(1,1,type ="n",axes=F,ann=F,xlim=c(0,1),ylim=c(0,1.1))
+a = ns[1]
+b = prod(ns[1:2])
+c = prod(ns)
+
+as = (2*(1:a)-1)/(a*2)
+bs = (2*(1:b)-1)/(b*2)
+cs = (2*(1:c)-1)/(c*2)
+
+# cs = 1:prod(ns)/(prod(ns)+1)
+# bs = 1:prod(ns[1:2])/(prod(ns[1:2])+1)
+# as = 1:ns[1]/(prod(ns[1])+1)
+# points(0,0.5)
+# points(rep(0.33,length(as)),as)
+# points(rep(0.66,length(bs)),bs)
+# points(rep(1,length(cs)),cs)
+for(i in 1:ns[1]){
+  lines(c(0,0.33),c(0.5,as[i]))
+  for(j in 1:ns[2]){
+    lines(c(0.33,0.66),c(as[i],bs[(i-1)*ns[2]+j]))
+    for(k in 1:ns[3]){
+      lines(c(0.66,1),c(bs[(i-1)*ns[2]+j],cs[((i-1)*ns[2]+j-1)*ns[3]+k]))
+    }
+  }
+}
+text(0.1666,1.05,it[1])
+text(0.33+0.1666,1.05,it[2])
+text(0.666+0.1666,1.05,it[3])
+```
+
+Count the leaves (the nodes at the far right). In this case there are `r c` leaves.
+
+$$\fbox{There are `r c` combinations possible.} $$
+
+
+Meta-information
+============
+extype: string
+exsolution: yup
+exname: reading hist
+extol: 0.01
