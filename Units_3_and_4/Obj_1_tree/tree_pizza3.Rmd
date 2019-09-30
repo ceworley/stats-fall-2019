@@ -22,7 +22,7 @@ its = items[i]
 Question
 ========
 
-`r na` is buying a pizza. `r na` still has to decide on a `r it[1]`, a `r it[2]`, and a `r it[3]`. The shop carries `r ns[1]` `r its[1]`, `r ns[2]` `r its[2]`, and `r ns[3]` `r its[3]`. How many different combinations is `r na` choosing between?
+`r na` is buying a pizza. `r na` still has to decide on a `r it[1]`, a `r it[2]`, and a `r it[3]`. The shop carries `r ns[1]` `r its[1]`, `r ns[2]` `r its[2]`, and `r ns[3]` `r its[3]`. How many different combinations is `r na` choosing between? Please make a **tree diagram**.
 
 
 

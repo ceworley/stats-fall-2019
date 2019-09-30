@@ -1,0 +1,44 @@
+```{r data generation, echo = FALSE, results = "hide"}
+names = read.csv("names2.txt", header = FALSE, sep = ",")
+
+na = sample(names,1)
+nu = sample(7:25,1)
+n = sample(3:8,1)
+
+s1 = ''
+s1 = paste(s1, nu, sep="")
+for(i in 1:(n-1)){
+  s1 = paste(s1,'\\cdot',nu-i)
+}
+
+```
+
+Question
+========
+
+`r na` is generating a random sequence of numbers by grabbing numbered marbles from a jar. Each marble has a different number, and every natural number from 1 to `r nu` is represented.
+
+`r na` will generate a sequence of length `r n` by grabbing 1 marble at a time and not replacing the marble before grabbing another. How many possibilites exist?
+
+
+Solution
+========
+
+`r na` is generating permutations, because sequences have a specified order. The population size is $\nu = `r nu`$. The sample size is $n = `r n`$. 
+
+$$\begin{aligned}
+_{\nu} P _n &= \frac{\nu !}{(\nu-n)!} \\ \\
+{_{`r nu`} P_{`r n`}} & = \frac{`r nu`!}{(`r nu`-`r n`)!} \\ \\
+&= \frac{`r nu`!}{`r nu-n`!} \\ \\
+&= `r s1` \\  \\
+&= `r format(factorial(nu)/factorial(nu-n),scientific=F)`
+\end{aligned}
+$$
+
+
+Meta-information
+============
+extype: string
+exsolution: yup
+exname: reading hist
+extol: 0.01

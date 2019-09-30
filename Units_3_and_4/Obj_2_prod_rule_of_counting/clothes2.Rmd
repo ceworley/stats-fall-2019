@@ -1,0 +1,41 @@
+```{r data generation, echo = FALSE, results = "hide"}
+names = read.csv("names2.txt", header = FALSE, sep = ",")
+
+item = c("hat","coat","shirt","pair of pants","scarf","pair of shoes","necklace","bracelet")
+items = c("hats","coats","shirts","pairs of pants","scarves","pairs of shoes","necklaces","bracelets")
+
+
+while(T){
+  ns = sample(2:6,2,replace=T)
+  if(prod(ns) < 21){
+    break
+  }
+}
+
+na = sample(names,1)
+i = sample(1:length(item),2)
+it = item[i]
+its = items[i]
+```
+
+Question
+========
+
+`r na` is getting dressed, and still needs to pick a `r it[1]` and a `r it[2]`. `r na` has `r ns[1]` `r its[1]` and `r ns[2]` `r its[2]`. How many different outfit combinations are possible?
+
+
+
+Solution
+========
+
+Multiply `r ns[1]` and `r ns[2]`.
+
+$$\fbox{There are `r prod(ns)` combinations possible.} $$
+
+
+Meta-information
+============
+extype: string
+exsolution: yup
+exname: reading hist
+extol: 0.01
