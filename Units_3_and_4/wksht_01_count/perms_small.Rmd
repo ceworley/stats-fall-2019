@@ -1,0 +1,76 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r data generation, echo = FALSE, results = "hide"}
+while(T){
+  nu = sample(3:8,1)
+  n = sample(2:nu,1)
+  pp = factorial(nu)/factorial(nu-n)
+  if(pp < 30){
+    break
+  }
+}
+
+lets = letters[1:nu]
+
+s = '|'
+for(i in 1:nu){
+  s = paste(s,'    |',sep="")
+}
+s = paste(s,'\n|',sep="")
+for(i in 1:nu){
+  s = paste(s,':----:|',sep="")
+}
+s = paste(s,'\n|',sep="")
+for(i in 1:nu){
+  s = paste(s,lets[i],"|")
+}
+s = paste(s,'\n',sep="")
+
+getPerms <- function(x, md=length(x), depth=0) {
+    if (length(x) == 1) {
+        return(x)
+    }
+    else {
+        res <- matrix(nrow = 0, ncol = n)
+        for (i in seq_along(x)) {
+            if(depth < md){
+              res <- rbind(res, cbind(x[i], Recall(x[-i],md,depth+1)))
+            }
+        }
+        return(res)
+    }
+}
+
+```
+
+Question
+========
+
+How many different "words" can be written by using `r n` out of the `r nu` letters below? Let a "word" be a sequence of letters such that order matters.
+
+`r s`
+
+
+Solution
+========
+
+You could write them all.
+
+`r knitr::kable(getPerms(lets,n))`
+
+You could build a tree.
+
+```{r permtree, echo=F}
+par(mar=c(0,0,0,0))
+plot(1,1,type ="n",axes=F,ann=F,xlim=c(0,1),ylim=c(0,1.1))
+```
+
+Meta-information
+============
+extype: string
+exsolution: yup
+exname: reading hist
+extol: 0.01
