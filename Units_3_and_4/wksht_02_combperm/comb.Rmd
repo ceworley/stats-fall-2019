@@ -8,7 +8,7 @@ while(T){
   }
 }
 
-qn = sample(1:11,1)
+qn = sample(1:12,1)
 #qn = 8
 
 lto = function(l){
@@ -37,7 +37,7 @@ if(qn == 1){
 } else if (qn == 6) {
   q = paste("A company needs to select ",x," members to be on a committee. The company is considering a pool of ",n," applicants. How many committees are possible?",sep="")
 } else if (qn == 7) {
-  q=paste("A lottery machine will select a set of",x,"different numbered marbles. The selection process begins with",n,"different numbered marbles to choose from. How many different sets are possible?")
+  q=paste("A deck has",n,"different cards. From that deck,",x,"cards are dealt into a player's hand. How many different hands are possible?")
 } else if (qn == 8) {
   q=paste("A committee is judging the performances of ",n," different acrobats. The committee needs to assign ",x," equivalent prizes. How many ways could the committee assign the prizes?",sep="")
 } else if (qn == 9) {
@@ -46,6 +46,8 @@ if(qn == 1){
   q=paste("A pizza place has",n,"toppings available. Brenda will order a pizza with",x,"toppings. How many different pizzas is Brenda choosing between?")
 } else if (qn == 11) {
   q=paste("Joe is shopping for shirts. Joe likes",n,"of the shirts, but will only buy",x,"of them. How many different combinations of shirts are possible?")
+} else if (qn == 12) {
+  q=paste("Hannah is picking apples. She will pick",x,"apples from a tree that has",n,"apples. How many different baskets of apples are possible?")
 }
 
 sss = ''

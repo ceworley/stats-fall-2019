@@ -1,0 +1,97 @@
+```{r data generation, echo = FALSE, results = "hide"}
+while(T){
+    n = sample(3:7,1)
+    x = sort(sample(1:30,n))
+    l = sort(round(runif(n-1,0,1),2))
+    breaks = c(0,l,1)
+    p = round(breaks[2:(n+1)]-breaks[1:n],2)
+    mu = sum(p*x)
+    sig = sqrt(sum(p*(x-mu)^2))
+    # the following requirements add considerable time...
+    if(sum(p)==1 & sum(p>0.05)==n & as.integer(mu)==mu & as.integer(sig*100)==sig*100){
+        break
+    }
+}
+
+s = ''
+for(i in 1:n){
+    s = paste(s,'|',i,'|',x[i],'|',p[i],'|\n')
+}
+
+c3 = x*p
+c4 = x-mu
+c5 = (x-mu)^2
+c6 = p*(x-mu)^2
+
+s2 = ''
+for(i in 1:n){
+    s2 = paste(s2,'|',x[i],'|',p[i],'|',c3[i],'|',c4[i],'|',c5[i],'|',c6[i],'|')
+    if(i < n){
+        s2 = paste(s2,'\n')
+    }
+}
+
+```
+
+Question
+========
+
+The spinner below will be used to generate a sample.
+
+```{r spin, echo=F, fig.height=2, fig.width=2, fig.cap=''}
+par(mar=c(0,0,0,0))
+plot(1,1,xlim=c(-1,1),ylim=c(-1,1),ann=F,axes=F,type='n')
+thetas = 1:1000 / 1000 * 2 * pi
+xs = cos(thetas)
+ys = sin(thetas)
+polygon(xs,ys)
+for(b in breaks){
+    lines(c(0,cos(b*2*pi)),c(0,sin(b*2*pi)))
+}
+for(i in 1:n){
+    text(0.8*cos(mean(c(breaks[i+1],breaks[i]))*2*pi),
+         0.8*sin(mean(c(breaks[i+1],breaks[i]))*2*pi),x[i])
+}
+arrows(-0.6,0,0.6,0,lwd=4,length=0.1)
+```
+
+The spinner's probability distribution is shown below.
+
+| $i$  | $x_i$ | $p_i$ |
+|:---:|:---:|:---:|
+`r s`
+
+
+
+Answerlist
+--------
+
+* Determine the mean of the probability distribution by using $\mu = \sum p_ix_i$.
+* Determine the standard deviation of the probability distribution by using $\sigma = \sqrt{\sum p_i (x_i-\mu)^2}$.
+
+
+Solution
+========
+
+Make a table.
+
+| $x_i$ | $p_i$ | $p_i x_i$ | $x_i-\mu$ | $(x_i-\mu)^2$ | $p_i(x_i-\mu)^2$ | 
+|:---:|:---:|:---:|:---:|:---:|:---:|
+`r s2`
+|=========|=========|=========|=========|=========|=========|
+|     |     | $\sum p_i x_i = `r mu`$ |   |   | $\sum p_i(x_i-\mu)^2 = `r sum(c6)`$   |
+|     |     | $\mu = `r mu`$ |   |   | $\sigma = \sqrt{\sum p_i(x_i-\mu)^2} = `r sig`$   |
+
+Answerlist
+--------
+
+* $\mu = `r mu`$
+* $\sigma = `r sig`$
+
+
+Meta-information
+============
+extype: string
+exsolution: yo
+exname: marbles
+extol: 0.01
