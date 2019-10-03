@@ -2,10 +2,10 @@ library("exams")
 
 qs = "probdist.Rmd"
 
-set.seed(1234)
+set.seed(12345)
 exams2pdf(qs,
           name = "probdist",
-          nsamp = 10,
+          nsamp = 8,
           dir = "wksht",
           template = "templates/worksheet_sols_end.tex",     
           header = list(

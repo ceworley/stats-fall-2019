@@ -1,6 +1,6 @@
 ```{r data generation, echo = FALSE, results = "hide"}
 while(T){
-    n = sample(3:7,1)
+    n = sample(4:7,1)
     x = sort(sample(1:30,n))
     l = sort(round(runif(n-1,0,1),2))
     breaks = c(0,l,1)
@@ -29,6 +29,27 @@ for(i in 1:n){
     if(i < n){
         s2 = paste(s2,'\n')
     }
+}
+
+exact = sample(1:n,1)
+xex = x[exact]
+two = sort(sample(1:n,2))
+ptwo = sum(p[two])
+if(n==3){
+  atlm = 2
+} else {
+  atlm = sample(2:(n-1),size=1)
+}
+xatlm = x[atlm]
+atl = sample(c(T,F),1)
+if(atl){
+  word = "least"
+  patlm = sum(p[atlm:n])
+  sym = "\\ge"
+} else {
+  word = "most"
+  patlm = sum(p[1:atlm])
+  sym = "\\le"
 }
 
 ```
@@ -66,6 +87,10 @@ The spinner's probability distribution is shown below.
 Answerlist
 --------
 
+* What is the probability of spinning `r xex`? In other words, what is $P(X=`r xex`)$?
+* What is the probability of spinning `r x[two[1]]` or `r x[two[2]]`? In other words, what is $P(X=`r x[two[1]]` ~\text{ or }~ X=`r x[two[2]]`)$?
+* If spinning twice, what is the probability of first spinning `r x[two[1]]` and then spinning `r x[two[2]]`? In other words, what is $P(X_1=`r x[two[1]]` ~\text{ and }~ X_2=`r x[two[2]]`)$?
+* What is the probability of spinning at `r word` `r xatlm`? In other words, what is $P(X`r sym` `r xatlm`)$?
 * Determine the mean of the probability distribution by using $\mu = \sum p_ix_i$.
 * Determine the standard deviation of the probability distribution by using $\sigma = \sqrt{\sum p_i (x_i-\mu)^2}$.
 
@@ -73,7 +98,7 @@ Answerlist
 Solution
 ========
 
-Make a table.
+Make a table (for parts d and e).
 
 | $x_i$ | $p_i$ | $p_i x_i$ | $x_i-\mu$ | $(x_i-\mu)^2$ | $p_i(x_i-\mu)^2$ | 
 |:---:|:---:|:---:|:---:|:---:|:---:|
@@ -85,6 +110,10 @@ Make a table.
 Answerlist
 --------
 
+* `r p[exact]`
+* `r ptwo`
+* `r p[two[1]]*p[two[2]]`
+* `r patlm`
 * $\mu = `r mu`$
 * $\sigma = `r sig`$
 
