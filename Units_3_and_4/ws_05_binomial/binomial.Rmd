@@ -1,7 +1,6 @@
 ```{r data generation, echo = FALSE, results = "hide"}
-n = 4
-# sample(1:4,1)
-p = round(runif(1,0.02,0.98),2)
+n= sample(2:6,1)
+p = round(runif(1,0.05,0.95),2)
 
 mu = sum(n*p)
 sig = sqrt(n*p*(1-p))
@@ -14,7 +13,7 @@ x = sum(h)
 Question
 ========
 
-Determine the probabilities when adding $`r n`$ spins, each with chance $`r p`$. 
+Determine the probabilities when adding up $`r n`$ Bernoulli trials if each trial has chance $`r p`$. Each trial could be thought of as a spin of the spinner below.
 
 <!-- Also, measure the sums of $`r n`$ spins 10 times, and report the results as a histogram.  -->
 
@@ -35,27 +34,74 @@ text(0.8*cos(mean(c(p,1))*2*pi),0.8*sin(mean(c(p,1))*2*pi),1)
 arrows(-0.6,0,0.6,0,lwd=4,length=0.1)
 ```
 
+Then, use $\mu = \sum x\cdot \text{Pr}(x)$ to find the mean and $\sigma = \sqrt{\sum (x-\mu)^2 \cdot \text{Pr}(x)}$ to determine the standard deviation.
 
 Solution
 ========
 
-Make a merging tree.
+We can use the Binomial formula.
+$$\text{Pr}(x) = {_nC_x}(p)^x(1-p)^{n-x}$$
 
-```{r mergingtree,echo=T,fig.height=2, fig.width=2, fig.cap=''}
-par(mar=c(0,0,0,0))
-plot(1,1,xlim=c(-1,1),ylim=c(-1,1),ann=F,axes=F,type='n')
-xs = 0:n/n
-x = c(0)
-y = c(0.5)
-for(i in 1:n){
-  for(j in 1:i){
-    x = c(x,i/n)
-    y = c(y,mean(c(j-1,j))/i)
-  }
+We want `r n+1` probabilities, letting $x$ vary from 0 to `r n`. For each probability, $n=`r n`$ and $p=`r p`$. A table is useful. 
+
+```{r tabs, echo=F}
+ss = ''
+for(x in 0:n){
+  ss = paste(ss,"|",x,"|$({_",n,"C_",x,"})(",p,")^{",x,"}(1-",p,")^{",n,"-",x,"}$ |",signif(dbinom(x,n,p),3),"|\n",sep="")
 }
-points(x,y)
-lines(c(0,1),c(0.5,0.5))
 ```
+
+| $x$ | ${_nC_x}p^x(1-p)^{n-x}$ | $\text{Pr}(x)$ |
+|:---:|:---:|:---:|
+`r ss`
+
+```{r meansd, echo=F}
+x = 0:n
+P = signif(dbinom(x,n,p),3)
+mu = signif(sum(P*x),4)
+sig = signif(sqrt(sum(P*(x-mu)^2)),2)
+c3 = signif(x*P,3)
+c4 = signif(x-mu,3)
+c5 = signif((x-mu)^2,3)
+c6 = signif(P*(x-mu)^2,3)
+s2 = ''
+for(i in 1:(n+1)){
+    s2 = paste(s2,'|',x[i],'|',P[i],'|',c4[i],'|',c5[i],'|',c6[i],'|')
+    if(i < n){
+        s2 = paste(s2,'\n')
+    }
+}
+```
+
+\small 
+
+| $x$ | ${Pr}(x)$ | $x \cdot {Pr}(x)$ | $(x-\mu)^2$ | $(x-\mu)^2 \cdot {Pr}(x)$ | 
+|:---:|:---:|:---:|:---:|:---:|
+`r s2`
+|=========|=========|=========|=========|=========|=========|
+|     |     | $\sum x \cdot {Pr}(x) = `r mu`$ |   | $\sum (x_i-\mu)^2 \cdot {Pr}(x) = `r signif(sum(c6),3)`$   |
+|     |     | $\mu = `r mu`$ |   | $\sigma = \sqrt{\sum (x_i-\mu)^2 \cdot {Pr}(x)} = `r sig`$   |
+
+\normalsize
+
+<!-- Make a merging tree. -->
+
+<!-- ```{r mergingtree,echo=F,fig.height=2, fig.width=2, fig.cap=''} -->
+<!-- par(mar=c(0,0,0,0)) -->
+<!-- plot(1,1,xlim=c(-1,1),ylim=c(-1,1),ann=F,axes=F,type='n') -->
+<!-- xs = 0:n/n -->
+<!-- x = c(0) -->
+<!-- y = c(0.5) -->
+<!-- for(i in 1:n){ -->
+<!--   for(j in 1:i){ -->
+<!--     x = c(x,i/n) -->
+<!--     y = c(y,(2*j)/2/n) -->
+<!--   } -->
+<!-- } -->
+<!-- points(x,y) -->
+<!-- lines(c(0,1),c(0.5,0.5)) -->
+<!-- y -->
+<!-- ``` -->
 
 
 Meta-information
