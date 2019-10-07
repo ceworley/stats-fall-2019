@@ -1,0 +1,44 @@
+```{r data generation, echo = FALSE, results = "hide"}
+n = sample(1:4,1)
+p = runif(1,0.02,0.98)
+
+```
+
+Question
+========
+
+Determine the probabilities when adding $n$ spins with chance $p$.
+
+
+
+
+
+Solution
+========
+
+Make a table (for parts d and e).
+
+| $x_i$ | $p_i$ | $p_i x_i$ | $x_i-\mu$ | $(x_i-\mu)^2$ | $p_i(x_i-\mu)^2$ | 
+|:---:|:---:|:---:|:---:|:---:|:---:|
+`r s2`
+|=========|=========|=========|=========|=========|=========|
+|     |     | $\sum p_i x_i = `r mu`$ |   |   | $\sum p_i(x_i-\mu)^2 = `r sum(c6)`$   |
+|     |     | $\mu = `r mu`$ |   |   | $\sigma = \sqrt{\sum p_i(x_i-\mu)^2} = `r sig`$   |
+
+Answerlist
+--------
+
+* `r p[exact]`
+* `r ptwo`
+* `r p[two[1]]*p[two[2]]`
+* `r patlm`
+* $\mu = `r mu`$
+* $\sigma = `r sig`$
+
+
+Meta-information
+============
+extype: string
+exsolution: yo
+exname: marbles
+extol: 0.01
