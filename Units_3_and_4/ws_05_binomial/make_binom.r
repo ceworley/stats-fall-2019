@@ -2,9 +2,9 @@ library("exams")
 
 qs = "binomial.Rmd"
 
-set.seed(12345)
+set.seed(1234)
 exams2pdf(qs,
-          name = "binomial",
+          name = "Binomial",
           nsamp = 8,
           dir = "wksht",
           template = "templates/worksheet_sols.tex",     

@@ -1,6 +1,6 @@
 ```{r data generation, echo = FALSE, results = "hide"}
-n= sample(2:6,1)
-p = round(runif(1,0.05,0.95),2)
+n= sample(3:4,1)
+p = round(runif(1,0.20,0.80),2)
 
 mu = sum(n*p)
 sig = sqrt(n*p*(1-p))
@@ -17,6 +17,11 @@ Determine the probabilities when adding up $`r n`$ Bernoulli trials if each tria
 
 <!-- Also, measure the sums of $`r n`$ spins 10 times, and report the results as a histogram.  -->
 
+
+\setkeys{Gin}{width=.3\textwidth}
+
+\tiny
+
 ```{r wheel, echo=F,fig.height=2, fig.width=2, fig.cap=''}
 par(mar=c(0,0,0,0))
 plot(1,1,xlim=c(-1,1),ylim=c(-1,1),ann=F,axes=F,type='n')
@@ -24,22 +29,89 @@ thetas = 1:1000 / 1000 * 2 * pi
 xs = cos(thetas)
 ys = sin(thetas)
 polygon(xs,ys)
+q = 1-p
 
-lines(c(0,cos(p*2*pi)),c(0,sin(p*2*pi)))
+lines(c(0,cos(q*2*pi)),c(0,sin(q*2*pi)))
 lines(c(0,1),c(0,0),lwd=2)
 
-text(0.8*cos(mean(c(0,p))*2*pi),0.8*sin(mean(c(0,p))*2*pi),0)
-text(0.8*cos(mean(c(p,1))*2*pi),0.8*sin(mean(c(p,1))*2*pi),1)
+text(0.8*cos(mean(c(0,q))*2*pi),0.8*sin(mean(c(0,q))*2*pi),0)
+text(0.8*cos(mean(c(q,1))*2*pi),0.8*sin(mean(c(q,1))*2*pi),1)
 
 arrows(-0.6,0,0.6,0,lwd=4,length=0.1)
 ```
 
+\normalsize
+
 Then, use $\mu = \sum x\cdot \text{Pr}(x)$ to find the mean and $\sigma = \sqrt{\sum (x-\mu)^2 \cdot \text{Pr}(x)}$ to determine the standard deviation.
+
+Then, show $\mu = np$ and $\sigma = \sqrt{npq}$. (Remember these formulas only work for binomial distributions.)
 
 Solution
 ========
 
-We can use the Binomial formula.
+\small
+
+You could make a tree.
+
+
+\setkeys{Gin}{width=.8\textwidth}
+
+\tiny
+
+```{r tree, echo=F,fig.width=2*6,fig.height=6,fig.cap=''}
+par(mar=c(0,0,0,0))
+plot(2,1,xlim=c(0,2),ylim=c(0,1),ann=F,axes=F,type='n')
+x = numeric()
+y = numeric()
+for(i in 1:(n)){
+  mm = 2^(i-1)
+  for(j in 1:mm){
+    x = (i-1)/(n)
+    y = (2*j-1)/2/mm
+    x2 = (i)/(n)
+    x3 = x2
+    j2 = 2*j-1
+    j3 = 2*j
+    y2 = (2*j2-1)/2/2^i
+    y3 = (2*j3-1)/2/2^i
+    lines(c(x,x2),c(y,y2),lty=2)
+    lines(c(x,x3),c(y,y3),lty=2)
+    points(x,y)
+    points(x2,y2)
+    points(x3,y3)
+    text(mean(c(x,x2)),mean(c(y,y2)),p)
+    text(mean(c(x,x3)),mean(c(y,y3)),1-p)
+  }
+}
+
+number2binary = function(number, noBits) {
+       binary_vector = rev(as.numeric(intToBits(number)))
+       if(missing(noBits)) {
+          return(binary_vector)
+       } else {
+          binary_vector[-(1:(length(binary_vector) - noBits))]
+       }
+}
+
+for(i in 0:((2^n)-1)){
+  x4 = number2binary(i,n)
+  s4 = ''
+  for(j in x4){
+    s4 = paste(s4,j)
+  }
+  text(1.25, 1-(2*i+1)/2/2^n, paste("Pr(",s4,") = ",round(p^(sum(x4))*(1-p)^(n-sum(x4)),4),sep=''))
+  lines(c(1.4,1.6),c(1-(2*i+1)/2/2^n,1-(sum(x4)+1)/(n+2)))
+}
+
+for(i in 0:n){
+  text(1.75,1-(i+1)/(n+2),paste("Pr(",i,")=",signif(dbinom(i,n,p),3),sep=""))
+}
+```
+
+\small
+
+
+You could also just use the binomial formula.
 $$\text{Pr}(x) = {_nC_x}(p)^x(1-p)^{n-x}$$
 
 We want `r n+1` probabilities, letting $x$ vary from 0 to `r n`. For each probability, $n=`r n`$ and $p=`r p`$. A table is useful. 
@@ -66,42 +138,26 @@ c5 = signif((x-mu)^2,3)
 c6 = signif(P*(x-mu)^2,3)
 s2 = ''
 for(i in 1:(n+1)){
-    s2 = paste(s2,'|',x[i],'|',P[i],'|',c4[i],'|',c5[i],'|',c6[i],'|')
-    if(i < n){
+    s2 = paste(s2,'|',x[i],'|',P[i],'|',c3[i],'|',c4[i],'|',c5[i],'|',c6[i],'|')
+    if(i < n+1){
         s2 = paste(s2,'\n')
     }
 }
 ```
 
-\small 
 
-| $x$ | ${Pr}(x)$ | $x \cdot {Pr}(x)$ | $(x-\mu)^2$ | $(x-\mu)^2 \cdot {Pr}(x)$ | 
-|:---:|:---:|:---:|:---:|:---:|
+| $x$ | ${Pr}(x)$ | $x \cdot {Pr}(x)$ |$x-\mu$| $(x-\mu)^2$ | $(x-\mu)^2 \cdot {Pr}(x)$ | 
+|:---:|:---:|:---:|:---:|:---:|:---:|
 `r s2`
 |=========|=========|=========|=========|=========|=========|
-|     |     | $\sum x \cdot {Pr}(x) = `r mu`$ |   | $\sum (x_i-\mu)^2 \cdot {Pr}(x) = `r signif(sum(c6),3)`$   |
-|     |     | $\mu = `r mu`$ |   | $\sigma = \sqrt{\sum (x_i-\mu)^2 \cdot {Pr}(x)} = `r sig`$   |
+|     |     | $\sum x \cdot {Pr}(x) = `r mu`$ | |  | $\sum (x_i-\mu)^2 \cdot {Pr}(x) = `r signif(sum(c6),3)`$   |
+|     |     | $\mu = `r mu`$ | |   | $\sigma = \sqrt{\sum (x_i-\mu)^2 \cdot {Pr}(x)} = `r sig`$   |
+
+Then we confirm the binomial mean and binomial SD formulas work.
+$$\mu = np = (`r n`)(`r p`) = `r n*p` $$
+$$\sigma = \sqrt{npq} = \sqrt{(`r n`)(`r p`)(`r q`)} = \sqrt{`r signif(n*p*q,3)`} = `r signif(sqrt(n*p*q),3)` $$
 
 \normalsize
-
-<!-- Make a merging tree. -->
-
-<!-- ```{r mergingtree,echo=F,fig.height=2, fig.width=2, fig.cap=''} -->
-<!-- par(mar=c(0,0,0,0)) -->
-<!-- plot(1,1,xlim=c(-1,1),ylim=c(-1,1),ann=F,axes=F,type='n') -->
-<!-- xs = 0:n/n -->
-<!-- x = c(0) -->
-<!-- y = c(0.5) -->
-<!-- for(i in 1:n){ -->
-<!--   for(j in 1:i){ -->
-<!--     x = c(x,i/n) -->
-<!--     y = c(y,(2*j)/2/n) -->
-<!--   } -->
-<!-- } -->
-<!-- points(x,y) -->
-<!-- lines(c(0,1),c(0.5,0.5)) -->
-<!-- y -->
-<!-- ``` -->
 
 
 Meta-information
