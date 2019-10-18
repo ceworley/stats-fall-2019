@@ -1,0 +1,106 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r data generation, echo = FALSE, results = "hide"}
+
+u2 = round(runif(1,0.01,0.99),2)
+z1 = round(qnorm(runif(1,0.01,0.99)),1)
+u4 = round(runif(1,0.01,0.99),2)
+z3 = round(qnorm(runif(1,0.01,0.99)),1)
+
+u1 = round(pnorm(z1),3)
+z2 = round(qnorm(u2),2)
+u3 = round(pnorm(z3),3)
+z4 = round(qnorm(u4),2)
+
+u = c(u1,u2,u3,u4)
+z = c(z1,z2,z3,z4)
+
+qs = c(paste("What is the probability that $Z$ is less than ",z[1],"? In other words, determine $P(Z <",z[1],")$.",sep=""),
+paste("Determine $z$ such that $P(Z < z) = ",u[2],"$.",sep=""),
+paste("What is the probability that $Z$ is more than ",z[3],"? In other words, determine $P(Z >",z[3],")$.",sep=""),
+paste("Determine $z$ such that $P(Z > z) = ",1-u[4],"$.",sep=""))
+
+as = c(paste("$P(Z < ",z[1],") = \\fbox{",u[1],"}$"),
+paste("$z = \\fbox{",z[2],"}$"),
+paste("$P(Z > ",z[3],") = \\fbox{",1-u[3],"}$"),
+paste("$z = \\fbox{",z[4],"}$"))
+
+ord = sample(1:4)
+
+```
+
+Question
+========
+
+The spinner below has two distributions. The outer distribution ($Z$) is the standard normal distribution. The inner distribution is the standard uniform distribution, which also corresponds to the percentile. To answer the questions below, assume the spinner is equally likely to land in any direction.
+
+```{r makespinner,echo=F,fig.width=6,fig.height=6}
+library(latex2exp)
+par(mar=c(0,0,0,0))
+plot(1,1,type='n',axes=F,ann=F,xlim=c(-1,1),ylim=c(-1,1))
+for(i in 1:100/100*2*pi){
+  lines(c(cos(i)*0.75,cos(i)*0.8),c(sin(i)*0.75,sin(i)*0.8))
+}
+for(i in 1:10/10*2*pi){
+  lines(c(cos(i)*0.65,cos(i)*0.8),c(sin(i)*0.65,sin(i)*0.8))
+}
+lines(c(0.5,0.8),c(0,0),lwd=3)
+for(i in 1:9){
+  text(cos(i/10*2*pi)*0.59,sin(i/10*2*pi)*0.59,i/10)
+}
+for(i in 0:100){
+  if(i%%10 != 0){
+    text(cos(i/100*2*pi)*0.69,sin(i/100*2*pi)*0.69,i/100,cex=0.6,srt=((i/100*360)+90)%%180-90)
+  }
+}
+text(0.57,0.04,"0")
+text(0.57,-0.04,"1")
+for(zz in -30:30/10){
+  lines(c(cos(pnorm(zz)*2*pi)*0.8,cos(pnorm(zz)*2*pi)*0.85),c(sin(pnorm(zz)*2*pi)*0.8,sin(pnorm(zz)*2*pi)*0.85))
+}
+for(zz in -20:20/10){
+  if(zz%%1 != 0){
+    text(cos(pnorm(zz)*2*pi)*0.89,sin(pnorm(zz)*2*pi)*0.89,zz,cex = 0.6)
+  }
+}
+for(zz in -3:3){
+  lines(c(cos(pnorm(zz)*2*pi)*0.8,cos(pnorm(zz)*2*pi)*0.95),c(sin(pnorm(zz)*2*pi)*0.8,sin(pnorm(zz)*2*pi)*0.95),lwd=2)
+}
+for(zz in -2:2){
+    text(cos(pnorm(zz)*2*pi)*0.99,sin(pnorm(zz)*2*pi)*0.99,zz)
+}
+text(0.99,0.03,"-3")
+text(0.99,-0.03,"3")
+lines(cos(0:100/100*2*pi)*0.8,sin(0:100/100*2*pi)*0.8)
+
+text(0.45,0,TeX("U"))
+text(1.05,0,"Z")
+```
+
+Answerlist
+--------
+* `r qs[ord[1]]`
+* `r qs[ord[2]]`
+* `r qs[ord[3]]`
+* `r qs[ord[4]]`
+
+Solution
+========
+
+Answerlist
+-------
+* `r as[ord[1]]`
+* `r as[ord[2]]`
+* `r as[ord[3]]`
+* `r as[ord[4]]`
+
+Meta-information
+============
+extype: string
+exsolution: yo
+exname: marbles
+extol: 0.01
