@@ -90,7 +90,7 @@
 }
 
 %% new environments
-\newenvironment{question}{\item \textbf{Problem}\newline}{\newpage}
+\newenvironment{question}{\item \textbf{Problem}\newline}{\vspace{1in}}
 \newenvironment{solution}{\comment}{\endcomment}
 \newenvironment{answerlist}{\renewcommand{\labelenumi}{(\alph{enumi})}\begin{enumerate}}{\end{enumerate}}
 
@@ -105,9 +105,11 @@
 
 
 \renewenvironment{question}{\comment}{\endcomment}
-\renewenvironment{solution}{\item }{}
+\renewenvironment{solution}{\begin{minipage}{\linewidth} \item }{\end{minipage}}
 
 \newpage
+
+\chead{SOLUTIONS}
 
 %\begin{multicols}{2}
 \begin{enumerate}

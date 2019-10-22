@@ -1,0 +1,66 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r data generation, echo = FALSE, results = "hide"}
+zs = (-3*5):(3*5)/5
+ys = 0:8*0.05
+z = sample(1:(2*5)/5,1)
+```
+
+Question
+========
+
+The figure below shows the standard normal density. Each grid square represents 1% of probability.
+
+```{r gridnorm,echo=F,fig.height=4,fig.width=10,fig.cap="",fig.path=paste("ug",sample(1:99999,1),sep="")}
+plot(0,0,type="n",ann=F,axes=F,xlim=c(-3,3),ylim=c(0,0.4))
+abline(h = ys,lty=2)
+abline(v=zs,lty=2)
+lines((-300:300)/100,dnorm((-300:300)/100))
+axis(1,at=(-3):(3))
+mtext("Z",side=1,line = 3)
+lines(c(-3,3),c(0,0))
+```
+\
+
+Answerlist
+--------
+* Estimate $P(|Z|>`r z`)$ by shading and counting.
+* Determine $P(|Z|>`r z`)$ by using the $z$-table.
+
+
+Solution
+========
+
+Answerlist
+--------
+
+* The shaded regions are shown below. \newline
+```{r gridnormsol,echo=F,fig.height=4,fig.width=10,fig.cap="",fig.path=paste("ug",sample(1:99999,1),sep="")}
+plot(0,0,type="n",ann=F,axes=F,xlim=c(-3,3),ylim=c(0,0.4))
+abline(h = ys,lty=2)
+abline(v=zs,lty=2)
+xs = (-300:300)/100
+dn = dnorm(xs)
+lines(xs,dn)
+lines(c(-3,3),c(0,0))
+polygon(c(xs[xs<=-z],-z,-3),c(dn[xs<=-z],0,0),col = rgb(0.4,0.4,0.4,0.4))
+polygon(c(xs[xs>=z],3,z),c(dn[xs>=z],0,0),col = rgb(0.4,0.4,0.4,0.4))
+axis(1,at=(-3):(3))
+mtext("Z",side=1,line = 3)
+``` 
+\
+\newline
+You should count about `r round(2-2*pnorm(z),2)*100` shaded squares, giving a probability of about `r round(2-2*pnorm(z),2)`.
+* The probability is `r round(2-2*pnorm(z),4)`. 
+
+
+
+Meta-information
+============
+extype: string
+exsolution: yo
+exname: marbles
+extol: 0.01
