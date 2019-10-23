@@ -53,8 +53,11 @@ mtext("Z",side=1,line = 3)
 ``` 
 \
 \newline
-When you have shaded `r round(2-2*pnorm(z),2)*100` squares, starting at both tails, you should end near $z=`r z`$.
-* $z=`r z`$
+When you have shaded `r round(2-2*pnorm(z),2)*100` squares, starting at both tails, you should end near $z=`r z`$. Really, you want to shade `r round(round(2-2*pnorm(z),2)*100/2,3)` squares starting from the left and also `r round(round(2-2*pnorm(z),2)*100/2,3)` squares starting from the right.
+* Each tail has half the two-tail area. So each tail has an area of `r round(2-2*pnorm(z),2)/2`. We can find the $z$ score with this left area...
+$$z_{\text{left tail}} = `r round(qnorm(round(2-2*pnorm(z),2)/2),2)` $$
+But, we want the positive value (the right tail's $z$ boundary).
+$$z=\fbox{`r round(-qnorm(round(2-2*pnorm(z),2)/2),2)`}$$
 
 
 

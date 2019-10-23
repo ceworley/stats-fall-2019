@@ -1,16 +1,15 @@
 library("exams")
 
-qs = "spinner_C.Rmd"
+qs = c(rep("spinner_D_ordered.Rmd",2),rep("spinner_D.Rmd",4))
 
-set.seed(132)
+set.seed(145)
 exams2pdf(qs,
-          name = "Spinner_extra",
-          nsamp = 100,
+          name = "Spinner_D",
           dir = "wksht",
           template = "templates/worksheet_sols.tex",     
           header = list(
             Date = "2019-OCT-2",
             ID = "001",
-            Titl = "U and Z continued"
+            Titl = "Standard Normal Spinner"
           )
 )

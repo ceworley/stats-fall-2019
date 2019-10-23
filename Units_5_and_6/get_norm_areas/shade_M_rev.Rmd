@@ -54,8 +54,7 @@ mtext("Z",side=1,line = 3)
 \
 \newline
 When you have shaded `r round(2*pnorm(z)-1,2)*100` squares, starting in the middle, you should end near $z=`r z`$.
-* $z=`r z`$
-
+* $z=`r round(qnorm(round(2*pnorm(z)-1,2)),2)`$
 
 
 Meta-information
