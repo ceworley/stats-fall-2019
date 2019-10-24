@@ -8,8 +8,10 @@ output:
 
 ```{r data generation, echo = FALSE, results = "hide"}
 
-makepie = function(p1,p2){ #,name){
-  #pdf(name,width=2.5,height=2.5)
+mu = sample(10:60,1)
+si = sample(1:round(mu/3),1)
+
+makepie = function(p1,p2){
   par(mar=c(0,0,0,0))
   plot(0,0,type="n",ann=F,axes=F,xlim=c(-1.1,1.1),ylim=c(-1.1,1.1))
   ps = 0:1000/1000
@@ -27,8 +29,8 @@ makepie = function(p1,p2){ #,name){
     lines(c(cos(p2*2*pi)*0.7,cos(p2*2*pi)*0.83),
           c(sin(p2*2*pi)*0.7,sin(p2*2*pi)*0.83),
           lwd = 2)
-    text(cos(p1*2*pi)*1.05,sin(p1*2*pi)*1.05,round(qnorm(p1),2))
-    text(cos(p2*2*pi)*1.05,sin(p2*2*pi)*1.05,round(qnorm(p2),2))
+    text(cos(p1*2*pi)*1.05,sin(p1*2*pi)*1.05,signif(qnorm(p1)*si+mu,3))
+    text(cos(p2*2*pi)*1.05,sin(p2*2*pi)*1.05,signif(qnorm(p2)*si+mu,3))
   }
   if(p1>p2){
     polygon(c(0,cos(the[ps>p1])*0.8,0),c(0,sin(the[ps>p1])*0.8,0),col=rgb(0.4,0.4,0.4,0.4),lty=0)
@@ -43,13 +45,10 @@ makepie = function(p1,p2){ #,name){
     lines(c(cos(p2*2*pi)*0.7,cos(p2*2*pi)*0.83),
           c(sin(p2*2*pi)*0.7,sin(p2*2*pi)*0.83),
           lwd = 2)
-    text(cos(p1*2*pi)*1.05,sin(p1*2*pi)*1.05,round(qnorm(p1),2))
-    text(cos(p2*2*pi)*1.05,sin(p2*2*pi)*1.05,round(qnorm(p2),2))
+    text(cos(p1*2*pi)*1.05,sin(p1*2*pi)*1.05,signif(qnorm(p1)*si+mu,3))
+    text(cos(p2*2*pi)*1.05,sin(p2*2*pi)*1.05,signif(qnorm(p2)*si+mu,3))
   }
-  
-  #dev.off()
 }
-
 
 options(digits = 4)
 
@@ -68,23 +67,24 @@ p2 = c(0,u2)
 p3 = c(u3,1)
 p4 = c(u4,1)
 
-#makepie(0,u1,"figs/one.pdf")
-#makepie(0,u2,"figs/two.pdf")
-#makepie(u3,1,"figs/three.pdf")
-#makepie(u4,1,"figs/four.pdf")
+x1 = signif(z1*si+mu,3)
+x2 = signif(z2*si+mu,3)
+x3 = signif(z3*si+mu,3)
+x4 = signif(z4*si+mu,3)
+
 
 u = c(u1,u2,u3,u4)
 z = c(z1,z2,z3,z4)
 
-qs = c(paste("Evaluate $P(Z <",z[1],")$",sep=""),
-paste("Determine $z$ such that $P(Z < z) = ",u[2],"$",sep=""),
-paste("Evaluate $P(Z >",z[3],")$",sep=""),
-paste("Determine $z$ such that $P(Z > z) = ",1-u[4],"$",sep=""))
+qs = c(paste("Evaluate $P(X <",x1,")$",sep=""),
+paste("Determine $x$ such that $P(X < x) = ",u[2],"$",sep=""),
+paste("Evaluate $P(X >",x3,")$",sep=""),
+paste("Determine $x$ such that $P(X > x) = ",1-u[4],"$",sep=""))
 
-as = c(paste("$P(Z < ",z[1],") = \\fbox{",u[1],"}$"),
-paste("$z = \\fbox{",z[2],"}$"),
-paste("$P(Z > ",z[3],") = \\fbox{",1-u[3],"}$"),
-paste("$z = \\fbox{",z[4],"}$"))
+as = c(paste("$P(X < ",x1,") = \\fbox{",u[1],"}$"),
+paste("$x = \\fbox{",x2,"}$"),
+paste("$P(X > ",x3,") = \\fbox{",1-u[3],"}$"),
+paste("$x = \\fbox{",x4,"}$"))
 
 while(T){
   zs = round(qnorm(sort(runif(2,0.01,0.99))),1)
@@ -94,51 +94,47 @@ while(T){
     break
   }
 }
-qs = c(qs,paste("Evaluate $P(",zs[1],"<Z<",zs[2],")$"))
-as = c(as,paste("$P(",zs[1],"<Z<",zs[2],") = \\fbox{",P,"}$"))
-#makepie(us[1],us[2],"figs/five.pdf")
+x5 = signif(zs*si+mu,3)
+qs = c(qs,paste("Evaluate $P(",x5[1],"<X<",x5[2],")$"))
+as = c(as,paste("$P(",x5[1],"<X<",x5[2],") = \\fbox{",P,"}$"))
 p5 = c(us[1],us[2])
 
 z = round(qnorm(runif(1,0.54,0.96)),1)
-qs = c(qs,paste("Evaluate $P(|Z|<",z,")$",sep=""))
-as = c(as,paste("$P(|Z|<",z,") = \\fbox{",round(pnorm(z)*2-1,3),"}$",sep=""))
-#makepie(pnorm(-z),pnorm(z),"figs/six.pdf")
+x6 = z*si+mu
+qs = c(qs,paste("Evaluate $P(|X-",mu,"|<",z*si,")$",sep=""))
+as = c(as,paste("$P(|X-",mu,"|<",z*si,") = \\fbox{",round(pnorm(z)*2-1,3),"}$",sep=""))
 p6 = c(pnorm(-z),pnorm(z))
 
 u = round(runif(1,0.54,0.96),2)
 P = round((u-0.5)*2,2)
 z = round(qnorm(u),2)
-qs = c(qs,paste("Determine $z$ such that $P(|Z|<z)=",P,"$",sep=""))
-as = c(as,paste("$z = \\fbox{",z,"}$",sep=""))
-p7 = c(pnorm(-z),pnorm(z))
-#makepie(pnorm(-z),pnorm(z),"figs/seven.pdf")
+x7 = z*si+mu
+qs = c(qs,paste("Determine $a$ such that $P(|X-",mu,"|<a)=",P,"$",sep=""))
+as = c(as,paste("$a = \\fbox{",z*si,"}$",sep=""))
+p7 = c(1-u,u)
 
 z = round(qnorm(runif(1,0.54,0.96)),1)
-qs = c(qs,paste("Evaluate $P(|Z|>",z,")$",sep=""))
-as = c(as,paste("$P(|Z|>",z,") = \\fbox{",round(2*(pnorm(-z)),3),"}$",sep=""))
-#makepie(pnorm(z),pnorm(-z),"figs/eight.pdf")
+qs = c(qs,paste("Evaluate $P(|X-",mu,"|>",z*si,")$",sep=""))
+as = c(as,paste("$P(|X-",mu,"|>",z*si,") = \\fbox{",round(2*(pnorm(-z)),3),"}$",sep=""))
 p8 = c(pnorm(z),pnorm(-z))
 
 u = round(runif(1,0.54,0.96),2)
 P = round((1-u)*2,2)
 z = round(qnorm(u),2)
-qs = c(qs,paste("Determine $z$ such that $P(|Z|>z)=",P,"$",sep=""))
-as = c(as,paste("$z = \\fbox{",z,"}$",sep=""))
-#makepie(pnorm(z),pnorm(-z),"figs/nine.pdf")
-p9 = c(pnorm(z),pnorm(-z))
-
-fignames = c("one","two","three","four","five","six","seven","eight","nine")
+x9 = z*si+mu
+qs = c(qs,paste("Determine $a$ such that $P(|X-",mu,"|>a)=",P,"$",sep=""))
+as = c(as,paste("$z = \\fbox{",z*si,"}$",sep=""))
+p9 = c(u,1-u)
 
 ord = 1:9
 
 ppp = c(p1,p2,p3,p4,p5,p6,p7,p8,p9)
-
 ```
 
 Question
 ========
 
-The spinner below has two distributions. The outer distribution ($Z$) is the standard normal distribution. The inner distribution ($U$) is the standard uniform distribution, which also corresponds to the percentile. To answer the questions below, assume the spinner is equally likely to land in any direction.
+The spinner below has two distributions. The outer distribution ($X$) is a normal distribution with mean $\mu=`r mu`$ and standard deviation $\sigma = `r si`$. $$X \sim {\cal N} (`r mu`,`r si`) $$ The inner distribution ($U$) is the standard uniform distribution.
 
 ```{r makespinner,echo=F,fig.width=6,fig.height=6}
 library(latex2exp)
@@ -166,23 +162,25 @@ for(zz in -30:30/10){
 }
 for(zz in -20:20/10){
   if(zz%%1 != 0){
-    text(cos(pnorm(zz)*2*pi)*0.89,sin(pnorm(zz)*2*pi)*0.89,zz,cex = 0.6)
+    text(cos(pnorm(zz)*2*pi)*0.89,sin(pnorm(zz)*2*pi)*0.89,zz*si+mu,cex = 0.6)
   }
 }
 for(zz in -3:3){
   lines(c(cos(pnorm(zz)*2*pi)*0.8,cos(pnorm(zz)*2*pi)*0.95),c(sin(pnorm(zz)*2*pi)*0.8,sin(pnorm(zz)*2*pi)*0.95),lwd=2)
 }
 for(zz in -2:2){
-    text(cos(pnorm(zz)*2*pi)*0.99,sin(pnorm(zz)*2*pi)*0.99,zz)
+    text(cos(pnorm(zz)*2*pi)*0.99,sin(pnorm(zz)*2*pi)*0.99,zz*si+mu)
 }
-text(0.99,0.03,"-3")
-text(0.99,-0.03,"3")
+text(0.99,0.03,-3*si+mu)
+text(0.99,-0.03,3*si+mu)
 lines(cos(0:100/100*2*pi)*0.8,sin(0:100/100*2*pi)*0.8)
 
 text(0.45,0,TeX("U"))
-text(1.05,0,"Z")
+text(1.05,0,"X")
 ```
 \
+
+\vspace{-20pt}
 
 Answerlist
 --------

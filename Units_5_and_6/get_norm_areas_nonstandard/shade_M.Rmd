@@ -7,31 +7,33 @@ output:
 zs = (-3*5):(3*5)/5
 ys = 0:8*0.05
 z = sample(1:(1.4*5)/5,1)
-P = round(2*pnorm(z)-1,2)
-zans = round(qnorm(P/2+0.5),2)
+
+mu = sample(10:60,1)
+si = sample(1:round(mu/3),1)
 ```
 
 Question
 ========
 
-The figure below shows the standard normal density. Each grid square represents 1% of probability.
+Let $X$ be a normal random variable with mean $\mu = `r mu`$ and standard deviation $\sigma = `r si`$.
+$$X \sim {\cal N}(`r mu`,\,`r si`) $$
+The figure below shows the density of random variable $X$. Each grid square represents 1% of probability.
 
 ```{r gridnorm,echo=F,fig.height=4,fig.width=10,fig.cap="",fig.path=paste("ug",sample(1:99999,1),sep="")}
 plot(0,0,type="n",ann=F,axes=F,xlim=c(-3,3),ylim=c(0,0.4))
 abline(h = ys,lty=2)
 abline(v=zs,lty=2)
 lines((-300:300)/100,dnorm((-300:300)/100))
-axis(1,at=(-3):(3))
-mtext("Z",side=1,line = 3)
+axis(1,at=(-3):(3),labels=-3:3*si+mu)
+mtext("X",side=1,line = 3)
 lines(c(-3,3),c(0,0))
 ```
 \
 
 Answerlist
 --------
-
-* Estimate $z$ such that $P(|Z|<z) = `r P`$ by shading and counting.
-* Determine $z$ such that $P(|Z|<z) = `r P`$ by using the $z$-table.
+* Estimate $P(|X-\mu|<`r z*si`)$ by shading and counting.
+* Determine $P(|X-\mu|<`r z*si`)$ by using the $z$-table.
 
 
 Solution
@@ -50,13 +52,14 @@ dn = dnorm(xs)
 lines(xs,dn)
 lines(c(-3,3),c(0,0))
 polygon(c(xs[abs(xs)<=z],z,-z),c(dn[abs(xs)<=z],0,0),col = rgb(0.4,0.4,0.4,0.4))
-axis(1,at=(-3):(3))
-mtext("Z",side=1,line = 3)
+axis(1,at=(-3):(3),labels=-3:3*si+mu)
+mtext("X",side=1,line = 3)
 ```
 \
 \newline
-When you have shaded `r round(2*pnorm(z)-1,2)*100` squares, starting in the middle, you should end near $z=`r z`$.
-* $z=`r zans`$
+You should count about `r round(2*pnorm(z)-1,2)*100` shaded squares, giving a probability of about `r round(2*pnorm(z)-1,2)`.
+* The probability is `r round(2*pnorm(z)-1,4)`. 
+
 
 
 Meta-information
