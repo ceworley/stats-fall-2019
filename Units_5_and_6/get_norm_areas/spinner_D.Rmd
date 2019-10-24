@@ -1,4 +1,6 @@
 ---
+header-includes:
+   - \usepackage{multicol}
 output:
   pdf_document: default
   html_document: default
@@ -6,17 +8,70 @@ output:
 
 ```{r data generation, echo = FALSE, results = "hide"}
 
+makepie = function(p1,p2){ #,name){
+  #pdf(name,width=2.5,height=2.5)
+  par(mar=c(0,0,0,0))
+  plot(0,0,type="n",ann=F,axes=F,xlim=c(-1.1,1.1),ylim=c(-1.1,1.1))
+  ps = 0:1000/1000
+  the = ps*2*pi
+  lines(cos(the)*0.8,sin(the)*0.8)
+  if(p1<p2){
+    polygon(c(0,cos(the[ps>=p1 & ps<=p2])*0.8,0),c(0,sin(the[ps>=p1 & ps<=p2])*0.8,0),col=rgb(0.4,0.4,0.4,0.4),lty=0)
+    pave = (p1+p2)/2
+    text(0,0,paste("P=",round((p2-p1),3),sep=""))
+    text(cos(p1*2*pi)*0.5,sin(p1*2*pi)*0.5,round(p1,3))
+    text(cos(p2*2*pi)*0.5,sin(p2*2*pi)*0.5,round(p2,3))
+    lines(c(cos(p1*2*pi)*0.7,cos(p1*2*pi)*0.83),
+          c(sin(p1*2*pi)*0.7,sin(p1*2*pi)*0.83),
+          lwd = 2)
+    lines(c(cos(p2*2*pi)*0.7,cos(p2*2*pi)*0.83),
+          c(sin(p2*2*pi)*0.7,sin(p2*2*pi)*0.83),
+          lwd = 2)
+    text(cos(p1*2*pi),sin(p1*2*pi),round(qnorm(p1),2))
+    text(cos(p2*2*pi),sin(p2*2*pi),round(qnorm(p2),2))
+  }
+  if(p1>p2){
+    polygon(c(0,cos(the[ps>p1])*0.8,0),c(0,sin(the[ps>p1])*0.8,0),col=rgb(0.4,0.4,0.4,0.4),lty=0)
+    polygon(c(0,cos(the[ps<p2])*0.8,0),c(0,sin(the[ps<p2])*0.8,0),col=rgb(0.4,0.4,0.4,0.4),lty=0)
+    pave = (p2+1-p1)/2+p1
+    text(0,0,paste("P=",round((p2+1-p1),3),sep=""))
+    text(cos(p1*2*pi)*0.5,sin(p1*2*pi)*0.5,round(p1,3))
+    text(cos(p2*2*pi)*0.5,sin(p2*2*pi)*0.5,round(p2,3))
+    lines(c(cos(p1*2*pi)*0.7,cos(p1*2*pi)*0.83),
+          c(sin(p1*2*pi)*0.7,sin(p1*2*pi)*0.83),
+          lwd = 2)
+    lines(c(cos(p2*2*pi)*0.7,cos(p2*2*pi)*0.83),
+          c(sin(p2*2*pi)*0.7,sin(p2*2*pi)*0.83),
+          lwd = 2)
+    text(cos(p1*2*pi),sin(p1*2*pi),round(qnorm(p1),2))
+    text(cos(p2*2*pi),sin(p2*2*pi),round(qnorm(p2),2))
+  }
+  
+  #dev.off()
+}
+
+
 options(digits = 4)
 
-u2 = round(runif(1,0.01,0.99),2)
-z1 = round(qnorm(runif(1,0.01,0.99)),1)
-u4 = round(runif(1,0.01,0.99),2)
-z3 = round(qnorm(runif(1,0.01,0.99)),1)
+u2 = round(runif(1,0.03,0.97),2)
+z1 = round(qnorm(runif(1,0.03,0.97)),1)
+u4 = round(runif(1,0.03,0.97),2)
+z3 = round(qnorm(runif(1,0.03,0.97)),1)
 
 u1 = round(pnorm(z1),3)
 z2 = round(qnorm(u2),2)
 u3 = round(pnorm(z3),3)
 z4 = round(qnorm(u4),2)
+
+p1 = c(0,u1)
+p2 = c(0,u2)
+p3 = c(u3,1)
+p4 = c(u4,1)
+
+#makepie(0,u1,"figs/one.pdf")
+#makepie(0,u2,"figs/two.pdf")
+#makepie(u3,1,"figs/three.pdf")
+#makepie(u4,1,"figs/four.pdf")
 
 u = c(u1,u2,u3,u4)
 z = c(z1,z2,z3,z4)
@@ -35,34 +90,48 @@ while(T){
   zs = round(qnorm(sort(runif(2,0.01,0.99))),1)
   us = round(pnorm(zs),3)
   P = round(us[2]-us[1],3)
-  if(P>0.02){
+  if(P>0.05){
     break
   }
 }
 qs = c(qs,paste("Evaluate $P(",zs[1],"<Z<",zs[2],")$"))
 as = c(as,paste("$P(",zs[1],"<Z<",zs[2],") = \\fbox{",P,"}$"))
+#makepie(us[1],us[2],"figs/five.pdf")
+p5 = c(us[1],us[2])
 
-z = round(qnorm(runif(1,0.52,0.99)),1)
-qs = c(qs,paste("Evaluate $P(|Z|<",z,")$",sep=""))
+z = round(qnorm(runif(1,0.54,0.96)),1)
+qs = c(qs,paste("Evaluat e $P(|Z|<",z,")$",sep=""))
 as = c(as,paste("$P(|Z|<",z,") = \\fbox{",round(pnorm(z)*2-1,3),"}$",sep=""))
+#makepie(pnorm(-z),pnorm(z),"figs/six.pdf")
+p6 = c(pnorm(-z),pnorm(z))
 
-u = round(runif(1,0.52,0.99),2)
+u = round(runif(1,0.54,0.96),2)
 P = round((u-0.5)*2,2)
 z = round(qnorm(u),2)
 qs = c(qs,paste("Determine $z$ such that $P(|Z|<z)=",P,"$",sep=""))
 as = c(as,paste("$z = \\fbox{",z,"}$",sep=""))
+p7 = c(pnorm(-z),pnorm(z))
+#makepie(pnorm(-z),pnorm(z),"figs/seven.pdf")
 
-z = round(qnorm(runif(1,0.52,0.99)),1)
+z = round(qnorm(runif(1,0.54,0.96)),1)
 qs = c(qs,paste("Evaluate $P(|Z|>",z,")$",sep=""))
 as = c(as,paste("$P(|Z|>",z,") = \\fbox{",round(2*(pnorm(-z)),3),"}$",sep=""))
+#makepie(pnorm(z),pnorm(-z),"figs/eight.pdf")
+p8 = c(pnorm(z),pnorm(-z))
 
-u = round(runif(1,0.52,0.99),2)
+u = round(runif(1,0.54,0.96),2)
 P = round((1-u)*2,2)
 z = round(qnorm(u),2)
 qs = c(qs,paste("Determine $z$ such that $P(|Z|>z)=",P,"$",sep=""))
 as = c(as,paste("$z = \\fbox{",z,"}$",sep=""))
+#makepie(pnorm(z),pnorm(-z),"figs/nine.pdf")
+p9 = c(pnorm(z),pnorm(-z))
+
+fignames = c("one","two","three","four","five","six","seven","eight","nine")
 
 ord = sample(1:9)
+
+ppp = c(p1,p2,p3,p4,p5,p6,p7,p8,p9)
 
 ```
 
@@ -130,6 +199,15 @@ Answerlist
 
 Solution
 ========
+
+
+```{r a,echo=F,fig.height=5,fig.width=5,fig.cap="",path=paste("figs/hub",sample(1:999999,1),sep="")}
+par(mfrow=c(3,3))
+for(i in 1:9){
+  makepie(ppp[ord[i]*2-1],ppp[ord[i]*2])
+  mtext(c("a","b","c","d","e","f","g","h","i")[i],side = 3)}
+```
+\
 
 Answerlist
 -------

@@ -22,14 +22,16 @@ lines((-300:300)/100,dnorm((-300:300)/100))
 axis(1,at=(-3):(3))
 mtext("Z",side=1,line = 3)
 lines(c(-3,3),c(0,0))
+P = round(2*pnorm(z)-1,2)
+zans = round(qnorm(P/2+0.5),2)
 ```
 \
 
 Answerlist
 --------
 
-* Estimate $z$ such that $P(|Z|<z) = `r round(2*pnorm(z)-1,2)`$ by shading and counting.
-* Determine $z$ such that $P(|Z|<z) = `r round(2*pnorm(z)-1,2)`$ by using the $z$-table.
+* Estimate $z$ such that $P(|Z|<z) = `r P`$ by shading and counting.
+* Determine $z$ such that $P(|Z|<z) = `r P`$ by using the $z$-table.
 
 
 Solution
@@ -54,7 +56,7 @@ mtext("Z",side=1,line = 3)
 \
 \newline
 When you have shaded `r round(2*pnorm(z)-1,2)*100` squares, starting in the middle, you should end near $z=`r z`$.
-* $z=`r round(qnorm(round(2*pnorm(z)-1,2)),2)`$
+* $z=`r zans`$
 
 
 Meta-information
