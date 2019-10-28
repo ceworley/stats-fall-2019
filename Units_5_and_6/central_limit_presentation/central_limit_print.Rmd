@@ -1,0 +1,175 @@
+---
+title: "Central Limit Theorem"
+author: "Chad Worley"
+date: "October 27, 2019"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Central Limit Theorem (sum)
+
+- Let $W$ be a random variable with mean $\mu_{\tiny w}$ and standard deviation $\sigma_{\tiny w}$. 
+- Let random variable $X$ represent the sum of $n$ instances of $W$.
+  $$X = W_1 +W_2 + W_3 + \dots + W_n$$
+- $X$ has mean $\mu_{\tiny x} = n \cdot \mu_{\tiny w}$ and standard deviation $\sigma_{\tiny x} = \sigma_{\tiny w}\sqrt{n}$.
+- $X$ is approximately normal, especially if $n$ is "large".
+$$X \sim \mathcal{N}(n \mu_{\tiny w},\,\sigma_{\tiny w}\sqrt{n}) $$
+
+## Central Limit Theorem (average)
+
+- Let $W$ be a random variable with mean $\mu_{\tiny w}$ and standard deviation $\sigma_{\tiny w}$. 
+- Let random variable $Y$ represent the average of $n$ instances of $W$.
+  $$Y = \frac{W_1 +W_2 + W_3 + \dots + W_n}{n}$$
+- $Y$ has mean $\mu_{\tiny y} = \mu_{\tiny w}$ and standard deviation $\sigma_{\tiny y} = \frac{\sigma_{\tiny w}}{\sqrt{n}}$.
+- $Y$ is approximately normal, especially if $n$ is "large".
+$$Y \sim \mathcal{N}\left(\mu_{\tiny w},\, \frac{\sigma_{\tiny w}}{\sqrt{n}}\right) $$
+
+
+## Example 1
+
+```{r ex1}
+set.seed(31)
+j = 3
+while(T){
+  l = c(0,sort(runif(j-1)),1)
+  p = round(l[2:(j+1)]-l[1:j],2)
+  if(sum(p)==1){break}
+}
+x = sort(sample(24:29,j))
+ss = "\\begin{tabular}{|c|c|}\\hline\n $w$ & $P(w)$ \\\\ \\hline \n"
+for(i in 1:j){
+  ss = paste(ss,x[i],"&",p[i],"\\\\ \n")
+}
+ss = paste(ss,"\\hline\n\\end{tabular}\n")
+mu = round(sum(x*p),3)
+si = round(sqrt(sum((x-mu)^2*p)),3)
+n = 12
+```
+- Let $W$ be a random variable with the following probability distribution. `r ss`
+- Notice $W$ has mean $\mu_{\tiny w}=`r mu`$ and standard deviation $\sigma_{\tiny w} = `r si`$.
+- Let $X$ be the sum of `r n` instances of $W$.
+- We predict $X$ is approximately normal, with mean and standard deviation from formulas. 
+$$\mu_{\tiny x} = n\mu_{\tiny w} = (`r n`)(`r mu`) = `r n*mu`$$
+$$\sigma_{\tiny w} = \sigma_{\tiny w}\sqrt{n} = (`r si`)(\sqrt{`r n`}) = `r round(si*sqrt(n),2)`$$
+$$X \sim \mathcal{N}(`r n*mu`,\, `r round(si*sqrt(n),2)` )$$
+
+## Example 1 continued...
+
+```{r W1}
+xs = (min(x)-2):(max(x)+2)
+fs = numeric()
+for(i in xs){
+  if(i %in% x){
+    fs = c(fs,p[match(i,x)])
+  } else {
+    fs = c(fs, 0)
+  }
+  
+}
+barplot(height=fs,names.arg = xs, main="Probability Distribution of W", xlab="Measurement", ylab="Probability",space=0)
+```
+
+## Example 1 continued...
+
+```{r X1,cache=TRUE}
+xs = (min(x)*n):(max(x)*n)
+fs = rep(0,length(xs))
+perms = gtools::permutations(j,n,repeats.allowed=T)
+for(ii in 1:(j^n)){
+  tot = sum(x[perms[ii,]])
+  i = match(tot,xs)
+  fs[i] = fs[i]+prod(p[perms[ii,]])
+}
+bp = barplot(height=fs,names.arg = xs, main="Probability Distribution of X", xlab="Measurement", ylab="Probability",ylim=c(0,max(dnorm(mu*n,mu*n,si*sqrt(n)),max(fs))),space=0)
+```
+
+## Example 1 continued...
+
+```{r X1b,}
+bp = barplot(height=fs,names.arg = xs, main="Probability Distribution of X and Normal Approximation", xlab="Measurement", ylab="Probability",ylim=c(0,max(dnorm(mu*n,mu*n,si*sqrt(n)),max(fs))),space=0)
+x2 = seq(min(bp),max(bp),length.out=100)
+x3 = seq(min(xs),max(xs),length.out=100)
+lines(x2,dnorm(x3,n*mu,sqrt(n)*si),lwd=2)
+```
+
+## Example 2: How to roll 100 dice
+
+```{r ex2}
+j = 6
+p = rep(1/6,6)
+x = 1:6
+ss = "\\begin{tabular}{|c|c|}\\hline\n $w$ & $P(w)$ \\\\ \\hline \n"
+for(i in 1:j){
+  ss = paste(ss,x[i],"&",round(p[i],4),"\\\\ \n")
+}
+ss = paste(ss,"\\hline\n\\end{tabular}\n")
+mu = round(sum(x*p),3)
+si = round(sqrt(sum((x-mu)^2*p)),3)
+n = 100
+```
+- Let random variable $W$ represent a 6-sided die. `r ss`
+- Notice $W$ has mean $\mu_{\tiny w}=`r mu`$ and standard deviation $\sigma_{\tiny w} = `r si`$.
+- Let $X$ be the sum of `r n` instances of $W$.
+- We predict $X$ is approximately normal, with mean and standard deviation from formulas. 
+$$\mu_{\tiny x} = n\mu_{\tiny w} = (`r n`)(`r mu`) = `r n*mu`$$
+$$\sigma_{\tiny w} = \sigma_{\tiny w}\sqrt{n} = (`r si`)(\sqrt{`r n`}) = `r round(si*sqrt(n),2)`$$
+$$X \sim \mathcal{N}(`r n*mu`,\, `r round(si*sqrt(n),2)` )$$
+
+## Probability distribution of standard 6-sided die
+
+```{r W2}
+xs = (min(x)-2):(max(x)+2)
+fs = numeric()
+for(i in xs){
+  if(i %in% x){
+    fs = c(fs,p[match(i,x)])
+  } else {
+    fs = c(fs, 0)
+  }
+  
+}
+barplot(height=fs,names.arg = xs, main="Probability Distribution of W", xlab="Measurement", ylab="Probability",space=0)
+```
+
+## Probability distribution of **sum** of 100 6-sided dice
+
+```{r X2}
+xs = floor(mu*n-3.5*si*sqrt(n)):ceiling(mu*n+3.5*si*sqrt(n))
+fs = dnorm(xs,mu*n,si*sqrt(n))
+barplot(height=fs,names.arg = xs, main="Probability Distribution of X", xlab="Measurement", ylab="Probability",space=0)
+```
+
+## How to roll 1000 dice: spin this once
+
+```{r spinner,fig.asp=1}
+plot(0,0,type='n',axes=F,ann=F,xlim=c(-1,1),ylim=c(-1,1))
+thetas = seq(0,2*pi,length.out=360)
+lines(cos(thetas)*0.8,sin(thetas)*0.8)
+zs = seq(-2,2,by=0.1)
+xs = seq(mu*n-2*si*sqrt(n),mu*n+2*si*sqrt(n),along.with=zs)
+ps = pnorm(zs)
+for(i in 1:length(zs)){
+  theta = ps[i]*2*pi
+  if(zs[i]%%1 != 0 & zs[i]>-2 & zs[i]<2){
+    lines(cos(theta)*c(0.75,0.85),sin(theta)*c(0.75,0.85))
+    text(cos(theta)*0.7,sin(theta)*0.7,round(zs[i],1),cex=0.8)
+    text(cos(theta)*0.9,sin(theta)*0.9,round(xs[i],1),cex=0.8)
+  } else if(zs[i]%%1 == 0) {
+    lines(cos(theta)*c(0.7,0.9),sin(theta)*c(0.7,0.9),lwd=3)
+    text(cos(theta)*0.65,sin(theta)*0.65,round(zs[i],1),cex=1.2)
+    text(cos(theta)*0.95,sin(theta)*0.95,round(xs[i],1),cex=1.2)
+  }
+}
+lines(cos(pnorm(-3)*2*pi)*c(0.7,0.9),sin(pnorm(-3)*2*pi)*c(0.7,0.9),lwd=3)
+lines(cos(pnorm(3)*2*pi)*c(0.7,0.9),sin(pnorm(3)*2*pi)*c(0.7,0.9),lwd=3)
+text(0.65,0.03,-3)
+text(0.65,-0.03,3)
+text(0.95,0.03,round(mu*n-3*si*sqrt(n),1))
+text(0.95,-0.03,round(mu*n+3*si*sqrt(n),1))
+arrows(-0.6,-0.05,0.6,0.05,lwd=4)
+```
+
+
