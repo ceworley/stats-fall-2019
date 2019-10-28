@@ -33,7 +33,7 @@ lines(c(-3,3),c(0,0))
 Answerlist
 --------
 * Estimate $P(X>`r z*si+mu`)$ by shading and counting.
-* Determine $P(Z>`r z*si+mu`)$ by using the $z$-table.
+* Determine $P(X>`r z*si+mu`)$ by using the $z$-table.
 
 
 Solution

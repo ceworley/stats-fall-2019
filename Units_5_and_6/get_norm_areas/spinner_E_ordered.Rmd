@@ -7,7 +7,6 @@ output:
 ---
 
 ```{r data generation, echo = FALSE, results = "hide"}
-
 mu = sample(10:60,1)
 si = sample(1:round(mu/3),1)
 
@@ -29,8 +28,8 @@ makepie = function(p1,p2){
     lines(c(cos(p2*2*pi)*0.7,cos(p2*2*pi)*0.83),
           c(sin(p2*2*pi)*0.7,sin(p2*2*pi)*0.83),
           lwd = 2)
-    text(cos(p1*2*pi)*1.05,sin(p1*2*pi)*1.05,signif(qnorm(p1)*si+mu,3))
-    text(cos(p2*2*pi)*1.05,sin(p2*2*pi)*1.05,signif(qnorm(p2)*si+mu,3))
+    text(cos(p1*2*pi)*1.05,sin(p1*2*pi)*1.05,signif(qnorm(p1)*si+mu,4))
+    text(cos(p2*2*pi)*1.05,sin(p2*2*pi)*1.05,signif(qnorm(p2)*si+mu,4))
   }
   if(p1>p2){
     polygon(c(0,cos(the[ps>p1])*0.8,0),c(0,sin(the[ps>p1])*0.8,0),col=rgb(0.4,0.4,0.4,0.4),lty=0)
@@ -45,8 +44,8 @@ makepie = function(p1,p2){
     lines(c(cos(p2*2*pi)*0.7,cos(p2*2*pi)*0.83),
           c(sin(p2*2*pi)*0.7,sin(p2*2*pi)*0.83),
           lwd = 2)
-    text(cos(p1*2*pi)*1.05,sin(p1*2*pi)*1.05,signif(qnorm(p1)*si+mu,3))
-    text(cos(p2*2*pi)*1.05,sin(p2*2*pi)*1.05,signif(qnorm(p2)*si+mu,3))
+    text(cos(p1*2*pi)*1.05,sin(p1*2*pi)*1.05,signif(qnorm(p1)*si+mu,4))
+    text(cos(p2*2*pi)*1.05,sin(p2*2*pi)*1.05,signif(qnorm(p2)*si+mu,4))
   }
 }
 
@@ -109,8 +108,8 @@ u = round(runif(1,0.54,0.96),2)
 P = round((u-0.5)*2,2)
 z = round(qnorm(u),2)
 x7 = z*si+mu
-qs = c(qs,paste("Determine $a$ such that $P(|X-",mu,"|<a)=",P,"$",sep=""))
-as = c(as,paste("$a = \\fbox{",z*si,"}$",sep=""))
+qs = c(qs,paste("Determine $d$ such that $P(|X-",mu,"|<d)=",P,"$",sep=""))
+as = c(as,paste("$d = \\fbox{",z*si,"}$",sep=""))
 p7 = c(1-u,u)
 
 z = round(qnorm(runif(1,0.54,0.96)),1)
@@ -122,8 +121,8 @@ u = round(runif(1,0.54,0.96),2)
 P = round((1-u)*2,2)
 z = round(qnorm(u),2)
 x9 = z*si+mu
-qs = c(qs,paste("Determine $a$ such that $P(|X-",mu,"|>a)=",P,"$",sep=""))
-as = c(as,paste("$z = \\fbox{",z*si,"}$",sep=""))
+qs = c(qs,paste("Determine $d$ such that $P(|X-",mu,"|>d)=",P,"$",sep=""))
+as = c(as,paste("$d = \\fbox{",z*si,"}$",sep=""))
 p9 = c(u,1-u)
 
 ord = 1:9

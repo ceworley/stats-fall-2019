@@ -45,8 +45,8 @@ makepie = function(p1,p2){
     lines(c(cos(p2*2*pi)*0.7,cos(p2*2*pi)*0.83),
           c(sin(p2*2*pi)*0.7,sin(p2*2*pi)*0.83),
           lwd = 2)
-    text(cos(p1*2*pi)*1.05,sin(p1*2*pi)*1.05,signif(qnorm(p1)*si+mu,3))
-    text(cos(p2*2*pi)*1.05,sin(p2*2*pi)*1.05,signif(qnorm(p2)*si+mu,3))
+    text(cos(p1*2*pi)*1.05,sin(p1*2*pi)*1.05,signif(qnorm(p1)*si+mu,4))
+    text(cos(p2*2*pi)*1.05,sin(p2*2*pi)*1.05,signif(qnorm(p2)*si+mu,4))
   }
 }
 
@@ -123,8 +123,8 @@ P = round((1-u)*2,2)
 z = round(qnorm(u),2)
 x9 = z*si+mu
 qs = c(qs,paste("Determine $a$ such that $P(|X-",mu,"|>a)=",P,"$",sep=""))
-as = c(as,paste("$z = \\fbox{",z*si,"}$",sep=""))
-p9 = c(u,1-u)
+as = c(as,paste("$a = \\fbox{",z*si,"}$",sep=""))
+p9 = c(pnorm(z),1-pnorm(z))
 
 ord = 1:9
 

@@ -142,9 +142,10 @@ fs = dnorm(xs,mu*n,si*sqrt(n))
 barplot(height=fs,names.arg = xs, main="Probability Distribution of X", xlab="Measurement", ylab="Probability",space=0)
 ```
 
-## How to roll 1000 dice: spin this once
 
-```{r spinner,fig.asp=1}
+## How to roll 100 dice: spin this once
+
+```{r spinnerB,fig.asp=1}
 plot(0,0,type='n',axes=F,ann=F,xlim=c(-1,1),ylim=c(-1,1))
 thetas = seq(0,2*pi,length.out=360)
 lines(cos(thetas)*0.8,sin(thetas)*0.8)
@@ -154,22 +155,37 @@ ps = pnorm(zs)
 for(i in 1:length(zs)){
   theta = ps[i]*2*pi
   if(zs[i]%%1 != 0 & zs[i]>-2 & zs[i]<2){
-    lines(cos(theta)*c(0.75,0.85),sin(theta)*c(0.75,0.85))
-    text(cos(theta)*0.7,sin(theta)*0.7,round(zs[i],1),cex=0.8)
-    text(cos(theta)*0.9,sin(theta)*0.9,round(xs[i],1),cex=0.8)
+    lines(cos(theta)*c(0.8,0.85),sin(theta)*c(0.8,0.85))
+    text(cos(theta)*0.9,sin(theta)*0.9,round(zs[i],1),cex=0.8)
   } else if(zs[i]%%1 == 0) {
-    lines(cos(theta)*c(0.7,0.9),sin(theta)*c(0.7,0.9),lwd=3)
-    text(cos(theta)*0.65,sin(theta)*0.65,round(zs[i],1),cex=1.2)
-    text(cos(theta)*0.95,sin(theta)*0.95,round(xs[i],1),cex=1.2)
+    lines(cos(theta)*c(0.8,0.9),sin(theta)*c(0.8,0.9),lwd=3)
+    text(cos(theta)*0.95,sin(theta)*0.95,round(zs[i],1),cex=1.2)
   }
 }
-lines(cos(pnorm(-3)*2*pi)*c(0.7,0.9),sin(pnorm(-3)*2*pi)*c(0.7,0.9),lwd=3)
-lines(cos(pnorm(3)*2*pi)*c(0.7,0.9),sin(pnorm(3)*2*pi)*c(0.7,0.9),lwd=3)
-text(0.65,0.03,-3)
-text(0.65,-0.03,3)
-text(0.95,0.03,round(mu*n-3*si*sqrt(n),1))
-text(0.95,-0.03,round(mu*n+3*si*sqrt(n),1))
-arrows(-0.6,-0.05,0.6,0.05,lwd=4)
+xmin = floor(mu*n-2.5*si*sqrt(n))
+xmax = ceiling(mu*n+2.5*si*sqrt(n))
+xx = xmin:xmax
+for(i in xmin:xmax){
+  p1 = pnorm(i-0.5,mu*n,si*sqrt(n))
+  p2 = pnorm(i+0.5,mu*n,si*sqrt(n))
+  lines(c(0,cos(p1*2*pi)*0.8),c(0,sin(p1*2*pi)*0.8))
+  if(i == xmax){
+    lines(c(0,cos(p2*2*pi)*0.8),c(0,sin(p2*2*pi)*0.8))
+  }
+  if(i%%5==0){
+    pp = (p1+p2)/2
+    text(cos(pp*2*pi)*0.7,sin(pp*2*pi)*0.7,i)
+  }
+}
+lines(cos(pnorm(-3)*2*pi)*c(0.8,0.9),sin(pnorm(-3)*2*pi)*c(0.7,0.9),lwd=3)
+lines(cos(pnorm(3)*2*pi)*c(0.8,0.9),sin(pnorm(3)*2*pi)*c(0.7,0.9),lwd=3)
+text(0.95,0.03,-3)
+text(0.95,-0.03,3)
+ap = 0.3
+size = 0.6
+arrows(-cos(ap*2*pi)*size,-sin(ap*2*pi)*size,cos(ap*2*pi)*size,sin(ap*2*pi)*size,lwd=3)
+text(1,0,"Z")
+text(0.6,0,"X")
 ```
 
 

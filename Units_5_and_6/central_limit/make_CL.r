@@ -1,5 +1,6 @@
 library("exams")
 
+set.seed(123)
 qs = c("sums.Rmd","sums.Rmd","aves.Rmd","aves.Rmd")
 qs = c(qs, sample(rep(c("sums.Rmd","aves.Rmd"),4)))
 
