@@ -1,0 +1,256 @@
+---
+title: "Normal Approximation to Binomial Distribution"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Central Limit Theorem
+
+Let random variable $W$ have mean $\mu_{\tiny w}$ and standard deviation $\sigma_{\tiny w}$.
+
+Let random variable $X$ represent the **sum** of $n$ instances of $W$.
+$$X = W_1+W_2+W_3 + \dots +W_n $$
+Then:
+$$\mu_{\tiny x} = n\mu_{\tiny w} $$
+$$\sigma_{\tiny x} = \sqrt{n} \sigma_{\tiny w} $$
+and $X$ is approximately normal.
+$$X \sim \mathcal{N}(\mu_{\tiny x},\,\sigma_{\tiny x}) $$
+
+## Bernoulli (review)
+
+Let $W$ be a Bernoulli random variable.
+
+| $w$ | $P(w)$ |
+|:---:|:------:|
+| 0   |   $q$  |
+| 1   | $p$    |
+
+$$\mu_{\tiny w} = p $$
+$$\sigma_{\tiny w} = \sqrt{pq} $$
+
+## Binomial distribution is a case of Central Limit Theorem
+
+Let $W$ be a Bernoulli random variable.
+
+| $w$ | $P(w)$ |
+|:---:|:------:|
+| 0   |   $q$  |
+| 1   | $p$    |
+
+\vspace{-15pt}
+$$\mu_{\tiny w} = p $$
+$$\sigma_{\tiny w} = \sqrt{pq} $$
+Let $X$ represent the **sum** of $n$ instances of $W$.
+$$\mu_{\tiny x} = np $$
+$$\sigma_{\tiny x} = \sqrt{n}\sqrt{pq} = \sqrt{npq} $$
+$X$ is approximately normal.
+
+
+## Example
+
+Let $W$ be a Bernoulli random variable with 80% chance of success. 
+
+| $w$ | $P(w)$ |
+|:---:|:------:|
+| 0   |   0.2  |
+| 1   |   0.8  |
+
+\vspace{-15pt}
+$$\mu_{\tiny w} = 0.8 $$
+$$\sigma_{\tiny w} = \sqrt{(0.8)(0.2)} = 0.4 $$
+
+Let $X$ represent 100 repetitions of $W$.
+$$X = W_1 + W_2 + W_3 + \dots + W_{100}$$
+Thus, 
+$$\mu_{\tiny x} = (100)(0.8) = 80 $$
+$$\sigma_{\tiny x} = (\sqrt{100})(0.4) = 4$$
+
+
+## Binomial and Normal Approx with $p=0.8$ and $n=100$.
+
+```{r binom_norm_sketch, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+n = 100
+p = 0.8
+par(mar=c(5,3,1,1))
+mu = n*p
+s = sqrt(n*p*(1-p))
+sig = round(sqrt(n*p*(1-p)),4)
+low = floor(mu-3*s)
+high = ceiling(mu+3*s)+1
+xs = seq(low,high,length=10000)
+ys = dnorm(xs,mu,s)
+yy = dbinom(low:high, n, p)
+plot(low:high-0.5,yy,type="s",main=NULL,xlab=NULL,ann=FALSE, xaxt='n', ylab=NULL, yaxt='n')
+lines(low:high-0.5,yy,type="h")
+#polygon(c(xs[xs>=ks[1]-0.5 & xs<=ks[2]+0.5], ks[2]+0.5, ks[1]-0.5),c(ys[xs>=ks[1]-0.5 & xs<=ks[2]+0.5], 0, 0), col=rgb(1,0,0,0.5))
+curve(dnorm(x,mu,s),add=TRUE)
+axis(side=1, line=2,at=n*p+(-3:3)*s, labels = FALSE)
+mtext(c("-3","-2","-1","0","1","2","3"),side=1,line=2.5,at=n*p+(-3:3)*s)
+mtext(c("z="),line=2.5,side=1,at=n*p+(-3.5)*s)
+vals = seq(low,high,as.integer(sig/2+0.5))
+axis(side=1, line=0, at=vals, labels = FALSE)
+mtext(vals,side=1,line=0.5,at=vals)
+mtext(c("x="),line=0.5,side=1,at=n*p+(-3.5)*s)
+lines(c(low,high), c(0,0))
+```
+
+## Actual vs Approx... $P(X\le 80)$
+
+Actual: $P(X \le 80) = `r pbinom(80,100,0.8)`$
+```{r binom_norm_sketch2, echo = FALSE, results = "hide", fig.height = 2.5, fig.width = 7, fig.path = "", fig.cap = ""}
+n = 100
+p = 0.8
+par(mar=c(5,3,1,1))
+mu = n*p
+s = sqrt(n*p*(1-p))
+sig = round(sqrt(n*p*(1-p)),4)
+low = floor(mu-3*s)
+high = ceiling(mu+3*s)+1
+xs = seq(low,high,length=10000)
+ys = dnorm(xs,mu,s)
+yy = dbinom(low:high, n, p)
+plot(low:high-0.5,yy,type="s",main=NULL,xlab=NULL,ann=FALSE, xaxt='n', ylab=NULL, yaxt='n')
+lines(low:high-0.5,yy,type="h")
+#polygon(c(xs[xs>=ks[1]-0.5 & xs<=ks[2]+0.5], ks[2]+0.5, ks[1]-0.5),c(ys[xs>=ks[1]-0.5 & xs<=ks[2]+0.5], 0, 0), col=rgb(1,0,0,0.5))
+for(spot in low:80){
+  y = dbinom(spot,n,p)
+  polygon(c(spot-0.5,spot-0.5,spot+0.5,spot+0.5),c(0,y,y,0), col=rgb(1,0,0,0.5))  
+}
+curve(dnorm(x,mu,s),add=TRUE)
+axis(side=1, line=2,at=n*p+(-3:3)*s, labels = FALSE)
+mtext(c("-3","-2","-1","0","1","2","3"),side=1,line=2.5,at=n*p+(-3:3)*s)
+mtext(c("z="),line=2.5,side=1,at=n*p+(-3.5)*s)
+vals = seq(low,high,as.integer(sig/2+0.5))
+axis(side=1, line=0, at=vals, labels = FALSE)
+mtext(vals,side=1,line=0.5,at=vals)
+mtext(c("x="),line=0.5,side=1,at=n*p+(-3.5)*s)
+lines(c(low,high), c(0,0))
+```
+
+Approximation, without continuity correction: $P(X \le 80) \approx 0.5$
+```{r binom_norm_sketch3, echo = FALSE, results = "hide", fig.height = 2.5, fig.width = 7, fig.path = "", fig.cap = ""}
+n = 100
+p = 0.8
+par(mar=c(5,3,1,1))
+mu = n*p
+s = sqrt(n*p*(1-p))
+sig = round(sqrt(n*p*(1-p)),4)
+low = floor(mu-3*s)
+high = ceiling(mu+3*s)+1
+xs = seq(low,high,length=10000)
+ys = dnorm(xs,mu,s)
+yy = dbinom(low:high, n, p)
+plot(low:high-0.5,yy,type="s",main=NULL,xlab=NULL,ann=FALSE, xaxt='n', ylab=NULL, yaxt='n')
+lines(low:high-0.5,yy,type="h")
+polygon(c(xs[xs<=80], 80, low),c(ys[xs<=80], 0, 0), col=rgb(1,0,0,0.5))
+curve(dnorm(x,mu,s),add=TRUE)
+axis(side=1, line=2,at=n*p+(-3:3)*s, labels = FALSE)
+mtext(c("-3","-2","-1","0","1","2","3"),side=1,line=2.5,at=n*p+(-3:3)*s)
+mtext(c("z="),line=2.5,side=1,at=n*p+(-3.5)*s)
+vals = seq(low,high,as.integer(sig/2+0.5))
+axis(side=1, line=0, at=vals, labels = FALSE)
+mtext(vals,side=1,line=0.5,at=vals)
+mtext(c("x="),line=0.5,side=1,at=n*p+(-3.5)*s)
+lines(c(low,high), c(0,0))
+```
+
+## Actual vs Approx with continuity correction... $P(X\le 80)$
+
+Actual: $P(X \le 80) = `r pbinom(80,100,0.8)`$
+```{r binom_norm_sketch4, echo = FALSE, results = "hide", fig.height = 2.5, fig.width = 7, fig.path = "", fig.cap = ""}
+n = 100
+p = 0.8
+par(mar=c(5,3,1,1))
+mu = n*p
+s = sqrt(n*p*(1-p))
+sig = round(sqrt(n*p*(1-p)),4)
+low = floor(mu-3*s)
+high = ceiling(mu+3*s)+1
+xs = seq(low,high,length=10000)
+ys = dnorm(xs,mu,s)
+yy = dbinom(low:high, n, p)
+plot(low:high-0.5,yy,type="s",main=NULL,xlab=NULL,ann=FALSE, xaxt='n', ylab=NULL, yaxt='n')
+lines(low:high-0.5,yy,type="h")
+#polygon(c(xs[xs>=ks[1]-0.5 & xs<=ks[2]+0.5], ks[2]+0.5, ks[1]-0.5),c(ys[xs>=ks[1]-0.5 & xs<=ks[2]+0.5], 0, 0), col=rgb(1,0,0,0.5))
+for(spot in low:80){
+  y = dbinom(spot,n,p)
+  polygon(c(spot-0.5,spot-0.5,spot+0.5,spot+0.5),c(0,y,y,0), col=rgb(1,0,0,0.5))  
+}
+curve(dnorm(x,mu,s),add=TRUE)
+axis(side=1, line=2,at=n*p+(-3:3)*s, labels = FALSE)
+mtext(c("-3","-2","-1","0","1","2","3"),side=1,line=2.5,at=n*p+(-3:3)*s)
+mtext(c("z="),line=2.5,side=1,at=n*p+(-3.5)*s)
+vals = seq(low,high,as.integer(sig/2+0.5))
+axis(side=1, line=0, at=vals, labels = FALSE)
+mtext(vals,side=1,line=0.5,at=vals)
+mtext(c("x="),line=0.5,side=1,at=n*p+(-3.5)*s)
+lines(c(low,high), c(0,0))
+```
+
+```{r getz}
+z = (80.5-80)/4
+```
+Approximation, with continuity correction: $P(X \le 80) \approx `r round(pnorm(z),4)`$
+```{r binom_norm_sketch5, echo = FALSE, results = "hide", fig.height = 2.5, fig.width = 7, fig.path = "", fig.cap = ""}
+n = 100
+p = 0.8
+par(mar=c(5,3,1,1))
+mu = n*p
+s = sqrt(n*p*(1-p))
+sig = round(sqrt(n*p*(1-p)),4)
+low = floor(mu-3*s)
+high = ceiling(mu+3*s)+1
+xs = seq(low,high,length=10000)
+ys = dnorm(xs,mu,s)
+yy = dbinom(low:high, n, p)
+plot(low:high-0.5,yy,type="s",main=NULL,xlab=NULL,ann=FALSE, xaxt='n', ylab=NULL, yaxt='n')
+lines(low:high-0.5,yy,type="h")
+polygon(c(xs[xs<=80.5], 80.5, low),c(ys[xs<=80.5], 0, 0), col=rgb(1,0,0,0.5))
+curve(dnorm(x,mu,s),add=TRUE)
+axis(side=1, line=2,at=n*p+(-3:3)*s, labels = FALSE)
+mtext(c("-3","-2","-1","0","1","2","3"),side=1,line=2.5,at=n*p+(-3:3)*s)
+mtext(c("z="),line=2.5,side=1,at=n*p+(-3.5)*s)
+vals = seq(low,high,as.integer(sig/2+0.5))
+axis(side=1, line=0, at=vals, labels = FALSE)
+mtext(vals,side=1,line=0.5,at=vals)
+mtext(c("x="),line=0.5,side=1,at=n*p+(-3.5)*s)
+lines(c(low,high), c(0,0))
+```
+
+## When to use normal approximation to Binomial Distribution
+
+>- When $n$ is large.
+>- When $p$ is not near 0 or 1.
+
+>- If both $np \ge 10$ and $nq \ge 10$ then normal approximation to binomial distribution is cool.
+
+## Bad approximation... $n=7$ and $p=0.2$
+
+```{r binom_norm_sketchbad, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+n = 7
+p = 0.2
+par(mar=c(5,3,1,1))
+mu = n*p
+s = sqrt(n*p*(1-p))
+sig = round(sqrt(n*p*(1-p)),4)
+low = floor(mu-3*s)
+high = ceiling(mu+3*s)+1
+xs = seq(low,high,length=1000)
+ys = dnorm(xs,mu,s)
+yy = dbinom(low:high, n, p)
+plot(low:high-0.5,yy,type="s",main=NULL,xlab=NULL,ann=FALSE, xaxt='n', ylab=NULL, yaxt='n')
+lines(low:high-0.5,yy,type="h")
+#polygon(c(xs[xs>=ks[1]-0.5 & xs<=ks[2]+0.5], ks[2]+0.5, ks[1]-0.5),c(ys[xs>=ks[1]-0.5 & xs<=ks[2]+0.5], 0, 0), col=rgb(1,0,0,0.5))
+curve(dnorm(x,mu,s),add=TRUE)
+axis(side=1, line=2,at=n*p+(-3:3)*s, labels = FALSE)
+mtext(c("-3","-2","-1","0","1","2","3"),side=1,line=2.5,at=n*p+(-3:3)*s)
+mtext(c("z="),line=2.5,side=1,at=n*p+(-3.5)*s)
+vals = seq(low,high,as.integer(sig/2+0.5))
+axis(side=1, line=0, at=vals, labels = FALSE)
+mtext(vals,side=1,line=0.5,at=vals)
+mtext(c("x="),line=0.5,side=1,at=n*p+(-3.5)*s)
+lines(c(low,high), c(0,0))
+```

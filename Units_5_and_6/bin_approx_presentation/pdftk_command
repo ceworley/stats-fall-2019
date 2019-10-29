@@ -1,0 +1,1 @@
+pdftk binomial_presentation_print.pdf cat 1-endeast output out.pdf
