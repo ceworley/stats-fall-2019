@@ -1,0 +1,7 @@
+pdf("dots.pdf",paper='letter',width=5*1.2,height=8*1.2)
+par(mar=c(0,0,0,0))
+xs = rep(1:25,40)
+ys = sort(rep(1:40,25))
+filled = sample(c(1,19),1000,replace = T,prob=c(0.45,0.55))
+plot(xs,ys,pch=filled,cex=2)
+dev.off()

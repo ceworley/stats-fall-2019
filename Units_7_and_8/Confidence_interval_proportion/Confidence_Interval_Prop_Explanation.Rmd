@@ -1,0 +1,86 @@
+---
+title: "Confidence Interval of Proportion"
+header-includes:
+   - \usepackage{arev}
+output:
+    pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# How to determine a confidence interval of a proportion
+
+## Definitions
+
+$$\begin{aligned}
+p &= \text{population proportion (to be estimated)} \\
+\hat{p} &= \text{sample proportion (actually measured)} \\
+n &= \text{sample size} \\
+\gamma &= \text{confidence level} = \text{chance that a confidence interval will include $p$} \\
+\alpha &= \text{error rate} = 1-\gamma\\
+\sigma_{\hat{p}} &= \text{standard error (standard deviation of sampling distribution)} \\
+z^{\star} &= \text{standardized radius of interval} \\
+ME &= \text{margin of error (radius of interval)} = z^{\star}\cdot\sigma_{\hat{p}} \\
+\ell &= \text{percentile associated with $z^{\star}$} \\
+LB &= \text{lower bound of confidence interval} = \hat{p}-ME \\
+UB &= \text{upper bound of confidence interval} = \hat{p}+ME \\
+CI &= \text{confidence interval} =[LB,\, UB]
+\end{aligned}$$
+
+## General Problem
+
+- **Given:** $\hat{p}$, $n$, and $\gamma$ 
+- **Find:** The lower and upper bounds of the confidence interval.
+
+## General Procedure
+
+We first determine $z^{\star}$ such that $P(|Z|<z^{\star})=\gamma$. The graphic below suggests the strategy: determine $\alpha$, find $\ell$, and use the $z$-table to get $z^{\star}$.
+
+```{r visualize,fig.width=7,fig.height=3,fig.align='center'}
+library(latex2exp)
+par(mar=c(5,8,0,0))
+plot(-300:300/100,dnorm(-300:300/100),axes=F,ann=F,type='l',ylim=c(0,0.5))
+lines(c(-3,3),c(0,0))
+z = 1.5
+arrows(z,0.45,-3.2,0.45)
+lines(c(z,z),c(0.45,0.43))
+text((z-3)/2,0.47,TeX("percentile of $z^{*}$"))
+lines(c(-z,-z),c(0,dnorm(-z)))
+lines(c(z,z),c(0,dnorm(z)))
+axis(1,c(-3:3,-1.5,1.5),c(-3:3,TeX("$-z^*$"),TeX("$z^*$")))
+axis(1,line=3,c(0,-1.5,1.5),c(TeX("$\\hat{p}$"),TeX("$\\hat{p}-ME$"),TeX("$\\hat{p}+ME$")))
+text(-1.9,0.03,TeX("$\\alpha/2$"))
+text(1.9,0.03,TeX("$\\alpha/2$"))
+text(0,0.1,TeX("$\\gamma$"),cex=2)
+mtext("standardized scale:",1,1,adj=-.4)
+mtext("proportion scale:",1,4,adj=-.1)
+```
+
+
+Determine error rate. This represents how often confidence intervals will miss the true population proportion. This error rate is a two-tail area.
+$$\alpha = 1-\gamma $$
+We can determine the percentile ($\ell$) of $z^{\star}$.
+$$\ell = 1-\frac{\alpha}{2} $$
+It should be mentioned that you could have gotten the percentile more directly.
+$$\ell = \frac{\gamma+1}{2} $$
+Use the $z$-table to get $z^*$.
+
+We estimate the standard error. (Technically we should use $p$, not $\hat{p}$, but we only know $\hat{p}$. We assume $\hat{p}$ is close enough to $p$ for this estimation to be accurate.)
+$$\sigma_{\hat{p}} = \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+Determine the margin of error.
+$$ME = z^{\star}\cdot \sigma_{\hat{p}}$$
+Get the lower bound.
+$$LB = \hat{p}-ME $$
+Get the upper bound.
+$$UB = \hat{p}+ME $$
+Write the confidence interval in interval notation.
+$$\fbox{$CI = [LB, UB] $}$$
+We can summarize the procedure in two steps:
+
+1. Determine $z^{\star}$ such that $P(|Z|<z^{\star})=\gamma$. It is helpful to know $\ell=\frac{\gamma+1}{2}$.
+2. Use the following expression to find the bounds:
+$$\hat{p}\pm z^{\star}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$$
+
+
