@@ -1,0 +1,45 @@
+---
+title: "Cheat Sheet"
+header-includes:
+   - \usepackage{arev}
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+\thispagestyle{empty} 
+
+# Confidence Interval: Inferring about a population parameter from a sample statistic
+* To get $z^{\star}$, first get percentile, $\ell$, from confidence level ($\gamma$):
+$$\ell = \frac{\gamma+1}{2} $$
+then, use the $z$-table.
+
+### Proportion
+
+The population proportion, $p$, is estimated with an interval (to indicate uncertainty) based on a sample proportion, $\hat{p}$.
+
+* Bounds:
+$$\hat{p}\pm z^{\star}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} $$
+* Necessary sample size for a given margin of error:  
+    * If $\hat{p}$ is known:
+      $$n = \hat{p}(1-\hat{p})\left(\frac{z^{\star}}{ME}\right)^2 $$
+    * If $\hat{p}$ is unknown, assume it is 0.5 to be conservative
+      $$n = \frac{1}{4}\left(\frac{z^{\star}}{ME}\right)^2 $$
+
+### Mean
+
+The population mean, $\mu$, is estimated with an interval (to indicate uncertainty) based on a sample mean, $\bar{x}$.
+
+* Bounds:
+    * If $\sigma$ is known:
+      $$\bar{x} \pm z^{\star} \cdot \frac{\sigma}{\sqrt{n}}$$
+    * If $\sigma$ is unknown, use the sample standard deviation (and $t^{\star}$). Remember, $df = n-1$.
+      $$\bar{x} \pm t^{\star} \cdot \frac{s}{\sqrt{n}} $$
+* Necessary sample size for a given margin of error:
+$$n = \left( \frac{z^{\star} \sigma}{ME} \right)^2 $$
+
+
+
+

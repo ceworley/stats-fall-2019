@@ -1,0 +1,63 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
+options(scipen=999)
+while(T){
+  xbar = round(runif(1,40,150),2)
+  sig = round(runif(1,2,15),2)
+  
+  n = sample(30:200,1)
+  cls = c(0.8,0.9,0.95,0.96,0.98,0.99,0.995)
+  cl = sample(cls,1)
+  zstar = round(qnorm((cl+1)/2),2)
+  se = signif(sig/sqrt(n),3)
+  lb = round(xbar-zstar*se,2)
+  ub = round(xbar+zstar*se,2)
+  if(ub-lb > 0.04){
+    break
+  }
+}
+```
+
+Question
+========
+
+A population has unknown $\mu$ but a known $\sigma = `r sig`$. A sample of size `r n` has a mean $\bar{x}=`r xbar`$. Determine the `r cl*100`% confidence level of the population mean.
+
+
+Solution
+========
+
+We are given the sample size, sample mean, population standard deviation, and confidence level.
+$$
+\begin{aligned}
+n &= `r n` \\
+\bar{x} &= `r xbar` \\
+\sigma &= `r sig`\\
+\gamma &= `r cl`
+\end{aligned}
+$$
+
+Determine the critical $z$ value, $z^\star$, such that $P(|Z|<z^\star) = `r cl`$. Remember, $\ell = \frac{\gamma+1}{2} = \frac{`r cl`+1}{2} = `r (cl+1)/2`$
+$$z^\star = `r zstar` $$
+Calculate the standard error. 
+$$ \sigma_{\bar{x}} = \frac{\sigma}{\sqrt{n}} = \frac{`r sig`}{\sqrt{`r n`}} = `r se` $$
+We want to make an inference about the population mean.
+$$\mu ~\approx~ \bar{x}\pm z^\star \sigma_{\bar{x}} $$
+Determine the bounds.
+$$
+\begin{aligned}
+CI &= (\bar{x} - z^\star \sigma_{\bar{x}},\,\bar{x} + z^\star \sigma_{\bar{x}}) \\
+   &= (`r xbar` - `r zstar`\times`r se`,\,`r xbar` + `r zstar`\times`r se`) \\
+   &= (`r lb`,\,`r ub`) 
+\end{aligned}
+$$
+We are `r cl*100`% confident that the population mean is between `r lb` and `r ub`.
+
+
+
+Meta-information
+============
+extype: string
+exsolution: (`r lb`,\,`r ub`) 
+exname: mean CI
+extol: 0.01
