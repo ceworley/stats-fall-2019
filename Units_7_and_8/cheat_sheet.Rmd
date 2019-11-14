@@ -12,9 +12,11 @@ knitr::opts_chunk$set(echo = F)
 \thispagestyle{empty} 
 
 # Confidence Interval: Inferring about a population parameter from a sample statistic
-* To get $z^{\star}$, first get percentile, $\ell$, from confidence level ($\gamma$):
+
+* The confidence level, $\gamma$, represents how confident we are the interval will contain the population parameter (population proportion or population mean).
+* To get $z^{\star}$, find $z^\star$ such that $P(|Z|<z^\star)=\gamma$. To do that, first get percentile, $\ell$, from confidence level ($\gamma$):
 $$\ell = \frac{\gamma+1}{2} $$
-then, use the $z$-table.
+then, use the $z$-table to find $z^\star$ such that $P(Z<z^\star)=\ell$.
 
 ### Proportion
 
@@ -35,7 +37,7 @@ The population mean, $\mu$, is estimated with an interval (to indicate uncertain
 * Bounds:
     * If $\sigma$ is known:
       $$\bar{x} \pm z^{\star} \cdot \frac{\sigma}{\sqrt{n}}$$
-    * If $\sigma$ is unknown, use the sample standard deviation (and $t^{\star}$). Remember, $df = n-1$.
+    * If $\sigma$ is unknown, use the sample standard deviation (and $t^{\star}$). Remember, $df = n-1$. To get $t^{\star}$, find $t^\star$ such that $P(|T|<t^\star)=\gamma$ and $df=n-1$.
       $$\bar{x} \pm t^{\star} \cdot \frac{s}{\sqrt{n}} $$
 * Necessary sample size for a given margin of error:
 $$n = \left( \frac{z^{\star} \sigma}{ME} \right)^2 $$

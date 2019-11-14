@@ -19,7 +19,7 @@ zs = round(qnorm(ps),2)
 xs = round(mux+sigx*zs,2)
 
 P1 = round(pnorm(zs[1]),4)
-P2 = round(1-pnorm(zs[1]),4)
+P2 = round(1-pnorm(zs[2]),4)
 
 pp = runif(2,0.53,0.97)
 zz = round(qnorm(pp),2)

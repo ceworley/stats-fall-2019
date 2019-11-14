@@ -21,21 +21,25 @@ If you suspect that $\hat{p}$ will be near `r p`, how large of a sample is neede
 Solution
 ========
 
-Determine $z^\star$ such that $P(|Z|<z^\star) = `r CL`$.
+We are given the confidence level and the margin of error.
+$$\begin{aligned} 
+\gamma &= `r CL` \\
+ME &= `r ME`
+\end{aligned}$$
+
+Determine $z^\star$ such that $P(|Z|<z^\star) = `r CL`$. It is helpful to get the percentile of $z^\star$ by using $\ell = \frac{1+\gamma}{2} = \frac{1+`r CL`}{2} = `r (1+CL)/2`$. This lets you find $z^\star$ such that $P(Z<z^\star) = `r (1+CL)/2`$.
 $$z^\star = `r zstar`$$
-Determine the maximal standard error.
-$$ME = z^\star \sigma_{\hat{p}} $$
-
-$$\sigma_{\hat{p}} = \frac{ME}{z^\star} = \frac{`r ME`}{`r zstar`} = `r SE` $$
-Calculate $n$.
-$$\sigma_{\hat{p}} = \sqrt{\frac{p(1-p)}{n}}$$
-
-$$n = \frac{p(1-p)}{\sigma_{\hat{p}}^2} = \frac{(`r p`)(`r 1-p`)}{(`r SE`)^2} = `r p*(1-p)/SE^2`$$
+Use the appropriate formula. 
+$$\begin{aligned}
+n &= \hat{p}(1-\hat{p})\left(\frac{z^\star}{ME} \right)^2 \\ \\
+&= (`r p`)(`r 1-p`)\left(\frac{`r zstar`}{`r ME`} \right)^2 \\ \\
+&= `r p*(1-p)*zstar^2/ME^2`
+\end{aligned}$$
 
 When determining a necessary sample size, always round up (ceiling).
-$$n = `r n` $$
-Also, for simplicity, you should probably only use about 2 significant digits, while still rounding up.
-$$n = `r n2` $$
+$$n = `r ceiling(p*(1-p)*zstar^2/ME^2)` $$
+
+
 
 Meta-information
 ============

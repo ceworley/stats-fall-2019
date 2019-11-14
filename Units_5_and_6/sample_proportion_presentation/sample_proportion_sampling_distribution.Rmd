@@ -1,0 +1,43 @@
+---
+title: "Sample Proportion Sampling Distribution"
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Central Limit Theorem
+
+If:
+
+- Random variable $W$ has mean $\mu_{\tiny w}$ and standard deviation $\sigma_{\tiny w}$.
+- Random variable $X$ is the sum of $n$ instances of $W$.
+- Random variable $Y$ is the average of $n$ instances of $Y$.
+
+Then:
+
+- The following formulas are exactly true:
+$$\begin{aligned}
+\mu_{\tiny x} &= n\cdot \mu_{\tiny w} &&& \mu_{\tiny y} &= \mu_{\tiny w} \\
+\sigma_{\tiny x} &= \sqrt{n}\cdot \sigma_{\tiny w} &&& \sigma_{\tiny y} &= \frac{\sigma_{\tiny w}}{\sqrt{n}} \\
+\end{aligned}$$
+- And $X$ and $Y$ are **approximately** normal (if $n$ is large enough).
+
+## Example: Let $n=100$ and $W$ be Bernoulli with $p=0.8$
+
+\begin{tabular}{|c|c|c|c|c|c|}\hline
+$w$ & $P(w)$    & $w\cdot P(x)$ & $w-\mu_{\tiny w}$ & $(w-\mu_{\tiny w})^2$ & $(w-\mu_{\tiny w})^2\cdot P(w)$  \\ \hline
+0  & 0.2        & 0             & -0.8              & 0.64                  & 0.128 \\
+1  & 0.8        & 0.8           & 0.2               & 0.04                  & 0.032 \\ \hline
+   &            & $\mu_{\tiny w} = 0.8$&            &                       & $\sigma_{\tiny w}^2 = 0.16$ \\
+   &            &                      &            &                       & $\sigma_{\tiny w} = 0.4$ \\ \hline
+\end{tabular}
+
+Then,
+$$\begin{aligned}
+\mu_{\tiny x} &= 80 &&& \mu_{\tiny y} &= 0.8 \\
+\sigma_{\tiny x} &= 4 &&& \sigma_{\tiny y} &= 0.04 \\
+\end{aligned}$$
+
+
