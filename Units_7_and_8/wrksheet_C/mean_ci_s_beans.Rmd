@@ -1,0 +1,62 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
+options(scipen=999)
+while(T){
+  xbar = round(runif(1,300,700))
+  s = round(runif(1,20,70))
+  df = sample(c(5:50,seq(55,100,5),seq(125,500,25)),1)
+  n = df+1
+  cls = c(0.8,0.9,0.95,0.96,0.98,0.99,0.995)
+  cl = sample(cls,1)
+  tstar = round(qt((cl+1)/2,df),2)
+  lb = round(xbar-tstar*s/sqrt(n),2)
+  ub = round(xbar+tstar*s/sqrt(n),2)
+  if(ub-lb > 0.2 & lb>0){
+    break
+  }
+}
+```
+
+Question
+========
+
+Brahim wants to estimate the average mass of the beans in a large bag. He takes a sample of size `r n` and finds the sample mean to be `r xbar` and the sample standard deviation to be `r s`. What would be the `r cl*100`% confidence interval?
+
+Solution
+========
+
+We are given the sample size, sample mean, sample standard deviation, and confidence level.
+$$
+\begin{aligned}
+n &= `r n` \\
+\bar{x} &= `r xbar` \\
+s &= `r s`\\
+\gamma &= `r cl`
+\end{aligned}
+$$
+Find the degrees of freedom.
+$$\begin{aligned}
+df &= n-1 \\
+&= `r n`-1 \\
+&= `r df`
+\end{aligned}$$
+Determine the critical $t$ value, $t^\star$, such that $P(|T|<t^\star) = `r cl`$ and $df=`r df`$. 
+$$t^\star = `r tstar` $$
+Use the formula for bounds (mean, $\sigma$ unknown).
+$$
+\begin{aligned}
+LB &= \bar{x} - t^\star \frac{s}{\sqrt{n}} &&&&& UB &= \bar{x} + t^\star \frac{s}{\sqrt{n}} \\
+   &= `r xbar` - `r tstar`\times \frac{`r s`}{\sqrt{`r n`}} &&&&&& =`r xbar` + `r tstar`\times \frac{`r s`}{\sqrt{`r n`}} \\
+   &= `r lb` &&&&&&= `r ub` 
+\end{aligned}
+$$
+We are `r cl*100`% confident that the population mean is between `r lb` and `r ub`.
+$$CI = (`r lb`, \, `r ub`)$$
+
+
+Meta-information
+============
+extype: string
+exsolution: CI = (`r lb`, `r ub`)
+exname: mean CI
+extol: 0.01

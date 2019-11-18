@@ -1,0 +1,117 @@
+---
+title: "Single-sample hypothesis testing"
+header-includes:
+   - \usepackage{arev}
+   - \usepackage{multicol}
+geometry: "left=2cm,right=2cm,top=1cm,bottom=1cm"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newcommand{\pval}{p\text{-value}}
+\thispagestyle{empty}
+
+\begin{center}
+$\begin{aligned}
+H_0 &= \text{null hypothesis} \\
+H_A &= \text{alternative hypothesis} \\
+\pval &= \text{probability of sample at least as extreme as observed, {\bf given} $H_0$} \\
+\alpha &= \text{significance level}
+\end{aligned}$
+\end{center}
+
+\begin{itemize}
+\item Calculate the $\pval$.
+\begin{itemize}
+\item "at least as extreme" can mean "as large or larger", "as small or smaller", or "as far from expected in either direction".
+\end{itemize}
+\item If $\pval$ is small enough, we reject the null hypothesis. (This logic is similar to {\it reductio ad absurdum}.)
+$$\text{If }~~\pval<\alpha ~~\text{ then }~~ \text{reject }H_0 $$
+$$\text{If }~~\pval \ge \alpha ~~\text{ then }~~ \text{do not reject }H_0 $$
+\end{itemize}
+
+### Single-sample proportion testing
+
+$$z_0 = \cfrac{\hat{p}-p_0}{\sqrt{\cfrac{p_0(1-p_0)}{n}}} $$
+
+\begin{multicols}{3}
+Right tail (one tail)
+\begin{itemize}
+\item $H_0$ claims $p = p_0$
+\item $H_A$ claims $p > p_0$
+\item $\pval = P(Z > z_0)$
+\end{itemize}
+
+Left tail (one tail)
+\begin{itemize}
+\item $H_0$ claims $p = p_0$
+\item $H_A$ claims $p < p_0$
+\item $\pval = P(Z < z_0)$
+\end{itemize}
+
+Two tail
+\begin{itemize}
+\item $H_0$ claims $p = p_0$
+\item $H_A$ claims $p \ne p_0$
+\item $\pval = P(|Z| > |z_0|)$
+\end{itemize}
+\end{multicols}
+
+### Single-sample mean testing, $\sigma$ known
+
+$$z_0 = \cfrac{\bar{x}-\mu_0}{\frac{\sigma}{\sqrt{n}}} $$
+
+\begin{multicols}{3}
+Right tail (one tail)
+\begin{itemize}
+\item $H_0$ claims $\mu = \mu_0$
+\item $H_A$ claims $\mu > \mu_0$
+\item $\pval = P(Z > z_0)$
+\end{itemize}
+
+Left tail (one tail)
+\begin{itemize}
+\item $H_0$ claims $\mu = \mu_0$
+\item $H_A$ claims $\mu < \mu_0$
+\item $\pval = P(Z < z_0)$
+\end{itemize}
+
+Two tail
+\begin{itemize}
+\item $H_0$ claims $\mu = \mu_0$
+\item $H_A$ claims $\mu \ne \mu_0$
+\item $\pval = P(|Z| > |z_0|)$
+\end{itemize}
+\end{multicols}
+
+### Single-sample mean testing, $\sigma$ unknown
+
+$$t_0 = \cfrac{\bar{x}-\mu_0}{\frac{s}{\sqrt{n}}} $$
+
+\begin{multicols}{3}
+Right tail (one tail)
+\begin{itemize}
+\item $H_0$ claims $\mu = \mu_0$
+\item $H_A$ claims $\mu > \mu_0$
+\item $\pval = P(T > t_0)$
+\end{itemize}
+
+Left tail (one tail)
+\begin{itemize}
+\item $H_0$ claims $\mu = \mu_0$
+\item $H_A$ claims $\mu < \mu_0$
+\item $\pval = P(T < t_0)$
+\end{itemize}
+
+Two tail
+\begin{itemize}
+\item $H_0$ claims $\mu = \mu_0$
+\item $H_A$ claims $\mu \ne \mu_0$
+\item $\pval = P(|T| > |t_0|)$
+\end{itemize}
+\end{multicols}
+
+

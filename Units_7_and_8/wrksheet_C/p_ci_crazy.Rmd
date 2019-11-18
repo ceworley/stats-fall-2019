@@ -1,0 +1,77 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+options(scipen=999)
+CL = sample(70:99/100,1)
+perc = (1+CL)/2
+zstar = round(qnorm(perc),2)
+while(T)
+{
+    phat = round(runif(1,0.01,0.99),2)
+    n = sample(10:99,1)*10^sample(0:3,1)
+    sucs = round(phat*n)
+    fails = round((1-phat)*n)
+    phat = round(sucs/n,4)
+    se = signif(sqrt(phat*(1-phat)/n),3)
+    binomse = n*se
+    plo = signif(phat-zstar*se,3)
+    pup = signif(phat+zstar*se,3)
+    ME = zstar*se
+    if(sucs>10 & fails>10 & plo>0 & pup<1 & binomse>7 & plo<pup-0.01)
+    {
+        break
+    }
+}
+```
+
+Question
+========
+
+A random sample of size `r n` was found to have a sample proportion of `r phat*100`% (because there were `r sucs` successes). Determine a `r CL*100`% confidence interval of the population proportion.
+
+
+Answerlist
+----------
+* Find the lower bound of the confidence interval.
+* Find the upper bound of the condifence interval.
+
+
+
+Solution
+========
+
+Identify the givens.
+$$\begin{aligned}
+n &= `r n` \\
+\hat{p} &= `r phat` \\
+\gamma &= `r CL`
+\end{aligned}$$
+
+Determine $z^\star$ such that $P(|Z|<z^\star) = `r CL`$. It is helpful to know that $\ell=\frac{\gamma+1}{2} = \frac{`r CL`+1}{2} = `r perc`$. (Use the $z$-table to find $z^{\star}$.)
+$$z^\star = `r zstar` $$
+Use the formula (proportion) for the bounds.
+$$\begin{aligned}
+LB &= \hat{p}-z^\star\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} &&&&&
+UB &= \hat{p}+z^\star\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} \\ \\
+&= `r phat`-`r zstar`\sqrt{\frac{(`r phat`)(`r 1-phat`)}{`r n`}} &&&&&
+&= `r phat`+`r zstar`\sqrt{\frac{(`r phat`)(`r 1-phat`)}{`r n`}} \\ \\
+&= `r plo` &&&&& &= `r pup`
+\end{aligned}$$
+
+Determine the interval.
+$$CI ~=~ (`r plo`\,,~ `r pup`) $$
+We are `r CL*100`% confident that the true population proportion is between `r plo*100`% and `r pup*100`%.
+
+
+Answerlist
+----------
+* The lower bound = `r plo`, which can also be expressed as `r plo*100`%.
+* The upper bound = `r pup`, which can also be expressed as `r pup*100`%.
+
+
+Meta-information
+============
+extype: cloze
+exclozetype: num|num
+exsolution: `r plo`|`r pup`
+exname: p CI
+extol: 0.01
