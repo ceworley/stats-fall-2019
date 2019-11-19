@@ -1,3 +1,8 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 ```{r data generation, echo = FALSE, results = "hide"}
 ## DATA GENERATION
 library(latex2exp)
@@ -5,21 +10,24 @@ options(scipen=999)
 ttalphas = 1-c(0,0.8, 0.9, 0.95, 0.96, 0.98, 0.99, 0.995, 0.996, 0.998,1)
 alphas = c(0.1,0.05,0.02,0.01)
 alpha = sample(alphas,1)
-n = sample(c(21:51,seq(56,101,by=5),seq(126,501,by=25)), 1)
+n = sample(8:12, 1)
 df = n-1
 ell = alpha/2
 tstar = abs(qt(ell,df))
 mu = sample(50+(0:20)*10, 1)
-s = round(runif(1,2,mu/3),2)
+sig = round(runif(1,2,mu/3),2)
 
-se = round(s/sqrt(n), 3)
 while(T){
-  t = round(runif(1,tstar-0.3,tstar+0.3),2)
-  if(abs(t-tstar)>0.02){break}
+  x = round(rnorm(n,mu,sig),1)
+  xbar = round(mean(x),3)
+  s = round(sd(x),3)
+  se = round(s/sqrt(n), 3)
+  t = round((xbar-mu)/se,2)
+  pvalue = 2*round(pt(-abs(t),df),4)
+  if(abs(t-tstar)<0.1 & abs(t-tstar)>0.01){
+    break
   }
-xbar = round(mu+t*se,2)
-t = round((xbar-mu)/se,2)
-pvalue = 2*round(pt(-abs(t),df),4)
+}
 lbpv = max(ttalphas[ttalphas<pvalue])
 ubpv = min(ttalphas[ttalphas>pvalue])
 if(pvalue < alpha){
@@ -29,12 +37,33 @@ if(pvalue < alpha){
   w = "No, we do not reject the null hypothesis."
   sym = ">"
 }
+
+tab = "\\begin{center}\\begin{tabular}{|c c c c c|}\\hline\n"
+for(i in 0:(length(x)%/%5)){
+  for(j in 1:5){
+    ind = i*5+j
+    if(ind <= length(x)){
+      tab = paste(tab,x[ind],sep="")
+    } else {
+      tab = paste(tab," ",sep="")
+    }
+    if(j < 5){
+      tab = paste(tab," & ",sep="")
+    } else {
+      tab = paste(tab," \\\\\n", sep="")
+    }
+  }
+}
+tab = paste(tab,"\\hline\n\\end{tabular}\\end{center}",sep="")
 ```
 
 Question
 ========
 
-A null hypothesis claims a population has a mean $\mu = `r mu`$. You decide to run two-tail test on a sample of size $n=`r n`$ using a significance level $\alpha = `r alpha`$. You then collect the sample and find it has mean $\bar{x}=`r xbar`$ and standard deviation $s=`r s`$.
+A null hypothesis claims a population has a mean $\mu = `r mu`$. You decide to run two-tail test on a sample of size $n=`r n`$ using a significance level $\alpha = `r alpha`$. 
+
+You then collect the sample:
+`r tab`
 
 Answerlist
 --------
@@ -48,6 +77,9 @@ Solution
 State the hypotheses.
 $$H_0 ~~\text{ claims }~~ \mu=`r mu` $$
 $$H_A ~~\text{ claims }~~ \mu\ne `r mu` $$
+Find the mean and standard deviation of the sample.
+$$\bar{x} = `r xbar` $$
+$$s = `r s` $$
 
 Determine the degrees of freedom.
 $$df = `r n`-1 = `r df` $$
