@@ -1,5 +1,6 @@
 ```{r data generation, echo = FALSE, results = "hide"}
 ## DATA GENERATION
+options(scipen=999)
 alpha = sample(c(0.2,0.1,0.05,0.04,0.02,0.01),1)
 zstar = abs(qnorm(alpha/2))
 while(T){

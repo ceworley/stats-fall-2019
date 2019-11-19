@@ -1,7 +1,7 @@
 library("exams")
 
 set.seed(123)
-qs = c(rep("p_single_test_left.Rmd",2),rep("p_single_test_right.Rmd",2),rep("p_single_test_twotail.Rmd",2),rep("pvalue_single_mean_twotail.Rmd",2))
+qs = c(rep("p_single_test_left.Rmd",2),rep("p_single_test_right.Rmd",2),rep("p_single_test_twotail.Rmd",2),rep("mean_twotail.Rmd",2))
 
 exams2pdf(qs,
           name = "HTA",

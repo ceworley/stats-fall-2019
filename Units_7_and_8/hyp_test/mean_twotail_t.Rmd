@@ -1,0 +1,95 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## THIS NEEDS WORK!!!
+
+## DATA GENERATION
+options(scipen=999)
+ttalphas = c(0.8, 0.9, 0.95, 0.96, 0.98, 0.99, 0.995, 0.996, 0.998)
+alphas = c(0.1,0.05,0.02,0.01)
+alpha = sample(alphas,1)
+n = sample(c(21:51,seq(56,101,by=5),seq(126,501,by=25)), 1)
+df = n-1
+ell = alpha/2
+tstar = abs(qt(ell,df))
+mu = sample(50+(0:20)*10, 1)
+s = round(runif(1,2,mu/3),2)
+
+se = round(s/sqrt(n), 3)
+while(T){
+  t = round(runif(1,tstar-0.2,tstar+0.2),2)
+  if(abs(t-tstar)>0.02){break}
+  }
+xbar = round(mu+t*se,2)
+t = round((xbar-mu)/se,2)
+pvalue = 2*round(pt(-abs(t),df),4)
+if(pvalue < alpha){
+  w = "Yes, we reject the null hypothesis."
+  sym = "<"
+} else {
+  w = "No, we do not reject the null hypothesis."
+  sym = ">"
+}
+```
+
+Question
+========
+
+A null hypothesis claims a roughly symmetric population has a mean $\mu = `r mu`$. You decide to run two-tail test on a sample of size $n=`r n`$ using a significance level $\alpha = `r alpha`$. You then collect the sample and find it has mean $\bar{x}=`r xbar`$ and standard deviation $s=`r s`$.
+
+Answerlist
+--------
+* Determine the $p$-value.
+* Do you reject the null hypothesis?
+
+
+Solution
+========
+
+Find the standard error.
+$$\sigma_{\bar{x}} = \frac{s}{\sqrt{n}} = \frac{`r s`}{\sqrt{`r n`}} = `r se` $$
+Make a sketch.
+\
+```{r pvalue_sketch, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dt(zs,df)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(mu+(-3:3)*se,side=1,line=0.5,at=-3:3)
+mtext(c("xbar="),line=0.5,side=1,at=-3.5)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("t="),line=2.5,side=1,at=-3.5)
+polygon(c(zs[zs<=-abs(z)], -abs(z), -3),c(ys[zs<=-abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+polygon(c(zs[zs>=abs(z)], 3, abs(z)),c(ys[zs>=abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l')
+text(-2,0.3,label="two-tail area = pvalue")
+```
+
+Find the $t$ score.
+$$t = \frac{\bar{x}-\mu_0}{\sigma_{\bar{x}}} = \frac{`r xbar`-`r mu`}{`r se`} = `r t`$$
+
+Find the $p$-value.
+$$\begin{aligned}
+p\text{-value} &= P(|Z| > `r abs(z)`) \\
+               &= 2\cdot P(Z < `r -abs(z)`) \\
+               &= \fbox{`r pvalue`}
+\end{aligned}$$
+Compare the $p$-value and the significance level.
+$$p\text{-value} `r sym` \alpha $$
+`r w`
+
+Answerlist
+--------
+* $p$-value = `r pvalue`
+* `r w`
+
+
+
+Meta-information
+============
+extype: num
+exsolution: `r pvalue`
+exname: binomial exact
+extol: 0.01

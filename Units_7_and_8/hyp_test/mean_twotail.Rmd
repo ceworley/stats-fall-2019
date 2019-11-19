@@ -1,20 +1,39 @@
 ```{r data generation, echo = FALSE, results = "hide"}
 ## DATA GENERATION
 options(scipen=999)
+alphas = c(0.1,0.05,0.025,0.02,0.01)
+alpha = sample(alphas,1)
+ell = alpha/2
+zstar = abs(qnorm(ell))
 mu = sample(50+(0:20)*10, 1)
 sig = sample(2:round(mu/3,0), 1)
 n = sample(80:300, 1)
 se = round(sig/sqrt(n), 3)
-z = round(runif(1,-3,3), 2)
+while(T){
+  z = round(runif(1,zstar-0.3,zstar+0.3),2)
+  if(abs(z-zstar)>0.02){break}
+  }
 xbar = round(mu+z*se,2)
 z = round((xbar-mu)/se,2)
 pvalue = 2*round(pnorm(-abs(z)),4)
+if(pvalue < alpha){
+  w = "Yes, we reject the null hypothesis."
+  sym = "<"
+} else {
+  w = "No, we do not reject the null hypothesis."
+  sym = ">"
+}
 ```
 
 Question
 ========
 
-A null hypothesis claims a roughly symmetric population has a mean $\mu = `r mu`$ and a standard deviation $\sigma = `r sig`$. Determine the $p$-value of a two-tail test if your sample of size $n=`r n`$ has mean $\bar{x}=`r xbar`$.
+A null hypothesis claims a roughly symmetric population has a mean $\mu = `r mu`$ and a standard deviation $\sigma = `r sig`$. You decide to run two-tail test on a sample of size $n=`r n`$ using a significance level $\alpha = `r alpha`$. You then collect the sample and find it has mean $\bar{x}=`r xbar`$.
+
+Answerlist
+--------
+* Determine the $p$-value.
+* Do you reject the null hypothesis?
 
 
 Solution
@@ -44,7 +63,7 @@ text(-2,0.3,label="two-tail area = pvalue")
 ```
 
 Find the $z$ score.
-$$z_0 = \frac{`r xbar`-`r mu`}{`r se`} = `r z` $$
+$$z = \frac{\bar{x}-\mu_0}{\sigma_{\bar{x}}} = \frac{`r xbar`-`r mu`}{`r se`} = `r z`$$
 
 Find the $p$-value.
 $$\begin{aligned}
@@ -52,6 +71,14 @@ p\text{-value} &= P(|Z| > `r abs(z)`) \\
                &= 2\cdot P(Z < `r -abs(z)`) \\
                &= \fbox{`r pvalue`}
 \end{aligned}$$
+Compare the $p$-value and the significance level.
+$$p\text{-value} `r sym` \alpha $$
+`r w`
+
+Answerlist
+--------
+* $p$-value = `r pvalue`
+* `r w`
 
 
 
