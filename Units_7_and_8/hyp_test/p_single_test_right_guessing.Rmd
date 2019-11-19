@@ -60,7 +60,7 @@ Answerlist
 * State the hypotheses
 * Determine the $p$-value.
 * Decide whether we reject or retain the null hypothesis.
-* Do we think the student did better than random guessing?
+* Do we think the student did significantly better than random guessing?
 
 
 Solution
@@ -99,7 +99,7 @@ mtext(c("z="),line=2.5,side=1,at=-3.6)
 polygon(c(zs[zs>=z], 3, z),c(ys[zs>=z], 0, 0), col=rgb(1,0,0,0.5))
 lines(c(-3,3),c(0,0),'l',lwd=1)
 ```
-
+\
 To determine that right area, we use the z table.
 $$\begin{aligned}
 p\text{-value} &= P\left(\hat{p} > `r phat`\right) \\
@@ -125,8 +125,7 @@ Answerlist
 
 Meta-information
 ============
-extype: cloze
-exclozetype: num|string
-exsolution: `r Pr`|`r wrd3`
+extype: string
+exsolution: `r ans`
 exname: p hyp test right
 extol: 0.01
