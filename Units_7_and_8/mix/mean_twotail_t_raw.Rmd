@@ -1,0 +1,141 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+library(latex2exp)
+options(scipen=999)
+ttalphas = 1-c(0,0.8, 0.9, 0.95, 0.96, 0.98, 0.99, 0.995, 0.996, 0.998,1)
+alphas = c(0.1,0.05,0.02,0.01)
+alpha = sample(alphas,1)
+n = sample(8:12, 1)
+df = n-1
+ell = alpha/2
+tstar = abs(qt(ell,df))
+mu = sample(50+(0:20)*10, 1)
+sig = round(runif(1,2,mu/3),2)
+
+while(T){
+  x = round(rnorm(n,mu,sig),1)
+  xbar = round(mean(x),3)
+  s = round(sd(x),3)
+  se = round(s/sqrt(n), 3)
+  t = round((xbar-mu)/se,2)
+  pvalue = 2*round(pt(-abs(t),df),4)
+  if(abs(t-tstar)<0.1 & abs(t-tstar)>0.01){
+    break
+  }
+}
+lbpv = max(ttalphas[ttalphas<pvalue])
+ubpv = min(ttalphas[ttalphas>pvalue])
+if(pvalue < alpha){
+  w = "Yes, we reject the null hypothesis."
+  sym = "<"
+} else {
+  w = "No, we do not reject the null hypothesis."
+  sym = ">"
+}
+
+tab = "\\begin{center}\\begin{tabular}{|c c c c c|}\\hline\n"
+for(i in 0:(length(x)%/%5)){
+  for(j in 1:5){
+    ind = i*5+j
+    if(ind <= length(x)){
+      tab = paste(tab,x[ind],sep="")
+    } else {
+      tab = paste(tab," ",sep="")
+    }
+    if(j < 5){
+      tab = paste(tab," & ",sep="")
+    } else {
+      tab = paste(tab," \\\\\n", sep="")
+    }
+  }
+}
+tab = paste(tab,"\\hline\n\\end{tabular}\\end{center}",sep="")
+```
+
+Question
+========
+
+A null hypothesis claims a population has a mean $\mu = `r mu`$. You decide to run two-tail test on a sample of size $n=`r n`$ using a significance level $\alpha = `r alpha`$. 
+
+You then collect the sample:
+`r tab`
+
+Answerlist
+--------
+* Determine the $p$-value.
+* Do you reject the null hypothesis?
+
+
+Solution
+========
+
+State the hypotheses.
+$$H_0 ~~\text{ claims }~~ \mu=`r mu` $$
+$$H_A ~~\text{ claims }~~ \mu\ne `r mu` $$
+Find the mean and standard deviation of the sample.
+$$\bar{x} = `r xbar` $$
+$$s = `r s` $$
+
+Determine the degrees of freedom.
+$$df = `r n`-1 = `r df` $$
+
+Find the standard error.
+$$\sigma_{\bar{x}} = \frac{s}{\sqrt{n}} = \frac{`r s`}{\sqrt{`r n`}} = `r se` $$
+Make a sketch of the null's sampling distribution.
+\
+```{r pvalue_sketch, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+top = qt(0.999,df)
+bot = -top
+tt = floor(top)
+bb = -tt
+ts = seq(bot,top,length=1000)
+ys = dt(ts,df)
+plot(ts, ys, 'l',xlim = c(bot,top), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=bb:tt, labels = FALSE)
+mtext(mu+(bb:tt)*se,side=1,line=0.5,at=bb:tt)
+mtext(TeX("$\\bar{x}=$"),line=0.5,side=1,at=bot-0.5)
+axis(side=1, line=2,at=bb:tt, labels = FALSE)
+mtext(bb:tt,side=1,line=2.5,at=bb:tt)
+mtext(c("t="),line=2.5,side=1,at=bot-0.5)
+polygon(c(ts[ts<=-abs(t)], -abs(t), bot),c(ys[ts<=-abs(t)], 0, 0), col=rgb(1,0,0,0.5))
+polygon(c(ts[ts>=abs(t)], top, abs(t)),c(ys[ts>=abs(t)], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(bot,top),c(0,0),'l')
+text(-2,0.3,label="two-tail area = pvalue")
+```
+
+Find the $t$ score.
+$$t = \frac{\bar{x}-\mu_0}{\sigma_{\bar{x}}} = \frac{`r xbar`-`r mu`}{`r se`} = `r t`$$
+
+Find the $p$-value.
+$$p\text{-value} =P(|T| > `r abs(t)`) $$
+We can't get an exact value with our table, but we can determine an interval that contains the $p$-value. (Look at row with $df=`r df`$.)
+$$P(|T| > `r round(qt(1-lbpv/2,df),2)`) = `r lbpv` $$
+$$P(|T| > `r round(qt(1-ubpv/2,df),2)`) = `r ubpv` $$
+Basically, because $t$ is between `r round(qt(1-lbpv/2,df),2)` and `r round(qt(1-ubpv/2,df),2)`, we know the $p$-value is between `r lbpv` and `r ubpv`.
+$$`r lbpv` < p\text{-value} < `r ubpv` $$
+
+Compare the $p$-value and the significance level ($\alpha = `r alpha`$).
+$$p\text{-value} `r sym` \alpha $$
+`r w`
+
+Answerlist
+--------
+* `r lbpv` <  $p$-value < `r ubpv`
+* `r w`
+
+
+
+Meta-information
+============
+extype: num
+exsolution: `r pvalue`
+exname: binomial exact
+extol: 0.01

@@ -1,0 +1,117 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+library(latex2exp)
+options(scipen=999)
+alpha = sample(c(0.1,0.05,0.025,0.02,0.01),1)
+zstar = qnorm(alpha)
+azs = abs(zstar)
+
+dis = 0.3
+dis2 = 2*dis/3
+
+while(T){
+    p = round(runif(1,0.09,0.91),3)
+    n = sample(1:10,1) * 10^sample(0:3,1)
+    se = signif(sqrt(p*(1-p)/n),3)
+    if (n*p>10 & n*(1-p)>10 & sqrt(n*p*(1-p))>7)
+    {
+        break
+    }
+}
+z = round(runif(1,azs-dis2,azs+dis),2) * (-1) #sample(c(-1,-1,-1,-1,-1,1),1)
+phat = signif(p+z*se,3)
+ns = round(phat*n)
+phat = signif(ns/n,3)
+z = round((phat-p)/se,2)
+Pr = round(pnorm(z),4)
+
+if (Pr<alpha)
+{
+    wrd3 = 'reject'
+    sym = '<'
+    ans = "We think our strain is more resistant than common corn."
+} else {
+    wrd3 = 'retain'
+    sym = '>'
+    ans = "We think our strain might just be as resistant as common corn."
+}
+
+```
+
+Question
+========
+
+A new virus has been devastating corn production. When exposed, `r p*100`% of common seedlings die within a week. We are trying to develop a resistant strain of corn.
+
+When we expose `r n` seedlings of our strain to the virus, `r phat*100`% die within a week. Using a significance level of `r alpha`, can we conclude that our strain is significantly more resistant?
+
+
+Answerlist
+--------
+* What kind of hypothesis test is appropriate?
+* State the hypotheses
+* Determine the $p$-value.
+* Decide whether we reject or retain the null hypothesis.
+* Do we think our strain is significantly more resistant?
+
+
+Solution
+========
+
+This is a left-tail (one-tail) proportion test because we only care whether a lower percentage of seedlings will die.
+
+State the hypotheses.
+$$H_0~~~\text{ claims } ~~~ p = `r p` $$
+$$H_\text{A}~~~\text{ claims } ~~~ p < `r p`$$
+Determine the standard error.
+$$\sigma_{\hat{p}} = \sqrt{\frac{p_0(1-p_0)}{n}} = \sqrt{\frac{`r p`(1-`r p`)}{`r n`}} = `r se` $$
+Determine a $z$ score. For simplicity, we ignore the continuity correction.
+$$z = \frac{\hat{p}-p_0}{\sigma_{\hat{p}}} = \frac{`r phat`-`r p`}{`r se`} = `r z` $$
+Make a sketch of the null's sampling distribution. The $p$-value is a left area.
+
+```{r p_single_test_left, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(signif(p+(-3:3)*se,3),side=1,line=0.5,at=-3:3)
+mtext(TeX("\\hat{p}="),line=0.5,side=1,at=-3.6)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.6)
+polygon(c(zs[zs<=z], z, -3),c(ys[zs<=z], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l',lwd=1)
+```
+
+To determine that left area, we use the z table.
+$$\begin{aligned}
+p\text{-value} &= P\left(\hat{p} < `r phat`\right) \\
+               &= P(Z < `r z`)\\
+               &= `r Pr` 
+\end{aligned}$$
+
+Compare $p$-value to $\alpha$ (which is `r alpha`).
+$$p\text{-value} `r sym` \alpha $$
+Make the conclusion: we `r wrd3` the null hypothesis.
+
+`r ans`
+
+
+Answerlist
+--------
+* Left-tail (one-tail) proportion test
+* Hypotheses: $H_0 \text{ claims } p = `r p`$  and $H_\text{A} \text{ claims } p < `r p`$.
+* The $p$-value is `r Pr`
+* We `r wrd3` the null hypothesis.
+* `r ans`
+
+
+Meta-information
+============
+extype: string
+exsolution: `r ans`
+exname: p hyp test left
+extol: 0.01

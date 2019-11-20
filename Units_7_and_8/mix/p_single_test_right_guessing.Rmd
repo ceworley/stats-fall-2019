@@ -1,0 +1,131 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+library(latex2exp)
+options(scipen=999)
+alpha = sample(c(0.1,0.05,0.025,0.02,0.01),1)
+zstar = qnorm(alpha)
+zstar = abs(zstar)
+
+dis = 0.3
+dis2 = 2*dis/3
+
+while(T){
+    n = sample(1:10,1) * 10^sample(0:2,1)
+    choices = sample(2:5,1)
+    p = round(1/choices,3)
+    se = signif(sqrt(p*(1-p)/n),3)
+    if (n*p>10 & n*(1-p)>10 & sqrt(n*p*(1-p))>7)
+    {
+        break
+    }
+}
+
+while(T){
+  phat = zstar*se+p
+  ns = round(phat*n)
+  ns = ns+sample(-15:15,1)
+  phat = round(ns/n,3)
+  z = round((phat-p)/se,2)
+  Pr = 1-round(pnorm(z),4)
+  if(abs(z-zstar)<0.3 & abs(z-zstar)>0.03){break}
+}
+
+wrd = sample(c('sad','angry','special','greedy','bad','great','strong','happy','popular','cold'),1)
+wrd2 = sample(c('more than', 'over', 'above'),1)
+
+if (Pr<alpha)
+{
+    wrd3 = 'reject'
+    sym = '<'
+    ans = 'We think the student did better than random guessing typically allows.'
+} else {
+    wrd3 = 'retain'
+    sym = '>'
+    ans = 'We think the student might just be guessing.'
+}
+
+```
+
+Question
+========
+
+A student is taking a multiple choice test with `r n` questions. Each question has `r choices` choices. You want to detect whether the student does better than random guessing, so you decide to run a hypothesis test with a significance level of `r alpha`.
+
+Then, the student takes the test and gets `r ns` questions correct.
+
+
+Answerlist
+--------
+* What kind of hypothesis test is appropriate?
+* State the hypotheses
+* Determine the $p$-value.
+* Decide whether we reject or retain the null hypothesis.
+* Do we think the student did significantly better than random guessing?
+
+
+Solution
+========
+
+This is a right-tail (one-tail) proportion test because we only care whether the student does better than random. 
+
+Determine the null population proportion.
+$$p_0 = \frac{1}{`r choices`} = `r p` $$
+
+State the hypotheses.
+$$H_0 ~~~\text{ claims } ~~~ p = `r p` $$
+$$H_\text{A}~~~\text{ claims } ~~~ p > `r p`$$
+Determine the standard error.
+$$\sigma_{\hat{p}} = \sqrt{\frac{p_0(1-p_0)}{n}} = \sqrt{\frac{`r p`(1-`r p`)}{`r n`}} = `r se` $$
+Determine the sample proportion.
+$$\hat{p} = \frac{`r ns`}{`r n`} = `r phat` $$
+
+Determine a $z$ score. For simplicity, we ignore the continuity correction.
+$$z = \frac{\hat{p}-p_0}{\sigma_{\hat{p}}} = \frac{`r phat`-`r p`}{`r se`} = `r z` $$
+Make a sketch of the null's sampling distribution. The $p$-value is a right area. 
+
+```{r p_single_test_right, echo = FALSE, results = "hide", fig.height = 2, fig.width = 6, fig.path = "", fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(signif(p+(-3:3)*se,3),side=1,line=0.5,at=-3:3)
+mtext(TeX("$\\hat{p}=$"),line=0.5,side=1,at=-3.6)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.6)
+polygon(c(zs[zs>=z], 3, z),c(ys[zs>=z], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l',lwd=1)
+```
+\
+To determine that right area, we use the z table.
+$$\begin{aligned}
+p\text{-value} &= P\left(\hat{p} > `r phat`\right) \\
+               &= P(Z > `r z`)\\
+               &= 1 - P(Z<`r z`) \\
+               &= `r Pr` 
+\end{aligned}$$
+Compare $p$-value to $\alpha$ (which is `r alpha`).
+$$p\text{-value} `r sym` \alpha $$
+Make the conclusion: we `r wrd3` the null hypothesis.
+
+`r ans`
+
+
+Answerlist
+--------
+* Right tail (one-tail) proportion test
+* Hypotheses: $H_0 \text{ claims } p = `r p`$  and $H_\text{A} \text{ claims } p > `r p`$.
+* The $p$-value is `r Pr`
+* We `r wrd3` the null hypothesis.
+* `r ans`
+
+
+Meta-information
+============
+extype: string
+exsolution: `r ans`
+exname: p hyp test right
+extol: 0.01
