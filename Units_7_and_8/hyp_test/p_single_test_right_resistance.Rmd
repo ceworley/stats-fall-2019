@@ -1,5 +1,6 @@
 ```{r data generation, echo = FALSE, results = "hide"}
 ## DATA GENERATION
+library(latex2exp)
 options(scipen=999)
 alpha = sample(c(0.1,0.05,0.025,0.02,0.01),1)
 zstar = qnorm(alpha)
@@ -17,20 +18,22 @@ while(T){
         break
     }
 }
-z = round(runif(1,azs-dis2,azs+dis),2) * sample(c(-1,-1,-1,-1,-1,1),1)
+z = round(runif(1,azs-dis2,azs+dis),2) * (-1) #sample(c(-1,-1,-1,-1,-1,1),1)
 phat = signif(p+z*se,3)
+ns = round(phat*n)
+phat = signif(ns/n,3)
 z = round((phat-p)/se,2)
 Pr = round(pnorm(z),4)
-
-wrd2 = sample(c('less than', 'under', 'below'),1)
 
 if (Pr<alpha)
 {
     wrd3 = 'reject'
     sym = '<'
+    ans = "We think our strain is more resistant than common corn."
 } else {
     wrd3 = 'retain'
     sym = '>'
+    ans = "We think our strain might just be as resistant as common corn."
 }
 
 ```
@@ -38,32 +41,35 @@ if (Pr<alpha)
 Question
 ========
 
-It is generally accepted that a population's proportion is `r p`. However, you think that maybe the population proportion is `r wrd2` `r p`, so you decide to run a one-tail hypothesis test with a significance level of `r alpha` with a sample size of `r n`.
+A new virus has been devastating corn production. When exposed, `r p*100`% of common seedlings survive. We are trying to develop a resistant strain of corn.
 
-Then, when you collect the random sample, you find its proportion is `r phat`. Do you reject or retain the null hypothesis?
+When we expose `r n` seedlings of our strain to the virus, `r phat*100`% survive. Using a significance level of `r alpha`, can we conclude that our strain is significantly more resistant?
+
 
 Answerlist
 --------
-* What type of hypothesis test is appropriate?
-* State the hypotheses.
+* What kind of hypothesis test is appropriate?
+* State the hypotheses
 * Determine the $p$-value.
 * Decide whether we reject or retain the null hypothesis.
+* Do we think our strain is significantly more resistant?
 
 
 Solution
 ========
 
-A left-tail proportion test is appropriate. State the hypotheses.
+This is a right-tail (one-tail) proportion test because we only care whether a higher percentage of seedlings survive.
+
+State the hypotheses.
 $$H_0~~~\text{ claims } ~~~ p = `r p` $$
 $$H_\text{A}~~~\text{ claims } ~~~ p < `r p`$$
 Determine the standard error.
 $$\sigma_{\hat{p}} = \sqrt{\frac{p_0(1-p_0)}{n}} = \sqrt{\frac{`r p`(1-`r p`)}{`r n`}} = `r se` $$
 Determine a $z$ score. For simplicity, we ignore the continuity correction.
 $$z = \frac{\hat{p}-p_0}{\sigma_{\hat{p}}} = \frac{`r phat`-`r p`}{`r se`} = `r z` $$
-Make a sketch of the null's sampling distribution. The $p$-value is a left area.
+Make a sketch of the null's sampling distribution. The $p$-value is a right area.
 
 ```{r p_single_test_left, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
-library(latex2exp)
 par(mar=c(5,3,1,1))
 zs = seq(-3,3,length=1000)
 ys = dnorm(zs)
@@ -76,14 +82,16 @@ mtext(TeX("\\hat{p}="),line=0.5,side=1,at=-3.6)
 axis(side=1, line=2,at=-3:3, labels = FALSE)
 mtext(-3:3,side=1,line=2.5,at=-3:3)
 mtext(c("z="),line=2.5,side=1,at=-3.6)
-polygon(c(zs[zs<=z], z, -3),c(ys[zs<=z], 0, 0), col=rgb(1,0,0,0.5))
+polygon(c(zs[zs>=z], 3, z),c(ys[zs>=z], 0, 0), col=rgb(1,0,0,0.5))
 lines(c(-3,3),c(0,0),'l',lwd=1)
 ```
 
-To determine that left area, we use the z table.
+To determine that right area, we use the z table.
 $$\begin{aligned}
-p\text{-value} &= P\left(\hat{p} < `r phat`\right) \\
-               &= P(Z < `r z`)\\
+p\text{-value} &= P\left(\hat{p} > `r phat`\right) \\
+               &= P(Z > `r z`)\\
+               &= 1-P(Z < `r z`)\\
+               &= 1-`r round(pnorm(z),4)`
                &= `r Pr` 
 \end{aligned}$$
 
@@ -91,18 +99,21 @@ Compare $p$-value to $\alpha$ (which is `r alpha`).
 $$p\text{-value} `r sym` \alpha $$
 Make the conclusion: we `r wrd3` the null hypothesis.
 
+`r ans`
+
 
 Answerlist
 --------
-* A left-tail (one-tail) proportion test is appropriate.
-* Hypotheses: $H_0\text{ claims }p=`r p`$ and $H_A\text{ claims }p<`r p`$.
+* Right-tail (one-tail) proportion test
+* Hypotheses: $H_0 \text{ claims } p = `r p`$  and $H_\text{A} \text{ claims } p < `r p`$.
 * The $p$-value is `r Pr`
 * We `r wrd3` the null hypothesis.
+* `r ans`
 
 
 Meta-information
 ============
 extype: string
-exsolution: `r Pr`
-exname: p hyp test left
+exsolution: `r ans`
+exname: p hyp right left
 extol: 0.01

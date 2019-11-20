@@ -4,41 +4,59 @@ library(latex2exp)
 options(scipen=999)
 alphas = c(0.1,0.05,0.025,0.02,0.01)
 alpha = sample(alphas,1)
-ell = alpha/2
-zstar = abs(qnorm(ell))
-mu = sample(50+(0:20)*10, 1)
-sig = sample(2:round(mu/3,0), 1)
+ell = alpha
+zstar = qnorm(ell)
+sides = sample(c(4,6,8,10,12,20),1)
+mu = round((sides+1)/2,1)
+sig = round(sqrt((sides^2-1)/12),2)
 n = sample(80:300, 1)
 se = round(sig/sqrt(n), 3)
 while(T){
   z = round(runif(1,zstar-0.3,zstar+0.3),2)
+  xbar = mu+z*se
+  tot = round(xbar*n)
+  xbar = round(tot/n,3)
+  z = round((xbar-mu)/sig*sqrt(n),2)
   if(abs(z-zstar)>0.02){break}
-  }
-xbar = round(mu+z*se,2)
-z = round((xbar-mu)/se,2)
-pvalue = 2*round(pnorm(-abs(z)),4)
+}
+pvalue = round(pnorm(z),4)
 if(pvalue < alpha){
   w = "Yes, we reject the null hypothesis."
   sym = "<"
+  ans = "We conclude the die is unfair, with a lower than fair expected value."
 } else {
   w = "No, we do not reject the null hypothesis."
   sym = ">"
+  ans = "We conclude the die might be fair."
 }
 ```
 
 Question
 ========
 
-A null hypothesis claims a population has a mean $\mu = `r mu`$ and a standard deviation $\sigma = `r sig`$. You decide to run two-tail test on a sample of size $n=`r n`$ using a significance level $\alpha = `r alpha`$. You then collect the sample and find it has mean $\bar{x}=`r xbar`$.
+A fair `r sides`-sided die has a discrete uniform distribution with an expected value of $\mu = `r mu`$ and a standard deviation $\sigma = `r sig`$.
+
+You are told to check if a `r sides`-sided die has an expected value less than `r mu`. You are told to roll the die `r n` times and do a one-tail significance test with a significance level of `r alpha`.
+
+You then roll the die `r n` times and get a mean of `r xbar`. Should we conclude the die is unfair?
 
 Answerlist
 --------
+* What kind of hypothesis test is appropriate?
+* State the hypotheses
 * Determine the $p$-value.
-* Do you reject the null hypothesis?
+* Decide whether we reject or retain the null hypothesis.
+* Do we conclude the die is unfair?
 
 
 Solution
 ========
+
+We should use a left-tail test of population mean.
+
+State the hypotheses:
+$$H_0 ~~ \text{ claims } ~~ \mu=`r mu` $$
+$$H_A ~~\text{ claims }~~\mu<`r mu`$$
 
 Find the standard error.
 $$\sigma_{\bar{x}} = \frac{\sigma}{\sqrt{n}} = \frac{`r sig`}{\sqrt{`r n`}} = `r se` $$
@@ -58,28 +76,32 @@ axis(side=1, line=2,at=-3:3, labels = FALSE)
 mtext(-3:3,side=1,line=2.5,at=-3:3)
 mtext(c("z="),line=2.5,side=1,at=-3.5)
 polygon(c(zs[zs<=-abs(z)], -abs(z), -3),c(ys[zs<=-abs(z)], 0, 0), col=rgb(1,0,0,0.5))
-polygon(c(zs[zs>=abs(z)], 3, abs(z)),c(ys[zs>=abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+#polygon(c(zs[zs>=abs(z)], 3, abs(z)),c(ys[zs>=abs(z)], 0, 0), col=rgb(1,0,0,0.5))
 lines(c(-3,3),c(0,0),'l')
-text(-2,0.3,label="two-tail area = pvalue")
+text(-2,0.3,label="left-tail area = pvalue")
 ```
 
 Find the $z$ score.
 $$z = \frac{\bar{x}-\mu_0}{\sigma_{\bar{x}}} = \frac{`r xbar`-`r mu`}{`r se`} = `r z`$$
 
-Find the $p$-value.
+Find the $p$-value (using formula for left-tail test of mean).
 $$\begin{aligned}
-p\text{-value} &= P(|Z| > `r abs(z)`) \\
-               &= 2\cdot P(Z < `r -abs(z)`) \\
+p\text{-value} &= P(Z < `r z`) \\
                &= \fbox{`r pvalue`}
 \end{aligned}$$
-Compare the $p$-value and the significance level.
+Compare the $p$-value and the significance level ($\alpha = `r alpha`$).
 $$p\text{-value} `r sym` \alpha $$
 `r w`
 
+`r ans`
+
 Answerlist
 --------
+* Left-tail single mean test
+* Hypotheses: $H_0\text{ claims }\mu=`r mu`$ and $H_A\text{ claims }\mu<`r mu`$.
 * $p$-value = `r pvalue`
 * `r w`
+* `r ans`
 
 
 

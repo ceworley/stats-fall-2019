@@ -86,7 +86,7 @@ $$df = `r n`-1 = `r df` $$
 
 Find the standard error.
 $$\sigma_{\bar{x}} = \frac{s}{\sqrt{n}} = \frac{`r s`}{\sqrt{`r n`}} = `r se` $$
-Make a sketch.
+Make a sketch of the null's sampling distribution.
 \
 ```{r pvalue_sketch, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
 par(mar=c(5,3,1,1))

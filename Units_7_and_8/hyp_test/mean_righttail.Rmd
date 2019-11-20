@@ -4,7 +4,7 @@ library(latex2exp)
 options(scipen=999)
 alphas = c(0.1,0.05,0.025,0.02,0.01)
 alpha = sample(alphas,1)
-ell = alpha/2
+ell = alpha
 zstar = abs(qnorm(ell))
 mu = sample(50+(0:20)*10, 1)
 sig = sample(2:round(mu/3,0), 1)
@@ -16,7 +16,7 @@ while(T){
   }
 xbar = round(mu+z*se,2)
 z = round((xbar-mu)/se,2)
-pvalue = 2*round(pnorm(-abs(z)),4)
+pvalue = round(1-round(pnorm(z),4),4)
 if(pvalue < alpha){
   w = "Yes, we reject the null hypothesis."
   sym = "<"
@@ -29,16 +29,24 @@ if(pvalue < alpha){
 Question
 ========
 
-A null hypothesis claims a population has a mean $\mu = `r mu`$ and a standard deviation $\sigma = `r sig`$. You decide to run two-tail test on a sample of size $n=`r n`$ using a significance level $\alpha = `r alpha`$. You then collect the sample and find it has mean $\bar{x}=`r xbar`$.
+A null hypothesis claims a population has a mean $\mu = `r mu`$ and a standard deviation $\sigma = `r sig`$. You decide to run one-tail test on a sample of size $n=`r n`$ using a significance level $\alpha = `r alpha`$ to detect if the actual population mean is more than $`r mu`$. You then collect the sample and find it has mean $\bar{x}=`r xbar`$.
 
 Answerlist
 --------
+* What kind of hypothesis test is appropriate?
+* State the hypotheses
 * Determine the $p$-value.
-* Do you reject the null hypothesis?
+* Decide whether we reject or retain the null hypothesis.
 
 
 Solution
 ========
+
+We should use a right-tail test of population mean.
+
+State the hypotheses:
+$$H_0 ~~ \text{ claims } ~~ \mu=`r mu` $$
+$$H_A ~~\text{ claims }~~\mu>`r mu`$$
 
 Find the standard error.
 $$\sigma_{\bar{x}} = \frac{\sigma}{\sqrt{n}} = \frac{`r sig`}{\sqrt{`r n`}} = `r se` $$
@@ -57,27 +65,30 @@ mtext(TeX("\\bar{x}="),line=0.5,side=1,at=-3.5)
 axis(side=1, line=2,at=-3:3, labels = FALSE)
 mtext(-3:3,side=1,line=2.5,at=-3:3)
 mtext(c("z="),line=2.5,side=1,at=-3.5)
-polygon(c(zs[zs<=-abs(z)], -abs(z), -3),c(ys[zs<=-abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+#polygon(c(zs[zs<=-abs(z)], -abs(z), -3),c(ys[zs<=-abs(z)], 0, 0), col=rgb(1,0,0,0.5))
 polygon(c(zs[zs>=abs(z)], 3, abs(z)),c(ys[zs>=abs(z)], 0, 0), col=rgb(1,0,0,0.5))
 lines(c(-3,3),c(0,0),'l')
-text(-2,0.3,label="two-tail area = pvalue")
+text(2,0.3,label="right-tail area = pvalue")
 ```
 
 Find the $z$ score.
 $$z = \frac{\bar{x}-\mu_0}{\sigma_{\bar{x}}} = \frac{`r xbar`-`r mu`}{`r se`} = `r z`$$
 
-Find the $p$-value.
+Find the $p$-value (using formula for left-tail test of mean).
 $$\begin{aligned}
-p\text{-value} &= P(|Z| > `r abs(z)`) \\
-               &= 2\cdot P(Z < `r -abs(z)`) \\
+p\text{-value} &= P(Z > `r z`) \\
+               &= 1 - P(Z < `r z`) \\
+               &= 1 - `r round(pnorm(z),4)`\\
                &= \fbox{`r pvalue`}
 \end{aligned}$$
-Compare the $p$-value and the significance level.
+Compare the $p$-value and the significance level ($\alpha = `r alpha`$).
 $$p\text{-value} `r sym` \alpha $$
 `r w`
 
 Answerlist
 --------
+* Right-tail single mean test
+* Hypotheses: $H_0\text{ claims }\mu=`r mu`$ and $H_A\text{ claims }\mu<`r mu`$.
 * $p$-value = `r pvalue`
 * `r w`
 

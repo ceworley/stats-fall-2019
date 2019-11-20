@@ -1,10 +1,12 @@
 ```{r data generation, echo = FALSE, results = "hide"}
 ## DATA GENERATION
+library(latex2exp)
 options(scipen=999)
 alpha = sample(c(0.2,0.1,0.05,0.04,0.02,0.01),1)
 zstar = abs(qnorm(alpha/2))
 while(T){
-    p = round(runif(1,0.09,0.91),3)
+    sides = sample(c(4,6,8,10,12,20),1)
+    p = round(1/sides,3)
     n = sample(1:10,1) * 10^sample(0:3,1)
     se = signif(sqrt(p*(1-p)/n),3)
     if (n*p>10 & n*(1-p)>10 & sqrt(n*p*(1-p))>7)
@@ -14,16 +16,20 @@ while(T){
 }
 z = round(runif(1,zstar-0.3,zstar+0.3),2) * sample(c(-1,1),1)
 phat = signif(p+z*se,3)
-z = round((phat-p)/se,2)
+ns = round(phat*n)
+phat = round(ns/n,3)
+z = round((phat-p)/sqrt(p*(1-p)/n),2)
 Pr = 2*round(pnorm(-abs(z)),4)
 wrd2 = sample(c('not', 'not equal to', 'different than'),1)
 if (Pr<alpha)
 {
     wrd3 = 'reject'
     sym = '<'
+    ans = 'We conclude the die is weighted.'
 } else {
     wrd3 = "don't reject"
     sym = '>'
+    ans = "We conclude the die could be fair."
 }
 
 ```
@@ -31,32 +37,39 @@ if (Pr<alpha)
 Question
 ========
 
-It is generally accepted that a population's proportion is `r p`. However, you think that maybe the population proportion is `r wrd2` `r p`, so you decide to run a two-tail hypothesis test with a significance level of `r alpha` with a sample size of `r n`.
+A fair `r sides`-sided die should have a `r p*100`% chance of landing on any specific side. Someone is mildly suspicious that a `r sides`-sided die is weighted to alter the probability of rolling a 1.
 
-Then, when you collect the random sample, you find its proportion is `r phat`. Do you reject or retain the null hypothesis?
+You are asked to judge the fairness of the `r sides`-sided die by rolling it `r n` times and counting how many 1s are rolled. You are told to use a significance level of `r alpha`.
+
+Then, you actually roll the die `r n` times and get `r ns` rolls of 1. Should we conclude this die is weighted?
+
 
 Answerlist
 --------
-* What type of hypothesis test is appropriate?
-* State the hypotheses.
+* What kind of hypothesis test is appropriate?
+* State the hypotheses
 * Determine the $p$-value.
 * Decide whether we reject or retain the null hypothesis.
+* Do you think the die is weighted?
 
 
 Solution
 ========
+
+We should use a two-tail proportion test.
 
 State the hypotheses.
 $$H_0 ~~\text{ claims } ~~ p = `r p` $$
 $$H_\text{A} ~~\text{ claims } ~~ p \ne `r p`$$
 Determine the standard error.
 $$\sigma_{\hat{p}} = \sqrt{\frac{p_0(1-p_0)}{n}} = \sqrt{\frac{`r p`(1-`r p`)}{`r n`}} = `r se` $$
+Determine the sample proportion.
+$$\hat{p} = `r phat` $$
 Determine a $z$ score. For simplicity, we ignore the continuity correction.
 $$z = \frac{\hat{p}-p_0}{\sigma_{\hat{p}}} = \frac{`r phat`-`r p`}{`r se`} = `r z` $$
 Make a sketch of the null's sampling distribution. The $p$-value is a two-tail area.
 
 ```{r p_single_test_twotail, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
-library(latex2exp)
 par(mar=c(5,3,1,1))
 zs = seq(-3,3,length=1000)
 ys = dnorm(zs)
@@ -85,13 +98,16 @@ Compare $p$-value to $\alpha$ (which is `r alpha`).
 $$p\text{-value} `r sym` \alpha $$
 Make the conclusion: we `r wrd3` the null hypothesis.
 
+`r ans`
+
 
 Answerlist
 --------
-* A two-tail proportion test is appropriate.
-* Hypotheses: $H_0\text{ claims }p=`r p`$ and $H_A\text{ claims }p\ne`r p`$.
+* Two-tail proportion test
+* Hypotheses: $H_0 \text{ claims } p = `r p`$  and $H_\text{A} \text{ claims } p \ne `r p`$.
 * The $p$-value is `r Pr`
 * We `r wrd3` the null hypothesis.
+* `r ans`
 
 
 Meta-information

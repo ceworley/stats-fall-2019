@@ -81,7 +81,7 @@ $$\hat{p} = \frac{`r ns`}{`r n`} = `r phat` $$
 
 Determine a $z$ score. For simplicity, we ignore the continuity correction.
 $$z = \frac{\hat{p}-p_0}{\sigma_{\hat{p}}} = \frac{`r phat`-`r p`}{`r se`} = `r z` $$
-The $p$-value is a right area.
+Make a sketch of the null's sampling distribution. The $p$-value is a right area. 
 
 ```{r p_single_test_right, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
 par(mar=c(5,3,1,1))
