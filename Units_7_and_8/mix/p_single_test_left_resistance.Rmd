@@ -69,7 +69,7 @@ Determine a $z$ score. For simplicity, we ignore the continuity correction.
 $$z = \frac{\hat{p}-p_0}{\sigma_{\hat{p}}} = \frac{`r phat`-`r p`}{`r se`} = `r z` $$
 Make a sketch of the null's sampling distribution. The $p$-value is a left area.
 
-```{r p_single_test_left, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.path = "", fig.cap = ""}
+```{r p_single_test_left_resistance, echo = FALSE, results = "hide", fig.height = 3, fig.width = 6, fig.cap = ""}
 par(mar=c(5,3,1,1))
 zs = seq(-3,3,length=1000)
 ys = dnorm(zs)

@@ -58,7 +58,7 @@ Find the standard error.
 $$\sigma_{\bar{x}} = \frac{\sigma}{\sqrt{n}} = \frac{`r sig`}{\sqrt{`r n`}} = `r se` $$
 Make a sketch of the null's sampling distribution.
 \
-```{r pvalue_sketch, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.path = "", fig.cap = ""}
+```{r pvalue_sketch_bulb, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.cap = ""}
 par(mar=c(5,3,1,1))
 zs = seq(-3,3,length=1000)
 ys = dnorm(zs)
