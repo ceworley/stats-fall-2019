@@ -1,6 +1,6 @@
 library("exams")
 
-set.seed(123)
+set.seed(1243)
 qs = c("p_ci_defective.Rmd",
        "mean_ci_beans.Rmd",
        "p_get_n_adj.Rmd",

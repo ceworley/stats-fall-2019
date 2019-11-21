@@ -1,0 +1,155 @@
+---
+title: "Project"
+output:
+  beamer_presentation:
+    slide_level: 2
+  html_notebook:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+You will do original research, write a paper summarizing the research, and present the research with slides.
+
+## Research
+
+You will characterize at least one random variable by sampling. This can take various forms:
+
+* Estimate a single proportion (with confidence interval)
+* Characterize a distribution (histogram, mean [with confidence interval], standard deviation)
+* Run a controlled experiment (control and treatment: two proportions or two means with experimental interference)
+* Investigate a correlation (two paired variables)
+
+### Estimate a single proportion
+
+Determine a proportion you can sample. Below are some simple examples:
+
+* Estimate your probability of hitting a free throw. 
+* Estimate the proportion of BHCC students who prefer cats to dogs.
+* Estimate the proportion of motorists who speed over the Longfellow Bridge.
+
+You need to calculate a confidence interval. For example, if there are 26 failures and 13 successes, we calculate the confidence interval:
+
+```{r proportion_confidence_interval}
+zstar = 1.96 #for a 95% confidence interval
+nf = 26 #number of fails, must be over 10
+ns = 13 #number of successes, must be over 10
+n = nf + ns #sample size
+phat = round(ns/n,4) #sample proportion
+se = sqrt(phat*(1-phat)/n) #standard error
+LB = round(phat-zstar*se,3) #lower bound of confidence interval
+UB = round(phat+zstar*se,3) #upper bound of confidence interval
+```
+$$CI = (`r LB`,`r UB`) $$
+
+### Characterize a distribution
+
+Choose a random variable. Below are some examples:
+
+* Speeds over the Longfellow Bridge
+* Lengths of pine needles
+* Times between drops of a slowly leaking faucet
+* Sums of $n$ dice
+* A geometric distribution
+* A beta distribution
+
+Let's imagine you decided to characterize a geometric distribution by sampling. You could choose a sample size of 70 and a Bernoulli probability of 0.25:
+
+```{r geometric}
+x = rgeom(70,0.25)
+hist(x,breaks=20)
+xbar = mean(x)
+s = sd(x)
+CI = signif(t.test(x,conf.level=0.95)$conf.int[1:2],3)
+```
+The sample mean is `r signif(xbar,3)`. The sample standard deviation is `r signif(s,3)`. The 95% confidence interval of the population mean is (`r CI[1]`, `r CI[2]`).
+
+### Run a controlled experiment
+
+To show a cause-effect relationship, an experiment must not be merely observational. An experiment requires the influence of random assignment to groups: treatment and control. Even if you can't establish a representative sample of a population, you can still show a cause-effect relationship using the treatment and control framework.
+
+Each participant (or trial) must first be randomly placed into treatment or control. The subsequent experience of the two tracks are subtly different, but hopefully result is significantly different outcomes. 
+
+For examples:
+
+* Does jumping around in a chicken suit on Longfellow Bridge cause cars to slow down?
+* Does talking to seedlings help them grow quicker?
+* Does soaking overnight (and redrying) popcorn cause a difference in popping proportion?
+* Does the miscoloration of a list of colors cause someone to read slower?
+* Does the decoy effect work at BHCC?
+* https://en.wikipedia.org/wiki/List_of_cognitive_biases
+
+For example, I studied anchoring by checking whether students' estimates of the moon's distance were significantly altered by an anchor. The control group was anchored with the distance around Earth. The treatment group was anchored with the distance to the Sun. A two-sample $t$ test did not show significance, but a more robust method (randomization test) did show a strong significance. This discrepancy was due to the strong skew exhibited by the guesses.
+
+To run a controlled experiment, you will have to learn how to run a 2-sample hypothesis test. Doing so is not hard; for example, let's run a 2-sample hypothesis on some data.
+```{r experiment}
+set.seed(4444)
+X1 = round(rnorm(14,100,2),1)
+X2 = round(rnorm(16,102,3),1)
+pval = t.test(X1,X2,)$p.value
+```
+
+If we had the following two samples:
+$$`r X1`$$
+$$`r X2`$$
+
+Then the two-sample two-tail test results in a $p$-value of `r pval`.
+
+### Investigate a correlation
+
+You should get a line of best fit from paired data. 
+
+```{r correlation}
+set.seed(12)
+x = rbeta(n = 20,shape1 = 0.5,shape2 = 3)
+y = 0.8*x+0.2*2*(rbeta(n=20,shape1 = 3,shape2 = 0.5)-0.5)
+plot1 = plot(x,y)
+r = cor(x,y)
+xbar = mean(x)
+ybar = mean(y)
+sx = sd(x)
+sy = sd(y)
+b = r*sy/sx
+a = ybar-b*xbar
+abline(a,b)
+```
+The correlation coefficient is `r r`.
+
+
+
+## Paper
+
+You will write a paper with the following sections:
+
+* Abstract
+* Introduction
+* Method
+* Results
+* Discussion
+
+### Abstract
+
+The abstract is a summary of the other sections. 
+
+### Introduction
+
+What did you measure? 
+Convince the reader your study is interesting. Cite background, other papers on your topic and what they concluded. Discuss why the study is interesting to you.
+
+### Method
+
+Describe how you got your data. How did you try getting a random (unbiased) sample?
+
+### Results 
+
+Show the data. Show the analysis of the data.
+
+### Discussion
+
+What was learned from the study? What would you recommend future researchers investigate?
+
+## Presentation
+
+Make a presentation. You need electronic slides. I recommend using Rmarkdown to write the paper and the slides, but you are free to choose your software. You should expect to talk for 5 minutes.

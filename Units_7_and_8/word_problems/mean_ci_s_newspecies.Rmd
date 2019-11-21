@@ -2,11 +2,11 @@
 library(latex2exp)
 options(scipen=999)
 while(T){
-  xbar = round(runif(1,35,50),2)
-  sig = round(runif(1,xbar/10,xbar/3))
+  xbar = round(runif(1,4,40),1)
+  s = round(runif(1,xbar/10,xbar/3),1)
   df = sample(c(5:50,seq(55,100,5),seq(125,500,25)),1)
   n = df+1
-  cls = c(0.9,0.95,0.98,0.99)
+  cls = c(0.8,0.9,0.95,0.96,0.98,0.99,0.995)
   cl = sample(cls,1)
   tstar = round(qt((cl+1)/2,df),2)
   lb = round(xbar-tstar*s/sqrt(n),2)
@@ -20,8 +20,7 @@ while(T){
 Question
 ========
 
-A traffic engineer wants to determine the average speed of cars on the Longfellow Bridge. She finds that a simple random sample of `r n` cars has a mean of `r xbar` mph and a standard deviation of `r s` mph. Determine a `r cl*100`% confidence interval of the average speed (in mph) of cars on the Longfellow Bridge.
-
+Marcel has discovered a new species of fish. He hopes to characterize the average length of this new species, so he obtains a sample of `r n` specimens, which have a sample mean of `r xbar` centimeters and a sample standard deviation of `r s` centimeters. Determine the `r cl*100`% confidence interval of the new species' average length.
 
 Solution
 ========
@@ -51,13 +50,13 @@ LB &= \bar{x} - t^\star \frac{s}{\sqrt{n}} &&&&& UB &= \bar{x} + t^\star \frac{s
    &= `r lb` &&&&&&= `r ub` 
 \end{aligned}
 $$
-We are `r cl*100`% confident that the population mean is between `r lb` and `r ub`. In this scenario, we are `r cl*100`% confident that the true average speed of cars on Longfellow is between `r lb` mph and `r ub` mph.
+We are `r cl*100`% confident that the population mean is between `r lb` and `r ub` centimeters.
 $$CI = (`r lb`, \, `r ub`)$$
 
 
 Meta-information
 ============
 extype: string
-exsolution: (`r lb`,\,`r ub`) 
+exsolution: CI = (`r lb`, `r ub`)
 exname: mean CI
 extol: 0.01
