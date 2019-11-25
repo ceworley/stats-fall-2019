@@ -1,0 +1,57 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
+options(scipen=999)
+while(T){
+  xbar = signif(runif(1,30,120),3)
+  sig = signif(runif(1,xbar/10,xbar/3),2)
+  ell = runif(1,0.8,0.99)
+  n = sample(c(30,50,10,300,500,1000,3000,5000),1)
+  z = qnorm(ell)
+  ME = signif(z*sig/sqrt(n),1)
+  gam = round(2*ell-1,2)
+  z = round(qnorm((gam+1)/2),2)
+  n = (z*sig/ME)^2
+  n2 = ceiling(n)
+  mag = ceiling(log(n)/log(10))
+  n3 = ceiling(n/10^(mag-2))*10^(mag-2)
+  if(T){
+    break
+  }
+}
+```
+
+Question
+========
+
+A researcher hopes to characterize the average time on social media spent by BHCC students with a `r gam*100`% confidence interval. Somehow the researcher knows the standard deviation is `r sig` minutes. How large of a sample is needed to to get the margin of error down to `r ME` minutes?
+
+Solution
+========
+
+We are given the population standard deviation, confidence level, and margin of error.
+$$
+\begin{aligned}
+\sigma &= `r sig`\\
+\gamma &= `r gam`\\
+ME &= `r ME`
+\end{aligned}
+$$
+
+Determine the critical $z$ value, $z^\star$, such that $P(|Z|<z^\star) = `r gam`$. Remember, $\ell = \frac{\gamma+1}{2} = \frac{`r gam`+1}{2} = `r (gam+1)/2`$
+$$z^\star = `r z` $$
+Use the formula for sample size.
+$$\begin{aligned}
+n &= \left(\frac{z^\star \sigma}{ME} \right)^2 \\\\
+&= \left(\frac{(`r z`)(`r sig`)}{`r ME`}\right)^2 \\\\
+&= `r n`
+\end{aligned}$$
+Round up.
+$$n = `r n2` $$
+
+
+Meta-information
+============
+extype: string
+exsolution: `r n2`
+exname: mean CI
+extol: 0.01

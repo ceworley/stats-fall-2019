@@ -48,6 +48,7 @@ $$n = \left( \frac{z^{\star} \sigma}{ME} \right)^2 $$
 
 #Hypothesis Testing (Single-Sample) 
 
+\vspace{-6pt}
 \newcommand{\pval}{p\text{-value}}
 \thispagestyle{empty}
 
@@ -55,7 +56,7 @@ $$n = \left( \frac{z^{\star} \sigma}{ME} \right)^2 $$
 $\begin{aligned}
 H_0 &= \text{null hypothesis} \\
 H_A &= \text{alternative hypothesis} \\
-\pval &= \text{probability of sample at least as extreme as observed, {\bf given} $H_0$} \\
+\pval &= \text{probability of getting sample at least as extreme as observed sample, {\bf given} $H_0$} \\
 \alpha &= \text{significance level = chance of type II error given $H_0$}
 \end{aligned}$
 \end{center}
@@ -71,6 +72,8 @@ $$\text{If }~~\pval \ge \alpha ~~\text{ then }~~ \text{do not reject }H_0 $$
 \end{itemize}
 
 ### Single-sample proportion testing
+
+Necessary conditions: $\hat{p}n\ge 10$ and $(1-\hat{p})n\ge10$.
 
 $$z_0 = \cfrac{\hat{p}-p_0}{\sqrt{\cfrac{p_0(1-p_0)}{n}}} $$
 
@@ -126,7 +129,9 @@ Two tail
 
 ### Single-sample mean testing, $\sigma$ unknown
 
-$$t_0 = \cfrac{\bar{x}-\mu_0}{\frac{s}{\sqrt{n}}} $$
+$$\begin{aligned}
+df&=n-1 &&& t_0 &= \cfrac{\bar{x}-\mu_0}{\frac{s}{\sqrt{n}}} 
+\end{aligned}$$
 
 \begin{multicols}{3}
 Right tail (one tail)

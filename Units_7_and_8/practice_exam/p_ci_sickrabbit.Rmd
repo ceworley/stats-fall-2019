@@ -1,0 +1,78 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+options(scipen=999)
+CL = sample(c(0.8,0.9,0.95,0.99,0.999),1) #sample(70:99/100,1)
+perc = (1+CL)/2
+zstar = round(qnorm(perc),2)
+while(T)
+{
+    phat = round(runif(1,0.01,0.99),2)
+    n = sample(10:99,1)*10^sample(0:3,1)
+    sucs = round(phat*n)
+    fails = round((1-phat)*n)
+    phat = round(sucs/n,4)
+    se = signif(sqrt(phat*(1-phat)/n),3)
+    binomse = n*se
+    plo = signif(phat-zstar*se,3)
+    pup = signif(phat+zstar*se,3)
+    ME = zstar*se
+    if(sucs>10 & fails>10 & plo>0 & pup<1 & binomse>7 & plo<pup-0.01)
+    {
+        break
+    }
+}
+```
+
+Question
+========
+
+A random sample of `r n` rabbits from Massachusetts yielded `r sucs` who are sick. Find a `r CL*100`% confidence level for the proportion of rabbits in Massachusetts who are sick.
+
+Answerlist
+-------
+* Are the conditions for inference met? (The necessary conditions for inference are $\hat{p}n \ge 10$ and $(1-\hat{p})n\ge 10$.)
+* Construct the interval.
+
+
+Solution
+========
+
+Identify the givens.
+$$\begin{aligned}
+n &= `r n` \\
+\hat{p} &= \frac{`r sucs`}{`r n`}= `r phat` \\
+\gamma &= `r CL`
+\end{aligned}$$
+
+Check the conditions.
+$$`r phat`\times`r n` = `r sucs` > 10 $$
+$$(1-`r phat`)\times`r n` = `r n-sucs` > 10 $$
+The conditions are satisfied, so we can continue with our inference.
+
+Determine $z^\star$ such that $P(|Z|<z^\star) = `r CL`$. It is helpful to know that $\ell=\frac{\gamma+1}{2} = \frac{`r CL`+1}{2} = `r perc`$. (Use the $z$-table to find $z^{\star}$.)
+$$z^\star = `r zstar` $$
+Use the formula (proportion) for the bounds.
+$$\begin{aligned}
+LB &= \hat{p}-z^\star\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} &&&&&
+UB &= \hat{p}+z^\star\sqrt{\frac{\hat{p}(1-\hat{p})}{n}} \\ \\
+&= `r phat`-`r zstar`\sqrt{\frac{(`r phat`)(`r 1-phat`)}{`r n`}} &&&&&
+&= `r phat`+`r zstar`\sqrt{\frac{(`r phat`)(`r 1-phat`)}{`r n`}} \\ \\
+&= `r plo` &&&&& &= `r pup`
+\end{aligned}$$
+
+Determine the interval.
+$$CI ~=~ (`r plo`\,,~ `r pup`) $$
+We are `r CL*100`% confident that the true population proportion is between `r plo*100`% and `r pup*100`%.
+
+Answerlist
+-------
+* The conditions are met. The number of sick rabbits is more than 10, and the number of healthy rabbits is more than 10.
+* CI = (`r plo`, `r pup`) 
+
+
+Meta-information
+============
+extype: num
+exsolution: `r plo`
+exname: p CI
+extol: 0.01
