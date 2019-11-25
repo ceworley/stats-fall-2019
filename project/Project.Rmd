@@ -59,7 +59,7 @@ Let's imagine you decided to characterize a geometric distribution by sampling. 
 
 ```{r geometric}
 x = rgeom(70,0.25)
-hist(x,breaks=20)
+hist(x,breaks=(-1:max(x))+0.5)
 xbar = mean(x)
 s = sd(x)
 CI = signif(t.test(x,conf.level=0.95)$conf.int[1:2],3)

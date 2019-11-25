@@ -26,7 +26,7 @@ while(T)
 Question
 ========
 
-A random sample of `r n` rabbits from Massachusetts yielded `r sucs` who are sick. Find a `r CL*100`% confidence level for the proportion of rabbits in Massachusetts who are sick.
+A random sample of `r n` rabbits from Massachusetts yielded `r sucs` who are sick. Find a `r CL*100`% confidence interval for the proportion of rabbits in Massachusetts who are sick.
 
 Answerlist
 -------
