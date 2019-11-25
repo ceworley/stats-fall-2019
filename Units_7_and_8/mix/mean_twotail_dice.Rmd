@@ -98,7 +98,7 @@ $$p\text{-value} `r sym` \alpha $$
 
 Answerlist
 --------
-* Right-tail single mean test
+* Two-tail single mean test
 * Hypotheses: $H_0\text{ claims }\mu=`r mu`$ and $H_A\text{ claims }\mu\ne`r mu`$.
 * $p$-value = `r pvalue`
 * `r w`
