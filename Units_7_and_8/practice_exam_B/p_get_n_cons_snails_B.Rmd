@@ -1,0 +1,48 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+options(scipen=999)
+CL = sample(c(0.8,0.9,0.95,0.96,0.98,0.99,0.995),1)
+perc = (1+CL)/2
+zstar = round(qnorm(perc),2)
+ME = signif(runif(1,1,10)*10^runif(1,-3,-2),1)
+SE = signif(ME/zstar,3)
+p = 0.5
+n = ceiling(p*(1-p)/SE^2)
+mag = ceiling(log(n)/log(10))
+n2 = ceiling(n/10^(mag-2))*10^(mag-2)
+```
+
+Question
+========
+
+Some snails have clockwise shells, and others have counter-clockwise shells. You plan to estimate the proportion with clockwise shells by sampling. You want to be `r CL*100`% confident that the sample proportion is within `r ME` of the population proportion. How many snails do you need?
+
+
+Solution
+========
+
+We are given the confidence level and the margin of error.
+$$\begin{aligned} 
+\gamma &= `r CL` \\
+ME &= `r ME`
+\end{aligned}$$
+
+Determine $z^\star$ such that $P(|Z|<z^\star) = `r CL`$. It is helpful to get the percentile of $z^\star$ by using $\ell = \frac{1+\gamma}{2} = \frac{1+`r CL`}{2} = `r (1+CL)/2`$. This lets you find $z^\star$ such that $P(Z<z^\star) = `r (1+CL)/2`$.
+$$z^\star = `r zstar`$$
+Use the appropriate formula. 
+$$\begin{aligned}
+n &= \frac{1}{4}\left(\frac{z^\star}{ME} \right)^2 \\ \\
+&= \frac{1}{4}\left(\frac{`r zstar`}{`r ME`} \right)^2 \\ \\
+&= `r p*(1-p)*zstar^2/ME^2`
+\end{aligned}$$
+
+When determining a necessary sample size, always round up (ceiling).
+$$n = `r ceiling(p*(1-p)*zstar^2/ME^2)` $$
+
+
+Meta-information
+============
+extype: string
+exsolution: $n \approx `r n2`$
+exname: p get n conservative
+extol: 0.01
