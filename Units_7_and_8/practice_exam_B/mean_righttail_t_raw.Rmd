@@ -8,7 +8,7 @@ output:
 library(latex2exp)
 options(scipen=999)
 otalphas = c(1,0.1, 0.05, 0.025, 0.02, 0.01, 0.005, 0.0025, 0.002, 0.001,0)
-alphas = c(0.05,0.02,0.01,0.005,0.002,0.001)
+alphas = c(0.05,0.02,0.01)  #,0.005,0.002,0.001)
 alpha = sample(alphas,1)
 n = sample(8:12, 1)
 df = n-1
@@ -118,9 +118,9 @@ $$t = \frac{\bar{x}-\mu_0}{\sigma_{\bar{x}}} = \frac{`r xbar`-`r mu`}{`r se`} = 
 Find the $p$-value.
 $$p\text{-value} =P(T > `r abs(t)`) $$
 We can't get an exact value with our table, but we can determine an interval that contains the $p$-value. (Look at row with $df=`r df`$.)
-$$P(T > `r round(qt(-abs(lbpv),df),2)`) = `r lbpv` $$
-$$P(T > `r round(qt(-abs(ubpv),df),2)`) = `r ubpv` $$
-Basically, because $t$ is between `r round(qt(-abs(lbpv),df),2)` and `r round(qt(-abs(ubpv),df),2)`, we know the $p$-value is between `r lbpv` and `r ubpv`.
+$$P(T > `r round(qt(abs(1-lbpv),df),2)`) = `r lbpv` $$
+$$P(T > `r round(qt(abs(1-ubpv),df),2)`) = `r ubpv` $$
+Basically, because $t$ is between `r round(qt(abs(1-lbpv),df),2)` and `r round(qt(abs(1-ubpv),df),2)`, we know the $p$-value is between `r lbpv` and `r ubpv`.
 $$`r lbpv` < p\text{-value} < `r ubpv` $$
 
 Compare the $p$-value and the significance level ($\alpha = `r alpha`$).

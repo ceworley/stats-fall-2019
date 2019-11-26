@@ -26,7 +26,7 @@ while(T)
 Question
 ========
 
-You are tasked with estimating the proportion of widgets that are defective. In a sample of `r n` widgets, you determine that `r phat*100`% were defective. Determine a `r CL*100`% confidence interval of the population proportion. (You are making an inference about the proportion of all widgets that are defective, which you'd only know from a census.)
+You are tasked with estimating the proportion of widgets that are defective. In a sample of `r n` widgets, you determine that `r phat*100`% were defective. Determine a `r CL*100`% confidence interval of the population proportion.
 
 
 Solution
