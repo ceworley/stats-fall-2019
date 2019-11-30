@@ -1,0 +1,93 @@
+---
+header-includes:
+   - \usepackage{arev}
+geometry: "left=1cm,right=1cm,top=1cm,bottom=1cm"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r getlatex}
+library(latex2exp)
+
+`%+%` <- function(x,y)
+{
+    return(paste(x,y,sep=""))
+}
+
+las = c(0.90,0.95,0.975,0.98,0.99,0.995,0.9975,0.998,0.999)
+ras = c(0.1,0.05,0.025,0.02,0.01,0.005,0.0025,0.002,0.001)
+mas = c(0.8,0.9,0.95,0.96,0.98,0.99,0.995,0.996,0.998)
+tts = c(0.2,0.1,0.05,0.04,0.02,0.01,0.005,0.004,0.002)
+
+tab = "&& $P(T<t)=$ & "
+tab = tab %+% paste(las, collapse=" & ")
+tab = tab %+% "\\\\\n"
+tab = tab %+% "&& $P(T>t)=$ & "
+tab = tab %+% paste(ras, collapse=" & ")
+tab = tab %+% "\\\\\n"
+tab = tab %+% "&& $P(|T|<t)=$ & "
+tab = tab %+% paste(mas, collapse=" & ")
+tab = tab %+% "\\\\\n"
+tab = tab %+% "&& $P(|T|>t)=$ & "
+tab = tab %+% paste(tts, collapse=" & ")
+tab = tab %+% "\\\\\\hline\n"
+
+tab = tab %+% "df= && $t=$ & &&&&&&&& "
+tab = tab %+% "\\\\ \n"
+
+tab2 = tab
+
+dfs = 1:40
+
+for (df in dfs)
+{
+    tab = tab %+% "&"
+    tab = tab %+% df
+    tab = tab %+% "&& "
+    tab = tab %+% paste(sprintf("%.2f",qt(las,df),2), collapse=" & ")
+    tab = tab %+% "\\\\ \n"
+}
+
+dfs = c(41:50,seq(55,100,5),seq(125,500,25))
+
+for (df in dfs)
+{
+    tab2 = tab2 %+% "&"
+    tab2 = tab2 %+% df
+    tab2 = tab2 %+% "&& "
+    tab2 = tab2 %+% paste(sprintf("%.2f",qt(las,df),2), collapse=" & ")
+    tab2 = tab2 %+% "\\\\ \n"
+}
+
+tab2 = tab2 %+% "&"
+tab2 = tab2 %+% ("$\\infty$")
+tab2 = tab2 %+% "&& "
+tab2 = tab2 %+% paste(sprintf("%.2f",qnorm(las),2), collapse=" & ")
+tab2 = tab2 %+% "\\\\ \n"
+
+```
+\pagestyle{empty}
+\large
+
+T-table
+\renewcommand{\arraystretch}{1.1}
+\begin{center}
+\begin{tabular}{|c c| l c c c c c c c c c|}\hline
+`r tab` \hline
+\end{tabular}
+\end{center}
+
+\newpage
+
+T-table
+\renewcommand{\arraystretch}{1.1}
+\begin{center}
+\begin{tabular}{|c c| l c c c c c c c c c|}\hline
+`r tab2` \hline
+\end{tabular}
+\end{center}
+
+

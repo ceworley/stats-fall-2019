@@ -1,0 +1,107 @@
+---
+header-includes:
+   - \usepackage{arev}
+geometry: "left=1cm,right=1cm,top=1cm,bottom=1cm"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r getlatex}
+library(latex2exp)
+`%+%` <- function(x,y)
+{
+return(paste(x,y,sep=""))
+}
+tab = ''
+tab = tab %+% paste(rep("$z$ & $P(Z<z)$",6), collapse=" & ")
+tab = tab %+% '\\\\ \\hline\n'
+
+for(i in seq(0,0.5,0.01))
+{
+    zs = seq(-3,-0.5,0.5)+i
+    Ps = round(pnorm(zs),4)
+    zs = sprintf("%0.2f", zs)
+    Ps = sprintf("%0.4f", Ps)
+    line = paste(zs,Ps,sep = " & ", collapse= " & ")
+    tab = tab %+%  paste(line,'\\\\\n',collapse = "" )
+}
+
+
+
+tab2 = paste(rep("$z$ & $P(Z<z)$",6), collapse=" & ")
+tab2 = tab2 %+% '\\\\ \\hline\n'
+
+for(i in seq(0,0.5,0.01))
+{
+    zs = seq(0,2.5,0.5)+i
+    Ps = round(pnorm(zs),4)
+    zs = " " %+% sprintf("%0.2f", zs)
+    Ps = sprintf("%0.4f", Ps)
+    line = paste(zs,Ps,sep = " & ", collapse= " & ")
+    tab2 = tab2 %+% paste(line,'\\\\\n',collapse = "" )
+}
+```
+
+\thispagestyle{empty}
+
+
+\vspace{-20pt}
+{\LARGE z-table}$~$\hfill
+```{r negnorm,fig.height=1.2,fig.width=4}
+z = (-300:300)/100
+par(mar=c(2,0,0,0))
+plot(z,dnorm(z),type="l",axes=F,ann=F,xlim=c(-3,3),ylim=c(0,0.4))
+axis(1,at=-3:3)
+polygon(c(z[z<=-1.4],-1.4,-3),c(dnorm(z[z<=-1.4]),0,0),col=rgb(1,0,0,0.4))
+mtext(TeX("$z$"),1,line=0,at=-1.4)
+text(-2.0,0.35,TeX("left area  =  $P(Z$ $<$ $z)$"))
+for(x in seq(-3,3,0.2)){
+    lines(c(x,x),c(0,dnorm(x)),lty=3,lwd=0.25)
+}
+for(y in seq(0,0.35,0.05)){
+    xmin = min(z[dnorm(z)>=y])
+    xmax = max(z[dnorm(z)>=y])
+    lines(c(xmin,xmax),c(y,y),lty=3,lwd=0.25)
+}
+```
+
+
+\begin{center}
+\begin{tabular}{|c c|c c|c c|c c|c c|c c|}
+`r tab`
+\end{tabular}
+\end{center}
+
+\newpage
+
+\vspace{-20pt}
+{\LARGE z-table}$~$\hfill
+```{r posnorm,fig.height=1.2,fig.width=4}
+library(latex2exp)
+z = (-300:300)/100
+par(mar=c(2,0,0,0))
+plot(z,dnorm(z),type="l",axes=F,ann=F,xlim=c(-3,3),ylim=c(0,0.4))
+axis(1,at=-3:3)
+polygon(c(z[z<=1.4],1.4,-3),c(dnorm(z[z<=1.4]),0,0),col=rgb(1,0,0,0.4))
+mtext(TeX("$z$"),1,line=0,at=1.4)
+text(-2,0.35,TeX("left area  =  $P(Z$ $<$ $z)$"))
+for(x in seq(-3,3,0.2)){
+    lines(c(x,x),c(0,dnorm(x)),lty=3,lwd=0.25)
+}
+for(y in seq(0,0.35,0.05)){
+    xmin = min(z[dnorm(z)>=y])
+    xmax = max(z[dnorm(z)>=y])
+    lines(c(xmin,xmax),c(y,y),lty=3,lwd=0.25)
+}
+```
+
+\thispagestyle{empty}
+
+\begin{center}
+\begin{tabular}{|c c|c c|c c|c c|c c|c c|}
+`r tab2`
+\end{tabular}
+\end{center}

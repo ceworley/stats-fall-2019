@@ -9,12 +9,12 @@ library(latex2exp)
 options(scipen=999)
 ttalphas = 1-c(0,0.8, 0.9, 0.95, 0.96, 0.98, 0.99, 0.995, 0.996, 0.998,1)
 alphas = c(0.1,0.05,0.02,0.01)
-alpha = sample(alphas,1)
+alpha = 0.05
 n = sample(8:12, 1)
 df = n-1
 ell = alpha/2
 tstar = abs(qt(ell,df))
-mu = sample(50+(0:20)*10, 1)
+mu = 33
 sig = round(runif(1,2,mu/3),2)
 
 while(T){
@@ -24,7 +24,7 @@ while(T){
   se = round(s/sqrt(n), 3)
   t = round((xbar-mu)/se,2)
   pvalue = 2*round(pt(-abs(t),df),4)
-  if(abs(t-tstar)<0.1 & abs(t-tstar)>0.01){
+  if(abs(t-tstar)<0.2 & abs(t-tstar)>0.04){
     break
   }
 }

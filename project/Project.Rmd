@@ -1,8 +1,6 @@
 ---
 title: "Project"
 output:
-  beamer_presentation:
-    slide_level: 2
   html_notebook:
     code_folding: hide
 ---
@@ -18,7 +16,7 @@ You will do original research, write a paper summarizing the research, and prese
 You will characterize at least one random variable by sampling. This can take various forms:
 
 * Estimate a single proportion (with confidence interval)
-* Characterize a distribution (histogram, mean [with confidence interval], standard deviation)
+* Estimate a mean (with confidence interval)
 * Run a controlled experiment (control and treatment: two proportions or two means with experimental interference)
 * Investigate a correlation (two paired variables)
 
@@ -29,6 +27,7 @@ Determine a proportion you can sample. Below are some simple examples:
 * Estimate your probability of hitting a free throw. 
 * Estimate the proportion of BHCC students who prefer cats to dogs.
 * Estimate the proportion of motorists who speed over the Longfellow Bridge.
+* Can you flip a coin to land heads more than 50% of the time?
 
 You need to calculate a confidence interval. For example, if there are 26 failures and 13 successes, we calculate the confidence interval:
 
@@ -44,16 +43,16 @@ UB = round(phat+zstar*se,3) #upper bound of confidence interval
 ```
 $$CI = (`r LB`,`r UB`) $$
 
-### Characterize a distribution
+### Estimate a mean
 
 Choose a random variable. Below are some examples:
 
 * Speeds over the Longfellow Bridge
 * Lengths of pine needles
-* Times between drops of a slowly leaking faucet
 * Sums of $n$ dice
 * A geometric distribution
 * A beta distribution
+* Can you make a spinner point closer to North than South?
 
 Let's imagine you decided to characterize a geometric distribution by sampling. You could choose a sample size of 70 and a Bernoulli probability of 0.25:
 
@@ -115,7 +114,7 @@ b = r*sy/sx
 a = ybar-b*xbar
 abline(a,b)
 ```
-The correlation coefficient is `r r`.
+The correlation coefficient is `r r`. The slope of the best-fit line is `r b` and the y-intercept is `r a`.
 
 
 

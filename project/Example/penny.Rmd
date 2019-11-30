@@ -1,0 +1,26 @@
+---
+title: "Example - Penny Spinning"
+output:
+  html_notebook:
+    code_folding: hide
+bibliography: bib.bib
+---
+
+
+# Introduction
+
+A coin flip is the quintessential random process. The idealized coin flip represents a Bernoulli variable with $p=0.5$. 
+
+Of course, in real life, the physics of a flipping coin are completely deterministic, not random. The rotational speed stays fairly constant, slowly slightly due to air resistance. The randomness is dependent on the human inability for tracking the coin's rotation (if catching), inability to control the timing, or inability to predict the trajectory (if allowing to bounce). 
+
+A common concept in probability is the unfair coin. There are a few practical ways of achieving an unfair flip. If the coin flips slowly enough, a human can time the catch. If the coin is allowed to bounce, an angled edge can add bias [@nolan]. 
+
+However, if the coin is flipped rapidly and caught in the air, then weighting one side of the coin is **not** effective at creating bias. Weighting one side will move the center of rotation, but the coin will still spend half of its time with each side upwards.
+
+Uneven weight can effect the probability if the coin is spun on its edge rather than flipped in the air.
+
+
+# Bibliography
+
+
+
