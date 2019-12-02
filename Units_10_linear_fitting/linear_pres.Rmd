@@ -1,0 +1,84 @@
+---
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Two (possibly dependent) variables
+
+Consider the following data:
+
+```{r data}
+set.seed(123)
+m = 0.5
+b = 3
+x = signif(runif(10,1,10),2)
+y = signif(m*x+b+rnorm(10,0,1),2)*10
+s = '\\begin{tabular}{|c|c|}\\hline\n $x$ & $y$ \\\\ \\hline \n'
+for(i in 1:length(x)){
+  s = paste(s,x[i]," & ",y[i]," \\\\ \n",sep="")
+}
+s = paste(s,'\\hline \n \\end{tabular}')
+```
+
+`r s`
+
+## Make a scatterplot
+
+```{r makeplot}
+plot(x,y)
+```
+
+## Find the (Pearson's) correlation coefficient
+
+The correlation coefficient has many equivalent formulas.
+
+The correlation coefficient can be thought of as the mean of products of standard scores.
+
+$$r = \frac{1}{n-1} \sum_{i=1}^n \left(\frac{x_i-\bar{x}}{s_x} \right) \left(\frac{y_i-\bar{y}}{s_y} \right)$$
+
+The following is probably easier to use for calculations.
+
+$$r = \frac{\sum x_i y_i - n\bar{x}\bar{y}}{(n-1)s_x s_y}$$
+
+
+## Calculate the correlation coefficient
+
+```{r calcr}
+s = '\\begin{tabular}{|c|c|c|}\\hline\n $x$ & $y$ & $xy$ \\\\ \\hline \n'
+for(i in 1:length(x)){
+  s = paste(s,x[i]," & ",y[i]," & ",x[i]*y[i]," \\\\ \n",sep="")
+}
+s = paste(s,'\\hline \\hline \n $\\sum x = ',sum(x),'$ & $\\sum y = ',sum(y),'$ & $\\sum x_i y_i = ',sum(x*y),'$ \\\\ \\hline \n',sep="")
+s = paste(s,'\\hline \n $\\bar{x} = ',mean(x),'$ & $\\bar{ y} = ',mean(y),'$ &  \\\\ \\hline \n',sep="")
+s = paste(s,'\\hline \n $s_x = ',signif(sd(x),3),'$ & $s_y = ',signif(sd(y),3),'$ &  \\\\ \\hline \n',sep="")
+s = paste(s,' \n \\end{tabular}')
+
+sx = signif(sd(x),3)
+sy = signif(sd(y),3)
+r = signif(cor(x,y),3)
+b = signif(r*sy/sx,3)
+a = signif(mean(y)-b*mean(x),3)
+```
+
+
+`r s` $$r = \frac{\sum x_i y_i - n\bar{x}\bar{y}}{(n-1)s_x s_y} = \frac{`r sum(x*y)`-`r length(x)`\cdot`r mean(x)`\cdot`r mean(y)`}{(`r length(x)`-1)\cdot `r signif(sd(x),3)` \cdot `r signif(sd(y),3)`} = `r signif(cor(x,y),3)`$$
+
+## Determine the best-fit line 
+
+The regression line has the form
+$$y = a + bx $$
+So, $a$ is the $y$-intercept and $b$ is the slope. We have formulas to determine them:
+$$b = r \frac{s_y}{s_x} =  `r r` \cdot \frac{`r sy`}{`r sx`} = `r b`$$
+$$a = \bar{y}-b\bar{x} = `r mean(y)`-`r b`\cdot`r mean(x)` = `r a` $$ 
+Our regression line:
+$$y = `r a`+`r b`x $$
+
+## Graph the regression line
+
+```{r regressionline}
+plot(x,y,xlim=c(0,10),ylim=c(30,80),lwd=2)
+abline(a,b,lwd=2)
+```
