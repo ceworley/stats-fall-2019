@@ -1,0 +1,143 @@
+---
+output: beamer_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Two (possibly dependent) variables
+
+Consider the following data from 1974 Motor Trend US magazine:
+
+```{r data}
+set.seed(1234)
+m = 0.5
+b = 3
+i = sample(1:length(mtcars$wt),10)
+x = mtcars$wt[i]
+y = mtcars$mpg[i]
+s = '\\begin{tabular}{|c|c|}\\hline\n weight (1000s lb) & efficiency (mpg) \\\\ \\hline \n'
+for(i in 1:length(x)){
+  s = paste(s,x[i]," & ",y[i]," \\\\ \n",sep="")
+}
+s = paste(s,'\\hline \n \\end{tabular}')
+```
+
+`r s`
+
+## Make a scatterplot
+
+```{r makeplot}
+plot(x,y,xlab="Weight (1000 lb)",ylab="Efficiency (mpg)",xlim=c(0,6),ylim=c(0,40))
+```
+
+## Find the (Pearson's) correlation coefficient
+
+The correlation coefficient has many equivalent formulas.
+
+The correlation coefficient can be thought of as the mean of products of standard scores.
+
+$$r = \frac{1}{n-1} \sum_{i=1}^n \left(\frac{x_i-\bar{x}}{s_x} \right) \left(\frac{y_i-\bar{y}}{s_y} \right)$$
+
+The following is probably easier to use for calculations.
+
+$$r = \frac{\sum x_i y_i - n\bar{x}\bar{y}}{(n-1)s_x s_y}$$
+
+
+## Calculate the correlation coefficient
+
+```{r calcr}
+s = '\\begin{tabular}{|c|c|c|}\\hline\n $x$ & $y$ & $xy$ \\\\ \\hline \n'
+for(i in 1:length(x)){
+  s = paste(s,x[i]," & ",y[i]," & ",x[i]*y[i]," \\\\ \n",sep="")
+}
+s = paste(s,'\\hline \\hline \n $\\sum x = ',sum(x),'$ & $\\sum y = ',sum(y),'$ & $\\sum x_i y_i = ',sum(x*y),'$ \\\\ \\hline \n',sep="")
+s = paste(s,'\\hline \n $\\bar{x} = ',mean(x),'$ & $\\bar{ y} = ',mean(y),'$ &  \\\\ \\hline \n',sep="")
+s = paste(s,'\\hline \n $s_x = ',signif(sd(x),3),'$ & $s_y = ',signif(sd(y),3),'$ &  \\\\ \\hline \n',sep="")
+s = paste(s,' \n \\end{tabular}')
+
+sx = signif(sd(x),3)
+sy = signif(sd(y),3)
+r = signif(cor(x,y),3)
+b = signif(r*sy/sx,3)
+a = signif(mean(y)-b*mean(x),3)
+```
+
+
+`r s` $$r = \frac{\sum x_i y_i - n\bar{x}\bar{y}}{(n-1)s_x s_y} = \frac{`r sum(x*y)`-`r length(x)`\cdot`r mean(x)`\cdot`r mean(y)`}{(`r length(x)`-1)\cdot `r signif(sd(x),3)` \cdot `r signif(sd(y),3)`} = `r signif(cor(x,y),3)`$$
+
+
+## Determine the best-fit line 
+
+The regression line has the form
+$$y = a + bx $$
+So, $a$ is the $y$-intercept and $b$ is the slope. We have formulas to determine them:
+$$b = r \frac{s_y}{s_x} =  `r r` \cdot \frac{`r sy`}{`r sx`} = `r b`$$
+$$a = \bar{y}-b\bar{x} = `r mean(y)`-(`r b`)\cdot`r mean(x)` = `r a` $$ 
+Our regression line:
+$$y = `r a`+(`r b`)x $$
+
+## Graph the regression line
+
+```{r regressionline}
+plot(x,y,lwd=2,xlab="Weight (1000 lb)",ylab="Efficiency (mpg)",xlim=c(0,6),ylim=c(0,40))
+abline(a,b,lwd=2)
+```
+
+## Calculate and interpret the coefficient of determination
+
+The coefficient of determination is the square of the correlation coefficient.
+$$\text{coefficient of determination} = r^2 = (`r r`)^2 = `r signif(r^2,3)` $$
+We say that `r signif(r^2,3)*100`% of the variance in $y$ (fuel efficiency) is explained by $x$ (weight).
+
+
+## Determine the residuals (error between model and actual)
+
+```{r residuals}
+plot(x,y,lwd=2,xlab="Weight (1000 lb)",ylab="Efficiency (mpg)",xlim=c(0,6),ylim=c(0,40))
+abline(a,b,lwd=2)
+for(i in 1:length(x)){
+  lines(c(x[i],x[i]),c(a+b*x[i],y[i]),col=rgb(1,0,0),lwd=2)
+}
+```
+
+## Determine the residuals and standard error of regression
+
+Let $y^\prime$ be the predicted value from $y=a+bx$ linear model.
+
+```{r residuals2}
+s = '\\begin{tabular}{|c|c|c|c|c|}\\hline\n $x$ & $y$ & $y^\\prime$ & $y-y^\\prime$ & $(y-y^\\prime)^2$ \\\\ \\hline \n'
+for(i in 1:length(x)){
+  s = paste(s,x[i]," & ",y[i]," & ",signif(a+b*x[i],3)," & ",signif(y[i]-signif(a+b*x[i],3),3)," & ",signif((y[i]-signif(a+b*x[i],3))^2,3)," \\\\ \n",sep="")
+}
+s = paste(s,'\\hline \\end{tabular}')
+n = length(x)
+ser = signif(sqrt(sum(signif((y-signif(a+b*x,3))^2,3))/(n-2)),3)
+```
+
+`r s`
+
+$$s_{y-y^\prime} = \sqrt{\frac{\sum(y-y^\prime)^2}{n-2}} = \sqrt{\frac{`r sum(signif((y-signif(a+b*x,3))^2,3))`}{`r n`-2}} = `r signif(sqrt(sum(signif((y-signif(a+b*x,3))^2,3))/(n-2)),3)` $$
+We think predictions tend to be off by `r signif(sqrt(sum(signif((y-signif(a+b*x,3))^2,3))/(n-2)),3)` mpg.
+
+
+## Draw standard error
+
+```{r standard error}
+plot(x,y,lwd=2,xlab="Weight (1000 lb)",ylab="Efficiency (mpg)",xlim=c(0,6),ylim=c(0,40))
+abline(a,b,lwd=2)
+abline(a-ser,b,lwd=2,lty=2)
+abline(a+ser,b,lwd=2,lty=2)
+```
+
+
+## Make a point estimate using the linear model
+
+Predict the fuel efficiency of a car with a mass of 200 lbs ($x=0.2$).
+
+$$y = `r a`+(`r b`)(0.2) = `r a+b*0.2` $$
+
+... notice this model does not do a good job predicting the fuel efficiency of a bicycle. A bicycle is much more efficient that that (approximately 200 mpg on an energy basis).
+
+

@@ -1,12 +1,10 @@
 library("exams")
 
-set.seed(123)
-qs = c("make_scatter_plot.Rmd")
-
-qs = rep(qs,5)
+set.seed(111112)
+qs = c("make_scatter_plotB.Rmd","make_scatter_plotC.Rmd")
 
 exams2pdf(qs,
-          name = "Regression",
+          name = "RegressionB",
           dir = "wksht",
           template = "templates/worksheet_sols.tex",     
           header = list(

@@ -1,0 +1,117 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+library(latex2exp)
+options(scipen=999)
+while(T){
+  n = sample(5:8,1)
+  x = signif(runif(n,1,10),2)
+  scale = 10^sample(-1:1,1)
+  b = runif(1,-2,2)*scale
+  a = runif(1,1,10)*scale
+  y = signif(a+b*x+rnorm(n,0,runif(1,0,2)*scale),2)
+  if(sum(y<0)==0){break}
+}
+s = '\\begin{tabular}{|c|c|}\\hline\n $x$ & $y$ \\\\ \\hline \n'
+for(i in 1:length(x)){
+  s = paste(s,x[i]," & ",y[i]," \\\\ \n",sep="")
+}
+s = paste(s,'\\hline \n \\end{tabular}')
+```
+
+Question
+========
+
+You have collected the following data:
+
+`r s`
+
+\vfill
+
+Please plot the data and a corresponding regression line.
+
+\vfill
+  
+\
+```{r makegrid,fig.width=5,fig.height=5,echo=F}
+par(mar=c(0,0,0,0))
+plot(0,0,type="n",axes=F,ann=F,xlim=c(0,1),ylim=c(0,1))
+for(i in seq(0,1,0.01)){
+  lines(c(i,i),c(0,1),lwd=0.3)
+  lines(c(0,1),c(i,i),lwd=0.3)
+}
+for(i in seq(0,1,0.1)){
+  lines(c(i,i),c(0,1),lwd=0.7)
+  lines(c(0,1),c(i,i),lwd=0.7)
+}
+```
+\
+
+\vfill
+
+Solution
+========
+
+Remember the formula for the correlation coefficient.
+
+$$r = \frac{\sum x_i y_i - n\bar{x}\bar{y}}{(n-1)s_x s_y}$$
+
+We calculate the necessary values.
+
+```{r cakc, echo=F}
+s2 = '\\begin{tabular}{|c|c|c|}\\hline\n $x$ & $y$ & $xy$ \\\\ \\hline \n'
+for(i in 1:length(x)){
+  s2 = paste(s2,x[i]," & ",y[i]," & ",x[i]*y[i]," \\\\ \n",sep="")
+}
+s2 = paste(s2,'\\hline \\hline \n $\\sum x = ',sum(x),'$ & $\\sum y = ',sum(y),'$ & $\\sum x_i y_i = ',sum(x*y),'$ \\\\ \\hline \n',sep="")
+s2 = paste(s2,'\\hline \n $\\bar{x} = ',signif(mean(x),3),'$ & $\\bar{ y} = ',signif(mean(y),3),'$ &  \\\\ \\hline \n',sep="")
+s2 = paste(s2,'\\hline \n $s_x = ',signif(sd(x),3),'$ & $s_y = ',signif(sd(y),3),'$ &  \\\\ \\hline \n',sep="")
+s2 = paste(s2,' \n \\end{tabular}')
+
+sx = signif(sd(x),3)
+sy = signif(sd(y),3)
+r = signif(cor(x,y),3)
+b = signif(r*sy/sx,3)
+a = signif(mean(y)-b*mean(x),3)
+```
+
+`r s2`
+
+The regression line has the form
+$$y = a + bx $$
+So, $a$ is the $y$-intercept and $b$ is the slope. We have formulas to determine them:
+$$b = r \frac{s_y}{s_x} =  `r r` \cdot \frac{`r sy`}{`r sx`} = `r b`$$
+$$a = \bar{y}-b\bar{x} = `r signif(mean(y),3)`-(`r b`)\cdot`r signif(mean(x),3)` = `r a` $$ 
+Our regression line:
+$$y = `r a`+(`r b`)x $$
+
+Make a plot.
+\
+```{r makeans,fig.width=5,fig.height=5,echo=F}
+possmax = c(0.1,0.2,0.5,1,2,5,10,20,50,100,200,500,1000,2000,5000,10000)
+myl = min(possmax[possmax>max(y)])
+plot(x,y,xlim=c(0,1)*10,ylim=c(0,myl))
+for(i in seq(0,1,0.01)){
+  lines(c(i,i)*10,c(0,1)*myl,lwd=0.3)
+  lines(c(0,1)*10,c(i,i)*myl,lwd=0.3)
+}
+for(i in seq(0,1,0.1)){
+  lines(c(i,i)*10,c(0,1)*myl,lwd=0.7)
+  lines(c(0,1)*10,c(i,i)*myl,lwd=0.7)
+}
+abline(a,b)
+```
+\
+
+
+
+Meta-information
+============
+extype: num
+exsolution: `r x`
+exname: binomial exact
+extol: 0.01
