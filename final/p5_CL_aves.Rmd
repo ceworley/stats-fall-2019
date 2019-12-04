@@ -1,0 +1,61 @@
+---
+header-includes:
+   - \usepackage{multicol}
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r data generation, echo = FALSE, results = "hide"}
+options(scipen=999)
+muw = sample(7:60,1)
+sigw = sample(2:(muw%/%3),1)
+n = sample((6:15)^2,1)
+mux = muw
+sigx = sigw/sqrt(n)
+
+ps = runif(2,0.02,0.98)
+zs = round(qnorm(ps),2)
+xs = round(mux+sigx*zs,2)
+
+P1 = round(pnorm(zs[1]),4)
+P2 = round(1-pnorm(zs[2]),4)
+
+pp = runif(2,0.53,0.97)
+zz = round(qnorm(pp),2)
+P3 = round(2*pnorm(zz[1])-1,4)
+P4 = round(2*pnorm(-zz[2]),4)
+```
+
+Question
+========
+
+Let random variable $W$ have mean $\mu_{\tiny w} = `r muw`$ and standard deviation  $\sigma_{\tiny w} = `r sigw`$. Let random variable $X$ represent the **average** of $n = `r n`$ instances of $W$. 
+
+Answerlist
+--------
+* Determine the expected value of $X$. $\mu_{\tiny x} = \,?$
+* Determine the standard deviation of $X$. $\sigma_{\tiny x} = \,?$
+* Using normal approximation, determine $P(X<`r xs[1]`)$.
+* Using normal approximation, determine $P(X>`r xs[2]`)$.
+* Using normal approximation, determine $P(|X-\mu_{\tiny x}| < `r zz[1]*sigx`)$.
+* Using normal approximation, determine $P(|X-\mu_{\tiny x}| > `r zz[2]*sigx`)$.
+
+Solution
+========
+
+Answerlist
+--------
+* `r mux`
+* `r sigx`
+* `r P1`
+* `r P2`
+* `r P3`
+* `r P4`
+
+Meta-information
+============
+extype: string
+exsolution: yo
+exname: UZ
+extol: 0.01

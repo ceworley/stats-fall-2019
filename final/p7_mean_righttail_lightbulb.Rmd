@@ -1,0 +1,111 @@
+```{r data generation, echo = FALSE, results = "hide"}
+## DATA GENERATION
+library(latex2exp)
+options(scipen=999)
+alphas = c(0.1,0.05,0.025,0.02,0.01)
+alpha = sample(alphas,1)
+ell = alpha
+zstar = abs(qnorm(ell))
+mu = signif(runif(1,1000,9000),3)
+sig = signif(runif(1,mu/15,mu/6),2)
+n = sample(40:300, 1)
+se = round(sig/sqrt(n), 3)
+while(T){
+  z = round(runif(1,zstar-0.3,zstar+0.3),2)
+  if(abs(z-zstar)>0.02){break}
+  }
+xbar = round(mu+z*se)
+z = round((xbar-mu)/se,2)
+pvalue = round(1-round(pnorm(z),4),4)
+if(pvalue < alpha){
+  w = "Yes, we reject the null hypothesis."
+  sym = "<"
+  ans = "We conclude your new bulbs have a higher average brightness than the basic bulbs."
+} else {
+  w = "No, we do not reject the null hypothesis."
+  sym = ">"
+  ans = "We conclude your new bulbs could be just as bright on average as the basic bulbs."
+}
+```
+
+Question
+========
+
+You work at a lightbulb company. The basic bulbs currently have an average brightness of `r mu` lumens with a standard deviation of `r sig` lumens. You are trying to engineer a brighter lightbulb. 
+
+Your newest model seems promising, so you decide to test, with a significance level of `r alpha`, whether your new bulbs have higher average brightness. A sample of `r n` of these bulbs has an average brightness of `r xbar` lumens.
+
+
+Answerlist
+--------
+* What kind of hypothesis test is appropriate?
+* State the hypotheses
+* Determine the $p$-value.
+* Decide whether we reject or retain the null hypothesis.
+* What can you conclude about your new model of lightbulb?
+
+
+Solution
+========
+
+We should use a right-tail test of population mean.
+
+State the hypotheses:
+$$H_0 ~~ \text{ claims } ~~ \mu=`r mu` $$
+$$H_A ~~\text{ claims }~~\mu>`r mu`$$
+
+Find the standard error.
+$$\sigma_{\bar{x}} = \frac{\sigma}{\sqrt{n}} = \frac{`r sig`}{\sqrt{`r n`}} = `r se` $$
+Make a sketch of the null's sampling distribution.
+\
+```{r pvalue_sketch_bulb, echo = FALSE, results = "hide", fig.height = 3, fig.width = 7, fig.cap = ""}
+par(mar=c(5,3,1,1))
+zs = seq(-3,3,length=1000)
+ys = dnorm(zs)
+plot(zs, ys, 'l',xlim = c(-3,3), ylim = c(0,0.4),
+     ann=FALSE,xaxt="n",yaxt="n",
+     lwd=1,bty='n')
+axis(side=1, line=0, at=-3:3, labels = FALSE)
+mtext(mu+(-3:3)*se,side=1,line=0.5,at=-3:3)
+mtext(TeX("\\bar{x}="),line=0.5,side=1,at=-3.5)
+axis(side=1, line=2,at=-3:3, labels = FALSE)
+mtext(-3:3,side=1,line=2.5,at=-3:3)
+mtext(c("z="),line=2.5,side=1,at=-3.5)
+#polygon(c(zs[zs<=-abs(z)], -abs(z), -3),c(ys[zs<=-abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+polygon(c(zs[zs>=abs(z)], 3, abs(z)),c(ys[zs>=abs(z)], 0, 0), col=rgb(1,0,0,0.5))
+lines(c(-3,3),c(0,0),'l')
+text(2,0.3,label="right-tail area = pvalue")
+```
+
+Find the $z$ score.
+$$z = \frac{\bar{x}-\mu_0}{\sigma_{\bar{x}}} = \frac{`r xbar`-`r mu`}{`r se`} = `r z`$$
+
+Find the $p$-value (using formula for left-tail test of mean).
+$$\begin{aligned}
+p\text{-value} &= P(Z > `r z`) \\
+               &= 1 - P(Z < `r z`) \\
+               &= 1 - `r round(pnorm(z),4)`\\
+               &= \fbox{`r pvalue`}
+\end{aligned}$$
+Compare the $p$-value and the significance level ($\alpha = `r alpha`$).
+$$p\text{-value} `r sym` \alpha $$
+`r w`
+
+`r ans`
+
+Answerlist
+--------
+* Right-tail single mean test
+* Hypotheses: $H_0\text{ claims }\mu=`r mu`$ and $H_A\text{ claims }\mu<`r mu`$.
+* $p$-value = `r pvalue`
+* `r w`
+* `r ans`
+
+
+
+Meta-information
+============
+extype: num
+exsolution: `r pvalue`
+exname: binomial exact
+extol: 0.01

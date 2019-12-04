@@ -1,0 +1,134 @@
+---
+title: "Aiming a Spinner is Difficult"
+output:
+  html_notebook:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Abstract
+
+A spinner was constructed that would produce a standard uniform distribution with truly random spins. By carefully trying to spin half-spins or full-spins, I attempted to get a sample mean far enough from 0.5 to allow me to show the spins were not random. With 100 trials of each, I was able to do significantly better than chance with half-spins ($p$-value = 0.003) but not with full-spins ($p$-value = 0.13). This suggests that aiming a spinner is more difficult than I would have guessed, but certaintly possible under certain circumstances.
+
+## Introduction
+
+A spinner is one of the most iconic randomizing devices. Versions of spinners show up in television shows, such as *Wheel of Fortune* and *The Price is Right*. Spinners are also featured in a number of at-home games, such as *Twister* and *The Game of Life*.
+
+As a Statistics teacher, I am interested in spinners as a way of displaying and discussing probability distributions and random variables. Spinners can depict categorical, discrete, and continuous random variables. It is easy to understand that larger areas have higher probabilities. I personally believe (without support) that a spinner is easier to understand than a probability density.
+
+A potential drawback of spinners as metaphors for randomness is a spinner's inherently deterministic behaviour. The initial velocity determines the final position, and (as far as I know) small variations in initial velocity do not have substantially different final positions (as is seen in more [chaotic](https://en.wikipedia.org/wiki/Chaos_theory) nonlinear systems like a [double pendulum](https://en.wikipedia.org/wiki/Double_pendulum)). However, a spinner with less friction will have more variation in final position with subtle differences in initial velocity. 
+
+The randomness of a spinner depends on the human's inaccuracy in controlling the initial velocity. I was interested in how well I could control a spinner. Before any trials, I assumed I would be able to reliably spin the spinner $720^\circ \pm 45^\circ$.
+
+## Method
+
+All spins used a plastic spinner meant for educational purposes. It has two parts, a base and the 4-inch arrow.  The arrow is weighted equally on either side of the base (about 2 inches on either side). The friction is low enough that getting 10 complete rotations is quite easy. When the arrow rests on the base, there is a vertical hole in the middle of both pieces, allowing precise alignment of the arrow in the middle of the printed demarcated circle (with a dot in the middle).
+
+The demarcated circle was designed such that random spins would produce a standard normal distribution. Instead of having one rotation mapped to the interval [0,1], each half rotation was mapped to [0,1] such that no discontinuities exist. The idea is that the 1 (or 0) is the target, and deviation from the target in either direction is measured. By repeatedly landing near the target, the sample mean should be above (or below) the expected value of random spins, which is, of course, 0.5.
+
+```{r usedspinner,fig.width=5,fig.height=5}
+{
+par(mar=c(0,0,0,0))
+plot(0,0,type='n',axes=F,ann=F,xlim=c(-1,1),ylim=c(-1,1))
+thetas = seq(0,2*pi,length.out=2001)
+polygon(0.8*cos(thetas),0.8*sin(thetas))
+for(p in seq(0,0.25,0.05)){
+  polygon(p*cos(thetas),p*sin(thetas))
+}
+
+for(theta in seq(0,2*pi,length.out=201)){
+  lines(c(0.87*cos(theta),0.8*cos(theta)),c(0.87*sin(theta),0.8*sin(theta)))
+  }
+
+for(th in seq(0,2*pi,length.out=21)){
+  lines(c(0.92*cos(th),0.8*cos(th)),c(0.92*sin(th),0.8*sin(th)),lwd=2)
+  u = 1-abs(pi-th)/pi
+  text(0.98*cos(th),0.98*sin(th),u)
+}
+
+for(i in 0:100){
+  if(i%%10 != 0){
+    text(cos(i/100*pi)*0.91,sin(i/100*pi)*0.91,i/100,cex=0.3,srt=((i/100*180)+90)%%180-90)
+    text(cos(i/100*pi)*0.91,-sin(i/100*pi)*0.91,i/100,cex=0.3,srt=-((i/100*180)+90)%%180-90)
+  }
+}
+text(0.53,0,"start, target 2")
+text(-0.53,0,"target 1")
+}
+```
+
+The spinner was taped to a printed copy of the circle above, and a few weights held the paper in place. The middle of the demarcated circle has a dot to align the spinner. This dot was also useful when reading the spins, because the arrow floated about 1 cm above the paper. Using one eye, I would first make sure the dot seemed centered in the hollow center of the arrow, and then I would determine the position of the tip of the arrow. This method reliably produced readings to the nearest 0.005.
+
+Two sets of data were collected. I first started the arrow on the 0 and targeted the 1 with a half spin. Then, I started the arrow on the 0 and targeted the 0 with a full spin. Before the trials, I decided to do 100 spins of each type. Each set of data was analyzed with a two-tailed hypothesis test of the mean where the null hypothesis claimed the spins were uniformly distributed with mean 0.5 and standard deviation $\frac{1}{\sqrt{12}}$ (see [continuous uniform distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous))). I decided before the spins to use a significance level of 0.05.
+
+The null hypothesis suggests that due to natural variation, the sampling distribution of the mean of 100 random spins should have a mean of 0.5 and a standard error of $\frac{1}{\sqrt{12}\sqrt{100}} \approx 0.0289$. This suggest that 95% of the time, 100 random spins should have a mean between $0.5-1.96\times0.0289 = 0.443$ and $0.5+1.96\times0.0289 = 0.557$. 
+$$H_0 ~\text{ claims }~ P(0.443 < \bar{x} < 0.557) = 0.95$$
+So, if 100 spins produce a mean outside the interval [0.443,0.557], we will reject the null hypothesis.
+
+
+## Results
+
+The spins are summarized by the histograms below.
+
+```{r data}
+spins = c(0.67, 0.885, 0.15, 0.76, 0.99, 0.71, 0.06, 0.24, 0.76, 0.68, 0.1, 0.67, 0.19, 0.23, 0.62, 0.71, 0.47, 0.62, 0.48, 0.075, 0.4, 0.485, 0.06, 0.485, 0.65, 0.97, 0.885, 0.51, 0.76, 0.87, 0.61, 0.47, 0.97, 0.92, 0.14, 0.99, 0.31, 0.545, 0.855, 0.72, 0.89, 0.705, 0.99, 0.02, 0.74, 0.63, 0.58, 0.2, 0.86, 0.99, 0.94, 0.85, 0.9, 0.35, 0.59, 0.53, 0.95, 0.81, 0.665, 0.46, 0.69, 0.99, 0.48, 0.95, 0.14, 0.61, 0.485, 0.62, 0.02, 0.15, 0.46, 0.35, 0.81, 0.92, 0.47, 0.885, 0.06, 0.69, 0.72, 0.76, 0.97, 0.65, 0.855, 0.63, 0.075, 0.705, 0.47, 0.67, 0.86, 0.2, 0.19, 0.03, 0.9, 0.99, 0.67, 0.68, 0.1, 0.24, 0.23, 0.76)
+spins2 = c(0.18, 0.36, 0.58, 0.09, 0.675, 0.8, 0.1, 0.05, 0.92, 0.135, 0.65, 0.41, 0.75, 0.785, 0.845, 0.19, 0.905, 0.39, 0.775, 0.59, 0.775, 0.001, 0.485, 0.535, 0.85, 0.865, 0.61, 0.06, 0.845, 0.615, 0.245, 0.15, 0.41, 0.002, 0.13, 0.91, 0.47, 0.035, 0.615, 0.735, 0.73, 0.355, 0.97, 0.47, 0.065, 0.19, 0.12, 0.845, 0.475, 0.013, 0.305, 0.18, 0.265, 0.165, 0.32, 0.575, 0.04, 0.99, 0.58, 0.14, 0.895, 0.62, 0.82, 0.82, 0.89, 0.67, 0.79, 0.47, 0.86, 0.001, 0.38, 0.34, 0.5, 0.37, 0.15, 0.46, 0.7, 0.265, 0.165, 0.31, 0.39, 0.11, 0.05, 0.64, 0.36, 0.19, 0.55, 0.84, 0.02, 0.19, 0.29, 0.7, 0.51, 0.03, 0.13, 0.75, 0.71, 0.21, 0.43, 0.69)
+
+par(mfrow=c(1,2))
+hist(spins,breaks=10,main="Target=1, with a half spin",xlab="final position")
+hist(spins2,breaks=10,main="Target=0, with a full spin",xlab="final position")
+
+mu0 = 0.5
+sig0 = sqrt(1/12)
+
+n = length(spins)
+xbar = mean(spins)
+z = (xbar-mu0)/sig0*sqrt(n)
+pvalue = pnorm(-abs(z))*2
+
+n2 = length(spins2)
+xbar2 = mean(spins2)
+z2 = (xbar2-mu0)/sig0*sqrt(n2)
+pvalue2 = pnorm(-abs(z2))*2
+```
+
+Some values used for the hypothesis testing are shown below.
+
+| Statistic  | Half spin | Full spin |
+|:----------:|:---------:|:----------:|
+|   $n$      | `r length(spins)` | `r length(spins2)`|
+|  $\bar{x}$ | `r signif(mean(spins),3)`   | `r signif(mean(spins2),3)`  |
+| $z$        | `r round(z,2)`             | `r round(z2,2)`     |
+| $p$-value (two-tail) | `r signif(pvalue,2)` | `r signif(pvalue2,2)`|
+
+We can reject the null hypothesis for the half-spins, but not for the full-spins.
+
+We can also build 95% confidence intervals of both cases. For this we will use the sample standard deviations and the $t$ distribution.
+
+$$CI ~=~ \left(\bar{x}-t^\star \frac{s}{\sqrt{n}}, ~  \bar{x}+t^\star \frac{s}{\sqrt{n}}\right) $$
+
+```{r confint}
+s = sd(spins)
+df = n-1
+tstar = qt(0.975,df)
+lb = signif(xbar-tstar*s/sqrt(n),2)
+ub = signif(xbar+tstar*s/sqrt(n),2)
+
+s2 = sd(spins2)
+df2 = n2-1
+tstar2 = qt(0.975,df2)
+lb2 = signif(xbar2-tstar2*s2/sqrt(n2),2)
+ub2 = signif(xbar2+tstar2*s2/sqrt(n2),2)
+```
+
+In both cases, the degrees of freedom equals 99 and the confidence level is 95%, so $t^\star=`r signif(tstar,3)`$. The sample standard deviations are `r signif(s,3)` and `r signif(s2,3)`. Thus, the 95% confidence interval for the half-spins mean is (`r lb`, `r ub`), and the 95% confidence interval for the full-spin means is (`r lb2`, `r ub2`). Notice the half-spins confidence interval does not contain 0.5, while the full-spin confidence interval does.  
+
+## Discussion
+
+In the trials, I was able to do sigficantly better than chance in 100 spins only when targeting a half-spin. I was surprised by how difficult it was to aim the spinner toward a specific target. The data don't show that when I tried a half-spin, I often spun over a full rotation, and when I tried a full-spin, I would often get more than 2 rotations or even less than a half rotation. In fact, I found it so frustrating that I didn't even bother with any harder targets. 
+
+I am very interested to know if other people are more capable at aiming spinners. I imagine larger spinners with more friction could be easier. I am also interested to know under what circumstances people can bend the odds of flipping coins or rolling dice.
+

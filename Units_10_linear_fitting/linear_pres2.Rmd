@@ -92,7 +92,7 @@ $$\text{coefficient of determination} = r^2 = (`r r`)^2 = `r signif(r^2,3)` $$
 We say that `r signif(r^2,3)*100`% of the variance in $y$ (fuel efficiency) is explained by $x$ (weight).
 
 
-## Determine the residuals (error between model and actual)
+## Determine the residuals (differences between actual and predicted)
 
 ```{r residuals}
 plot(x,y,lwd=2,xlab="Weight (1000 lb)",ylab="Efficiency (mpg)",xlim=c(0,6),ylim=c(0,40))
@@ -122,7 +122,7 @@ $$s_{y-y^\prime} = \sqrt{\frac{\sum(y-y^\prime)^2}{n-2}} = \sqrt{\frac{`r sum(si
 We think predictions tend to be off by `r signif(sqrt(sum(signif((y-signif(a+b*x,3))^2,3))/(n-2)),3)` mpg.
 
 
-## Draw standard error
+## Draw the $\pm$ standard error of regression
 
 ```{r standard error}
 plot(x,y,lwd=2,xlab="Weight (1000 lb)",ylab="Efficiency (mpg)",xlim=c(0,6),ylim=c(0,40))
@@ -138,6 +138,6 @@ Predict the fuel efficiency of a car with a mass of 200 lbs ($x=0.2$).
 
 $$y = `r a`+(`r b`)(0.2) = `r a+b*0.2` $$
 
-... notice this model does not do a good job predicting the fuel efficiency of a bicycle. A bicycle is much more efficient that that (approximately 200 mpg on an energy basis).
+... notice this model does not do a good job predicting the fuel efficiency of a bicycle. A bicycle is much more efficient that that (approximately 700 mpg on an energy basis).
 
 

@@ -1,0 +1,56 @@
+```{r data generation, echo = FALSE, results = "hide"}
+library(latex2exp)
+options(scipen=999)
+while(T){
+  xbar = round(runif(1,300,700))
+  sig = round(runif(1,20,70))
+  n = sample(30:200,1)
+  cls = c(0.8,0.9,0.95,0.96,0.98,0.99,0.995)
+  cl = sample(cls,1)
+  zstar = round(qnorm((cl+1)/2),2)
+  lb = round(xbar-zstar*sig/sqrt(n),2)
+  ub = round(xbar+zstar*sig/sqrt(n),2)
+  if(ub-lb > 0.2 & lb>0){
+    break
+  }
+}
+```
+
+Question
+========
+
+Brahim wants to estimate the average mass of the beans in a large bag. Somehow, Brahim is certain that the standard deviation of the beans in the bag is `r sig` milligrams. He takes a sample of size `r n` and finds the sample mean to be `r xbar` milligrams. What would be the `r cl*100`% confidence interval?
+
+Solution
+========
+
+We are given the sample size, sample mean, population standard deviation, and confidence level.
+$$
+\begin{aligned}
+n &= `r n` \\
+\bar{x} &= `r xbar` \\
+\sigma &= `r sig`\\
+\gamma &= `r cl`
+\end{aligned}
+$$
+
+Determine the critical $z$ value, $z^\star$, such that $P(|Z|<z^\star) = `r cl`$. Remember, $\ell = \frac{\gamma+1}{2} = \frac{`r cl`+1}{2} = `r (cl+1)/2`$
+$$z^\star = `r zstar` $$
+Use the formula for bounds (mean, $\sigma$ known).
+$$
+\begin{aligned}
+LB &= \bar{x} - z^\star \frac{\sigma}{\sqrt{n}} &&&&& UB &= \bar{x} + z^\star \frac{\sigma}{\sqrt{n}} \\
+   &= `r xbar` - `r zstar`\times \frac{`r sig`}{\sqrt{`r n`}} &&&&&& =`r xbar` + `r zstar`\times \frac{`r sig`}{\sqrt{`r n`}} \\
+   &= `r lb` &&&&&& =`r ub` 
+\end{aligned}
+$$
+We are `r cl*100`% confident that the population mean is between `r lb` and `r ub` milligrams.
+$$CI = (`r lb`, \, `r ub`)$$
+
+
+Meta-information
+============
+extype: string
+exsolution: CI = (`r lb`, \, `r ub`)
+exname: mean CI
+extol: 0.01

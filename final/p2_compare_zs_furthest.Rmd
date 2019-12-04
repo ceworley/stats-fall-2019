@@ -1,0 +1,74 @@
+---
+header-includes:
+   - \usepackage{multicol}
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r data generation, echo = FALSE, results = "hide"}
+types = c("A","B","C","D")
+while(T){
+  mus = sample(60:150,4)
+  sigs = sample(4:15,4)
+  ps = round(runif(4,0.02,0.98),4)
+  zs = round(qnorm(ps),2)
+  xs = signif(mus+zs*sigs,4)
+  if( sort(abs(zs))==sort(unique(abs(zs))) ){
+    break
+  }
+}
+```
+
+Question
+========
+
+A farm produces 4 types of fruit: $A$, $B$, $C$, and $D$. The fruits' masses follow normal distributions, with parameters dependent on the type of fruit.
+
+\begin{center}
+\begin{tabular}{|c|c|c|}\hline
+Type of fruit & Mean mass (g) & Standard deviation of mass (g) \\ \hline
+$A$ & `r mus[1]` & `r sigs[1]` \\
+$B$ & `r mus[2]` & `r sigs[2]` \\
+$C$ & `r mus[3]` & `r sigs[3]` \\
+$D$ & `r mus[4]` & `r sigs[4]` \\ \hline
+\end{tabular}
+\end{center}
+
+One specimen of each type is weighed. The results are shown below.
+
+\begin{center}
+\begin{tabular}{|c|c|}\hline
+Type of fruit & Mass of specimen (g) \\ \hline
+$A$ & `r xs[1]` \\
+$B$ & `r xs[2]` \\
+$C$ & `r xs[3]` \\
+$D$ & `r xs[4]` \\ \hline
+\end{tabular}
+\end{center}
+
+Which specimen is the most unusually far from average (relative to others of its type)?
+
+Solution
+========
+
+We compare the absolute $z$-scores. The largest absolute $z$-score corresponds to the specimen that is most unusually far from average.
+
+\begin{center}
+\begin{tabular}{|c|c|c|}\hline
+Type of fruit & formula & absolute $z$-score \\ \hline
+$A$ & $z=\frac{|`r xs[1]`-`r mus[1]`|}{`r sigs[1]`}$ &`r abs(zs[1])` \\
+$B$ & $z=\frac{|`r xs[2]`-`r mus[2]`|}{`r sigs[2]`}$ &`r abs(zs[2])` \\
+$C$ & $z=\frac{|`r xs[3]`-`r mus[3]`|}{`r sigs[3]`}$ &`r abs(zs[3])` \\
+$D$ & $z=\frac{|`r xs[4]`-`r mus[4]`|}{`r sigs[4]`}$ &`r abs(zs[4])` \\ \hline
+\end{tabular}
+\end{center}
+
+Thus, the specimen of type $`r types[abs(zs)==max(abs(zs))]`$ is the most unusually far from average.
+
+Meta-information
+============
+extype: string
+exsolution: yo
+exname: UZ
+extol: 0.01
