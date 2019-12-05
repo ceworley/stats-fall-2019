@@ -1,0 +1,91 @@
+```{r data generation, echo = FALSE, results = "hide"}
+mu = sample(460:1200/10,1)
+sig = sample(30:(10*(mu%/%3))/10,1)
+
+while(T){
+  p = sort(round(runif(2,0.02,0.98),3))
+  if(p[2]-p[1] > 0.2){break}
+}
+
+z = round(qnorm(p),2)
+p = round(pnorm(z),4)
+
+P1 = p[1]
+P2 = 1-p[2]
+P3 = p[2]-p[1]
+P = c(P1,P2,P3)
+x = signif(mu+z*sig,3)
+a = x-mu
+```
+
+Question
+========
+
+Let $X$ be normally distributed with mean `r mu` and standard deviation `r sig`. Please calculate the probabilities shown below and also shade a corresponding region under the density curve.
+
+
+Answerlist
+--------
+
+* What's the probability that $X$ is less than `r x[1]`? **Draw a sketch**. \newline \vfill
+* What's the probability that $X$ is more than `r x[2]`? **Draw a sketch**. \newline \vfill
+* What's the probability that $X$ is between `r x[1]` and `r x[2]`? **Draw a sketch**. \newline \vfill
+
+
+Solution
+========
+
+Notice the three probabilities will add up to 1.
+\setkeys{Gin}{width=.5\textwidth}
+
+Answerlist
+--------
+* $P(X<`r x[1]`) ~=~ P(Z<`r z[1]`) ~=~ \fbox{`r P1`}$ \newline
+```{r no5,echo=F,fig.height=2,fig.width=7,fig.cap=""}
+par(mar=c(4,0,0,0))
+plot(0,0,type="n",xlim=c(-3.5,3.5),ylim=c(0,0.42),ann=F,axes=F)
+axis(1,-3:3)
+mtext("z=",1,1,adj = 0)
+Z = -350:350/100
+lines(Z,dnorm(Z))
+abline(h = 0)
+axis(1,-3:3,labels=signif((-3:3)*sig+mu,3),line=2, tick = FALSE)
+mtext("x=",1,3,adj = 0)
+polygon(c(Z[Z<=z[1]],z[1],-3.5),c(dnorm(Z[Z<=z[1]]),0,0),col=rgb(0.4,0.4,0.4,0.4))
+```
+* $P(X>`r x[2]`) ~=~ P(Z>`r z[2]`) ~=~ \fbox{`r P2`}$ \newline
+```{r no6,echo=F,fig.height=2,fig.width=7,fig.cap=""}
+par(mar=c(4,0,0,0))
+plot(0,0,type="n",xlim=c(-3.5,3.5),ylim=c(0,0.42),ann=F,axes=F)
+axis(1,-3:3)
+mtext("z=",1,1,adj = 0)
+Z = -350:350/100
+lines(Z,dnorm(Z))
+abline(h = 0)
+axis(1,-3:3,labels=signif((-3:3)*sig+mu,3),line=2, tick = FALSE)
+mtext("x=",1,3,adj = 0)
+polygon(c(Z[Z>=z[2]],3.5,z[2]),c(dnorm(Z[Z>=z[2]]),0,0),col=rgb(0.4,0.4,0.4,0.4))
+```
+* $P(`r x[1]` < X < `r x[2]`) ~=~ P(`r z[1]` < Z < `r z[2]`) ~=~ \fbox{`r P3`}$ \newline
+```{r no7,echo=F,fig.height=2,fig.width=7,fig.cap=""}
+par(mar=c(4,0,0,0))
+plot(0,0,type="n",xlim=c(-3.5,3.5),ylim=c(0,0.42),ann=F,axes=F)
+axis(1,-3:3)
+mtext("z=",1,1,adj = 0)
+Z = -350:350/100
+lines(Z,dnorm(Z))
+abline(h = 0)
+axis(1,-3:3,labels=signif((-3:3)*sig+mu,3),line=2, tick = FALSE)
+mtext("x=",1,3,adj = 0)
+polygon(c(Z[Z>=z[1] & Z<=z[2]],z[2],z[1]),c(dnorm(Z[Z>=z[1] & Z<=z[2]]),0,0),col=rgb(0.4,0.4,0.4,0.4))
+```
+\setkeys{Gin}{width=\textwidth}
+
+
+
+Meta-information
+============
+extype: string
+exsolution: yo
+exname: marbles
+extol: 0.01
