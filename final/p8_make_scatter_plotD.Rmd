@@ -23,12 +23,29 @@ for(i in 1:length(x)){
 s = paste(s,'\\hline \n \\end{tabular}')
 ```
 
+```{r cakc, echo=F}
+s2 = '\\begin{tabular}{|c|c|c|}\\hline\n $x$ & $y$ & $xy$ \\\\ \\hline \n'
+for(i in 1:length(x)){
+  s2 = paste(s2,x[i]," & ",y[i]," & ",x[i]*y[i]," \\\\ \n",sep="")
+}
+s2 = paste(s2,'\\hline \\hline \n $\\sum x = ',sum(x),'$ & $\\sum y = ',sum(y),'$ & $\\sum x_i y_i = ',sum(x*y),'$ \\\\ \\hline \n',sep="")
+s2 = paste(s2,'\\hline \n $\\bar{x} = ',signif(mean(x),3),'$ & $\\bar{ y} = ',signif(mean(y),3),'$ &  \\\\ \\hline \n',sep="")
+s2 = paste(s2,'\\hline \n $s_x = ',signif(sd(x),3),'$ & $s_y = ',signif(sd(y),3),'$ &  \\\\ \\hline \n',sep="")
+s2 = paste(s2,' \n \\end{tabular}')
+
+sx = signif(sd(x),3)
+sy = signif(sd(y),3)
+r = signif(cor(x,y),3)
+b = signif(r*sy/sx,3)
+a = signif(mean(y)-b*mean(x),3)
+```
+
 Question
 ========
 
-You have collected the following data:
+You have collected the following data, and started calculating some of the statistics:
 
-`r s`
+`r s2`
 
 \vfill
 
@@ -60,34 +77,15 @@ Remember the formula for the correlation coefficient.
 
 $$r = \frac{\sum x_i y_i - n\bar{x}\bar{y}}{(n-1)s_x s_y}$$
 
-We calculate the necessary values.
-
-```{r cakc, echo=F}
-s2 = '\\begin{tabular}{|c|c|c|}\\hline\n $x$ & $y$ & $xy$ \\\\ \\hline \n'
-for(i in 1:length(x)){
-  s2 = paste(s2,x[i]," & ",y[i]," & ",x[i]*y[i]," \\\\ \n",sep="")
-}
-s2 = paste(s2,'\\hline \\hline \n $\\sum x = ',sum(x),'$ & $\\sum y = ',sum(y),'$ & $\\sum x_i y_i = ',sum(x*y),'$ \\\\ \\hline \n',sep="")
-s2 = paste(s2,'\\hline \n $\\bar{x} = ',signif(mean(x),3),'$ & $\\bar{ y} = ',signif(mean(y),3),'$ &  \\\\ \\hline \n',sep="")
-s2 = paste(s2,'\\hline \n $s_x = ',signif(sd(x),3),'$ & $s_y = ',signif(sd(y),3),'$ &  \\\\ \\hline \n',sep="")
-s2 = paste(s2,' \n \\end{tabular}')
-
-sx = signif(sd(x),3)
-sy = signif(sd(y),3)
-r = signif(cor(x,y),3)
-b = signif(r*sy/sx,3)
-a = signif(mean(y)-b*mean(x),3)
-```
-
-`r s2`
+$$r = `r r`$$
 
 The regression line has the form
 $$y = a + bx $$
 So, $a$ is the $y$-intercept and $b$ is the slope. We have formulas to determine them:
 $$b = r \frac{s_y}{s_x} =  `r r` \cdot \frac{`r sy`}{`r sx`} = `r b`$$
-$$a = \bar{y}-b\bar{x} = `r signif(mean(y),3)`-`r b`\cdot`r signif(mean(x),3)` = `r a` $$ 
+$$a = \bar{y}-b\bar{x} = `r signif(mean(y),3)`-(`r b`)\cdot`r signif(mean(x),3)` = `r a` $$ 
 Our regression line:
-$$y = `r a`+`r b`x $$
+$$y = `r a`+(`r b`)x $$
 
 Make a plot.
 \
