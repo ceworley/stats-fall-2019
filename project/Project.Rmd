@@ -9,7 +9,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-You will do original research, write a paper summarizing the research, and present the research with slides.
+You will do original research, write a paper summarizing the research, and present the research with slides. **You must calculate at least one confidence interval or hypothesis test**!
 
 ## Research
 

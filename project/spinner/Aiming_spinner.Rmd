@@ -11,13 +11,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Abstract
 
-A spinner was constructed that would produce a standard uniform distribution with truly random spins. By carefully trying to spin half-spins or full-spins, I attempted to get a sample mean far enough from 0.5 to allow me to show the spins were not random. With 100 trials of each, I was able to do significantly better than chance with half-spins ($p$-value = 0.003) but not with full-spins ($p$-value = 0.13). This suggests that aiming a spinner is more difficult than I would have guessed, but certaintly possible under certain circumstances.
+A spinner was constructed that would produce a standard uniform distribution if spun randomly. By carefully trying to spin half-spins or full-spins, I attempted to get a sample mean far enough from 0.5 to allow me to show the spins were not random. With 100 trials of each, I was able to do significantly better than chance with half-spins ($p$-value = 0.003) but not with full-spins ($p$-value = 0.13). This suggests that aiming a spinner is more difficult than I would have guessed, but certaintly possible under certain circumstances.
 
 ## Introduction
 
 A spinner is one of the most iconic randomizing devices. Versions of spinners show up in television shows, such as *Wheel of Fortune* and *The Price is Right*. Spinners are also featured in a number of at-home games, such as *Twister* and *The Game of Life*.
 
-As a Statistics teacher, I am interested in spinners as a way of displaying and discussing probability distributions and random variables. Spinners can depict categorical, discrete, and continuous random variables. It is easy to understand that larger areas have higher probabilities. I personally believe (without support) that a spinner is easier to understand than a probability density.
+As a Statistics teacher, I am interested in spinners as a way of displaying and discussing probability distributions and random variables. Spinners can depict categorical, discrete, and continuous random variables. It is easy to understand that larger areas have higher probabilities. I personally believe (without support) that a spinner is easier to understand than a probability density curve.
 
 A potential drawback of spinners as metaphors for randomness is a spinner's inherently deterministic behaviour. The initial velocity determines the final position, and (as far as I know) small variations in initial velocity do not have substantially different final positions (as is seen in more [chaotic](https://en.wikipedia.org/wiki/Chaos_theory) nonlinear systems like a [double pendulum](https://en.wikipedia.org/wiki/Double_pendulum)). However, a spinner with less friction will have more variation in final position with subtle differences in initial velocity. 
 
@@ -27,7 +27,7 @@ The randomness of a spinner depends on the human's inaccuracy in controlling the
 
 All spins used a plastic spinner meant for educational purposes. It has two parts, a base and the 4-inch arrow.  The arrow is weighted equally on either side of the base (about 2 inches on either side). The friction is low enough that getting 10 complete rotations is quite easy. When the arrow rests on the base, there is a vertical hole in the middle of both pieces, allowing precise alignment of the arrow in the middle of the printed demarcated circle (with a dot in the middle).
 
-The demarcated circle was designed such that random spins would produce a standard normal distribution. Instead of having one rotation mapped to the interval [0,1], each half rotation was mapped to [0,1] such that no discontinuities exist. The idea is that the 1 (or 0) is the target, and deviation from the target in either direction is measured. By repeatedly landing near the target, the sample mean should be above (or below) the expected value of random spins, which is, of course, 0.5.
+The demarcated circle was designed such that random spins would produce a standard normal distribution. Instead of having one rotation mapped to the interval [0,1], each half rotation was mapped to [0,1] such that no discontinuities exist $\left(\text{demarcation} = \frac{180^\circ-|\theta-180^\circ|}{180^\circ}\right)$. The idea is that the 1 (or 0) is the target, and deviation from the target in either direction is measured. By repeatedly landing near the target, the sample mean should be above (or below) the expected value of random spins, which is, of course, 0.5.
 
 ```{r usedspinner,fig.width=5,fig.height=5}
 {
@@ -55,8 +55,8 @@ for(i in 0:100){
     text(cos(i/100*pi)*0.91,-sin(i/100*pi)*0.91,i/100,cex=0.3,srt=-((i/100*180)+90)%%180-90)
   }
 }
-text(0.53,0,"start, target 2")
-text(-0.53,0,"target 1")
+text(0.53,0,"start \n & \n target of full-spin",cex=0.5)
+text(-0.53,0,"target of half-spin",cex=0.5)
 }
 ```
 
